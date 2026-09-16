@@ -6,6 +6,7 @@ Open: http://localhost:8000
 """
 from __future__ import annotations
 
+import json
 import os
 import urllib.parse
 import urllib.request
@@ -114,6 +115,21 @@ async def telegram_webhook(request: Request):
 
 
 # ------------------- WhatsApp webhook ----------------------- #
+# ---- per-chat conversation memory (WhatsApp) ---- #
+_WHATSAPP_HISTORY: dict[str, list] = {}
+_WHATSAPP_MAX_TURNS = 6    # messages of context per chat
+_WHATSAPP_MAX_CHATS = 200  # safety cap
+
+
+def _wa_remember(sender: str, user_text: str, bot_reply: str) -> None:
+    hist = _WHATSAPP_HISTORY.setdefault(sender, [])
+    hist.append({"role": "user", "content": user_text})
+    hist.append({"role": "assistant", "content": bot_reply[:700]})
+    del hist[:-_WHATSAPP_MAX_TURNS]
+    if len(_WHATSAPP_HISTORY) > _WHATSAPP_MAX_CHATS:
+        _WHATSAPP_HISTORY.pop(next(iter(_WHATSAPP_HISTORY)))
+
+
 def verify_whatsapp_webhook(query_params: dict):
     """Meta's webhook verification handshake (GET with hub.challenge)."""
     mode = query_params.get("hub.mode")
@@ -126,42 +142,55 @@ def verify_whatsapp_webhook(query_params: dict):
 
 
 def handle_whatsapp_message(payload: dict, agent) -> list[str]:
-    """Extract inbound WhatsApp text messages, answer with the agent.
-    To actually SEND the reply, activate send_whatsapp_text below once
-    you have WHATSAPP_TOKEN and WHATSAPP_PHONE_ID configured."""
+    """Extract inbound WhatsApp text messages, answer with the agent,
+    and send the reply back via the Meta Cloud API (if configured)."""
     replies: list[str] = []
     for entry in payload.get("entry", []):
         for change in entry.get("changes", []):
             value = change.get("value", {})
             for message in value.get("messages", []):
-                if message.get("type") == "text":
-                    text = message.get("text", {}).get("body", "")
-                    reply = agent.reply(text)
-                    replies.append(reply)
-                    # send_whatsapp_text(message["from"], reply)
+                if message.get("type") != "text":
+                    continue
+                text = (message.get("text", {}).get("body") or "").strip()
+                sender = message.get("from") or ""
+                if not text or not sender:
+                    continue
+                history = _WHATSAPP_HISTORY.get(sender, [])[-_WHATSAPP_MAX_TURNS:]
+                reply = agent.reply(text, history=history)
+                _wa_remember(sender, text, reply)
+                replies.append(reply)
+                send_whatsapp_text(sender, reply[:4000])
     return replies
 
 
-def send_whatsapp_text(to_phone: str, body: str) -> dict:
-    """Send a WhatsApp text message via the Meta Cloud API."""
-    import requests  # pip install requests
-
-    token = os.environ["WHATSAPP_TOKEN"]
-    phone_id = os.environ["WHATSAPP_PHONE_ID"]
-    url = f"https://graph.facebook.com/v20.0/{phone_id}/messages"
-    resp = requests.post(
-        url,
-        headers={"Authorization": f"Bearer {token}"},
-        json={
-            "messaging_product": "whatsapp",
-            "to": to_phone,
-            "type": "text",
-            "text": {"body": body[:4096]},
-        },
-        timeout=15,
-    )
-    resp.raise_for_status()
-    return resp.json()
+def send_whatsapp_text(to_phone: str, body: str) -> dict | None:
+    """Send a WhatsApp text message via the Meta Cloud API (no extra library needed).
+    Silently skips if WHATSAPP_TOKEN / WHATSAPP_PHONE_ID are not set."""
+    token = os.getenv("WHATSAPP_TOKEN", "")
+    phone_id = os.getenv("WHATSAPP_PHONE_ID", "")
+    if not token or not phone_id:
+        return None
+    try:
+        data = urllib.parse.urlencode(
+            {
+                "messaging_product": "whatsapp",
+                "to": to_phone,
+                "type": "text",
+                "body": body,
+            }
+        ).encode()
+        req = urllib.request.Request(
+            f"https://graph.facebook.com/v21.0/{phone_id}/messages",
+            data=data,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            return json.loads(resp.read().decode() or "{}")
+    except Exception:
+        return None  # never crash the webhook because one reply failed
 
 
 @app.get("/webhook/whatsapp")
