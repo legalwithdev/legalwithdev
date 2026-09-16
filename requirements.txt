@@ -1,0 +1,12 @@
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.6
+
+# Optional - only needed for AI mode (see README section 'Connecting an AI brain')
+# openai>=1.30
+
+# Optional - only needed for the Telegram bot
+# python-telegram-bot>=21
+
+# Optional - only needed once you activate WhatsApp sending
+# requests>=2.31

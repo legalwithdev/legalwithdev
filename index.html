@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LegalWithDev — Legal AI Assistant</title>
+<style>
+  :root {
+    --bg: #f4f6fb; --card: #ffffff; --ink: #1c2333;
+    --brand: #1a3a6b; --brand2: #2e5fa3; --bubble-in: #ffffff;
+    --bubble-out: #1a3a6b; --muted: #6b7387; --line: #e4e8f2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); height: 100dvh; display: flex; flex-direction: column; }
+  header { background: var(--brand); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  header .scale { font-size: 26px; }
+  header h1 { font-size: 17px; font-weight: 600; }
+  header p { font-size: 12px; opacity: .85; }
+  #chat { flex: 1; overflow-y: auto; padding: 18px 14px; display: flex; flex-direction: column; gap: 10px; max-width: 820px; width: 100%; margin: 0 auto; }
+  .msg { max-width: 82%; padding: 11px 14px; border-radius: 14px; line-height: 1.55; font-size: 14.5px; white-space: pre-wrap; word-wrap: break-word; }
+  .bot { background: var(--bubble-in); border: 1px solid var(--line); border-top-left-radius: 4px; align-self: flex-start; }
+  .user { background: var(--bubble-out); color: #fff; border-top-right-radius: 4px; align-self: flex-end; }
+  .msg.bot strong { color: var(--brand2); }
+  .msg.bot em { color: var(--muted); font-size: 12.5px; display: block; margin-top: 8px; }
+  footer { background: var(--card); border-top: 1px solid var(--line); padding: 12px; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+  .chip { background: #eef2fa; color: var(--brand2); border: 1px solid #d5e0f2; border-radius: 999px; font-size: 12.5px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+  .chip:hover { background: #dde7f7; }
+  form { display: flex; gap: 10px; max-width: 820px; margin: 0 auto; }
+  input { flex: 1; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 15px; outline: none; background: var(--bg); }
+  input:focus { border-color: var(--brand2); }
+  button { background: var(--brand); color: #fff; border: 0; border-radius: 12px; padding: 12px 22px; font-size: 15px; cursor: pointer; }
+  button:disabled { opacity: .6; cursor: default; }
+  .typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+  .typing span { width: 7px; height: 7px; background: #aab4c8; border-radius: 50%; animation: blink 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: .2s; } .typing span:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+  .legal-note { text-align: center; font-size: 11.5px; color: var(--muted); padding: 0 16px 10px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="scale">⚖️</div>
+    <div>
+      <h1>LegalWithDev — Legal Assistant</h1>
+      <p>General legal information for India · Not legal advice</p>
+    </div>
+  </header>
+
+  <div id="chat"></div>
+
+  <footer>
+    <div class="chips" id="chips">
+      <button class="chip">My landlord won't return my deposit</button>
+      <button class="chip">How do I file a consumer complaint?</button>
+      <button class="chip">Cheque bounce — what can I do?</button>
+      <button class="chip">Company is not paying my salary</button>
+      <button class="chip">UPI fraud — help!</button>
+      <button class="chip">How to file an RTI?</button>
+    </div>
+    <form id="f">
+      <input id="q" placeholder="Type your legal question…" autocomplete="off" />
+      <button id="send">Send</button>
+    </form>
+    <p class="legal-note">⚠️ General information only — consult a qualified lawyer for your case. Free legal aid: nalsa.gov.in · 15100</p>
+  </footer>
+
+<script>
+const chat = document.getElementById('chat');
+const form = document.getElementById('f');
+const input = document.getElementById('q');
+const sendBtn = document.getElementById('send');
+
+function add(text, who) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
+  // very light markdown: **bold** and _italic_
+  div.innerHTML = text
+    .replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/_(.+?)_/g, '<em>$1</em>');
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+async function ask(text) {
+  if (!text.trim()) return;
+  add(text, 'user');
+  input.value = '';
+  sendBtn.disabled = true;
+  const t = add('<span class="typing"><span></span><span></span><span></span></span>', 'bot');
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text })
+    });
+    const data = await res.json();
+    t.remove();
+    add(data.reply || 'Sorry, something went wrong.', 'bot');
+  } catch (e) {
+    t.remove();
+    add('Connection error — is the server running?', 'bot');
+  }
+  sendBtn.disabled = false;
+  input.focus();
+}
+
+form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
+document.getElementById('chips').addEventListener('click', e => {
+  if (e.target.classList.contains('chip')) ask(e.target.textContent);
+});
+
+add('Namaste! I am LegalWithDev, your Indian legal information assistant.\n\nAsk me about consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), or free legal aid.\n\nI give general information, not legal advice — for your specific case, please consult a qualified lawyer.', 'bot');
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+{
+  "disclaimer": "This chatbot provides general legal information for India, not legal advice. Laws change and every case is different. For anything serious, please consult a qualified lawyer. You can find free legal aid via NALSA at https://nalsa.gov.in or by calling 15100.",
+  "topics": [
+    {
+      "id": "consumer_rights",
+      "title": "Consumer Rights & Complaints",
+      "keywords": [
+        "consumer",
+        "defective product",
+        "refund",
+        "ecommerce",
+        "online shopping",
+        "seller",
+        "warranty",
+        "service deficiency",
+        "consumer court",
+        "consumer forum"
+      ],
+      "answer": "Consumer disputes in India are governed by the Consumer Protection Act, 2019.\n\nKey points:\n• You can file a complaint against defective goods, deficient services, unfair trade practices, or misleading ads.\n• As of the 2019 Act, you can file complaints online (e-Daakhil) and even for purchases on e-commerce sites.\n• Where to file depends on the value of goods/services paid (consideration): District Commission (up to Rs 50 lakh), State Commission (Rs 50 lakh - Rs 2 crore), National Commission (above Rs 2 crore).\n• First send the seller/service provider a written complaint and keep proof. If they don't resolve it within a reasonable time, file a consumer complaint.\n• There is no filing fee where the consideration paid is up to Rs 5 lakh.\n\nUseful: File online via e-Jagriti (e-jagriti.gov.in) or e-Daakhil (edaakhil.nic.in). Limitation period is 2 years from the cause of action.",
+      "sources": [
+        "Consumer Protection Act, 2019",
+        "Consumer Protection (Jurisdiction of Commissions) Rules, 2021"
+      ]
+    },
+    {
+      "id": "tenant_rights",
+      "title": "Tenant / Rent Matters",
+      "keywords": [
+        "tenant",
+        "rent",
+        "landlord",
+        "eviction",
+        "security deposit",
+        "rent agreement",
+        "lease",
+        "flat owner"
+      ],
+      "answer": "Rental matters are governed by state-specific Rent Control Acts plus the Model Tenancy Act framework.\n\nKey points:\n• Always have a written rent agreement, registered if the term is 11 months or more (varies by state).\n• Security deposit: the Model Tenancy Act caps it at 2 months' rent for residential premises - but it is a model law, binding only in states that adopt it (only a few have so far), and many states still have no cap. The landlord must refund it after deducting lawful dues after you vacate.\n• A landlord generally cannot evict you without following the process in the state Rent Act - usually notice and, if contested, a court/rent authority order.\n• Arbitrary rent hikes are restricted in states with Rent Control Acts.\n• Keep receipts of rent payments and the deposit.",
+      "sources": [
+        "State Rent Control Acts",
+        "Model Tenancy Act, 2021 (draft framework)"
+      ]
+    },
+    {
+      "id": "family_divorce",
+      "title": "Family Law - Divorce & Maintenance",
+      "keywords": [
+        "divorce",
+        "maintenance",
+        "alimony",
+        "custody",
+        "child",
+        "marriage",
+        "dowry",
+        "498a",
+        "mutual divorce"
+      ],
+      "answer": "Family law in India varies by personal law (Hindu Marriage Act, Special Marriage Act, Muslim Personal Law, etc.).\n\nKey points:\n• Mutual consent divorce: couples who agree can divorce faster - typically after living separately for the required period (often 1 year+ under the relevant Act; since Amardeep Singh v. Harveen Kaur (2017), courts can waive the 6-month cooling-off under Section 13B(2) of the Hindu Marriage Act where separation is already long and the settlement is genuine; a 2023 Constitution Bench (Shilpa Sailesh) confirmed the Supreme Court's power to dispense with it entirely).\n• Contested divorce requires proven grounds (cruelty, desertion, adultery, etc.).\n• Maintenance: a spouse who cannot support themselves, children (including disabled adult children) and parents can claim maintenance under Section 125 CrPC (now Section 144 BNSS) or the relevant personal law. Under the BNSS, interim maintenance must be decided within 60 days.\n• Child custody is decided on the welfare of the child, not automatically the mother or father.\n• 498A IPC (now Section 85/86 BNS) deals with cruelty by husband or relatives - a serious criminal matter needing a lawyer.",
+      "sources": [
+        "Hindu Marriage Act, 1955",
+        "Special Marriage Act, 1954",
+        "Section 125 CrPC / Section 144 BNSS",
+        "Amardeep Singh v. Harveen Kaur (2017)"
+      ]
+    },
+    {
+      "id": "labour_rights",
+      "title": "Employment & Labour Rights",
+      "keywords": [
+        "salary",
+        "employer",
+        "fired",
+        "termination",
+        "labour",
+        "office",
+        " PF",
+        "provident fund",
+        "gratuity",
+        "notice period",
+        "full and final",
+        "overtime"
+      ],
+      "answer": "Employment disputes depend on your contract and labour laws.\n\nKey points:\n• Unpaid salary: send a formal demand letter/email first (creates evidence). Then you can approach the labour commissioner, or file a recovery suit; claims up to a threshold can go to the appropriate labour authority/court.\n• Gratuity: payable after 5 years of continuous service (waived on death, disablement or end of a fixed-term contract) under the Code on Social Security, 2020, which replaced the Payment of Gratuity Act from 21 November 2025.\n• Notice period: check your appointment letter. If the employer terminates without notice, they generally must pay notice pay in lieu.\n• PF (provident fund): check your balance and raise grievances at epfindia.gov.in (EPFiGMS).\n• Sexual harassment at workplace: every workplace with 10+ employees must have an Internal Committee (POSH Act). You can complain to it directly.",
+      "sources": [
+        "Code on Social Security, 2020 (in force from 21 Nov 2025)",
+        "Payment of Wages Act, 1936",
+        "POSH Act, 2013",
+        "EPF Act, 1952"
+      ]
+    },
+    {
+      "id": "police_fir",
+      "title": "FIR, Police & Criminal Matters",
+      "keywords": [
+        "fir",
+        "police",
+        "arrest",
+        "complaint police",
+        "bail",
+        "theft",
+        "assault",
+        "nc",
+        "cognizable"
+      ],
+      "answer": "When dealing with the police:\n\nKey points:\n• For a cognizable offence the police register an FIR (Section 173 BNSS, earlier Section 154 CrPC); for offences punishable with 3-7 years, the BNSS allows a preliminary enquiry of up to 14 days before registration. If registration is refused, you can send the complaint to the Superintendent of Police.\n• You can also file a 'Non-Cognizable' (NC) complaint for minor offences; police need court permission to investigate those.\n• If arrested, you have the right to be informed of the grounds of arrest, to have a relative/friend informed, and to meet a lawyer. Free legal aid is available (Article 39A, Constitution; call NALSA at 15100).\n• A woman arrested between sunset and sunrise has special protections; generally arrests of women after sunset require special orders of the magistrate.\n• Zero FIR: you can file an FIR at any police station regardless of jurisdiction.",
+      "sources": [
+        "BNSS, 2023 (replacing CrPC, 1973)",
+        "Constitution of India, Article 39A",
+        "Arnesh Kumar v. State of Bihar (2014)"
+      ]
+    },
+    {
+      "id": "cheque_bounce",
+      "title": "Cheque Bounce (NI Act)",
+      "keywords": [
+        "cheque",
+        "cheque bounce",
+        "bounce",
+        "dishonour",
+        "138",
+        "ni act"
+      ],
+      "answer": "A bounced cheque is a criminal offence under Section 138 of the Negotiable Instruments Act, 1881.\n\nKey points:\n• The cheque must have been presented within 3 months of its date.\n• After it bounces, send a legal notice within 30 days of receiving the bank's bounce memo.\n• The drawer then has 15 days to pay. If they don't, you can file a complaint within 30 days after that.\n• Punishment can be up to 2 years imprisonment and/or a fine twice the cheque amount.\n• Important: the legal notice must demand the exact cheque amount - even a small mismatch can invalidate the case (Kaveri Plastics, Supreme Court, 2025).\n• Keep the bounced cheque, bank memo, and notice proof - all are evidence.",
+      "sources": [
+        "Negotiable Instruments Act, 1881, Section 138",
+        "Kaveri Plastics v. K. Krupa Suresh (SC, 2025)"
+      ]
+    },
+    {
+      "id": "rti",
+      "title": "RTI - Right to Information",
+      "keywords": [
+        "rti",
+        "right to information",
+        "government information",
+        "public authority"
+      ],
+      "answer": "The Right to Information Act, 2005 lets you ask for information from public authorities.\n\nKey points:\n• Any Indian citizen can file an RTI - no reason needed.\n• Application fee: Rs 10 for central government (states set their own, typically Rs 5-50). Online filing at rtionline.gov.in covers central public authorities; states have their own portals.\n• The Public Information Officer (PIO) must reply within 30 days (48 hours if it concerns life or liberty).\n• No reply or unsatisfactory reply? File a first appeal within 30 days, then a second appeal to the Information Commission.",
+      "sources": [
+        "Right to Information Act, 2005"
+      ]
+    },
+    {
+      "id": "property",
+      "title": "Property Purchase & Title",
+      "keywords": [
+        "property",
+        "buy flat",
+        "buy house",
+        "title deed",
+        "encumbrance",
+        "registry",
+        "stamp duty",
+        "builder",
+        "rera"
+      ],
+      "answer": "Before buying property in India:\n\nKey points:\n• Verify the title chain (mother deed) and get an Encumbrance Certificate from the sub-registrar's office.\n• For under-construction projects, check the project is registered under RERA (rera.mahaonline.gov.in style state sites; check your state). RERA protects buyers - complaints go to the state Real Estate Regulatory Authority.\n• Stamp duty and registration are mandatory; unregistered agreements of sale have limited value.\n• Check approved building plan, occupancy certificate, property tax receipts, and electricity/water bills.\n• For a home loan, the bank does its own due diligence - but do your own too.",
+      "sources": [
+        "RERA, 2016",
+        "Registration Act, 1908",
+        "Transfer of Property Act, 1882"
+      ]
+    },
+    {
+      "id": "cyber_fraud",
+      "title": "Online Fraud & Cyber Crime",
+      "keywords": [
+        "cyber",
+        "fraud",
+        "scam",
+        "upi fraud",
+        "online fraud",
+        "hacked",
+        "phishing",
+        "digital arrest",
+        "credit card fraud"
+      ],
+      "answer": "If you've been scammed online:\n\nKey points:\n• Act fast: call 1930 (National Cyber Crime Helpline) or report at cybercrime.gov.in - early reporting can help freeze the money trail.\n• For UPI fraud, also inform your bank and the payment app immediately; lodge a written complaint and keep the acknowledgement.\n• File a complaint at the local police station or the nearest cyber cell; you can file an e-FIR online in many states.\n• Beware of 'digital arrest' scams - no real police or government agency conducts arrests over video calls or demands money over the phone.\n• Keep all evidence: screenshots, transaction IDs, phone numbers, chat logs.",
+      "sources": [
+        "IT Act, 2000",
+        "National Cyber Crime Reporting Portal"
+      ]
+    },
+    {
+      "id": "legal_aid",
+      "title": "Free Legal Aid",
+      "keywords": [
+        "legal aid",
+        "free lawyer",
+        "cannot afford lawyer",
+        "nalsa",
+        "dalit",
+        "sc st",
+        "women rights free"
+      ],
+      "answer": "Free legal aid is your right if you cannot afford a lawyer.\n\nKey points:\n• NALSA (National Legal Services Authority): nalsa.gov.in, helpline 15100.\n• You're entitled to free legal aid if you belong to a vulnerable category (including women, children, SC/ST, persons in custody, low-income groups, persons with disabilities).\n• Every district has a District Legal Services Authority (DLSA) - visit the district court complex or your state's NALSA website.\n• Lok Adalats settle disputes free and quickly - watch for announcements in your district.",
+      "sources": [
+        "Legal Services Authorities Act, 1987"
+      ]
+    }
+  ]
+}
