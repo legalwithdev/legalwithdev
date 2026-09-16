@@ -57,11 +57,26 @@ def health() -> dict:
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 
 TELEGRAM_ABOUT = (
-    "LegalWithDev - Indian legal information assistant.\n\n"
-    "Ask me about: consumer rights, tenant/rent issues, divorce & maintenance, "
-    "salary disputes, FIR & police matters, cheque bounce, RTI, property, "
-    "online fraud (UPI scams), and free legal aid.\n\n" + agent.disclaimer
+    "LegalWithDev - Indian legal information assistant for Bharat.\n\n"
+    "Poochho kuch bhi: consumer rights, tenant/rent issues, divorce & maintenance, "
+    "salary disputes, FIR & police matters, cheque bounce, RTI, property, ragging, "
+    "online fraud (UPI scams), aur free legal aid.\n\n"
+    "Answers in your native language + Hindi + English.\n\n" + agent.disclaimer
 )
+
+# ---- per-chat conversation memory (Telegram) ---- #
+_TELEGRAM_HISTORY: dict[int, list] = {}
+_TELEGRAM_MAX_TURNS = 6   # messages of context per chat
+_TELEGRAM_MAX_CHATS = 200  # safety cap so memory never grows unbounded
+
+
+def _remember(chat_id: int, user_text: str, bot_reply: str) -> None:
+    hist = _TELEGRAM_HISTORY.setdefault(chat_id, [])
+    hist.append({"role": "user", "content": user_text})
+    hist.append({"role": "assistant", "content": bot_reply[:700]})
+    del hist[:-_TELEGRAM_MAX_TURNS]
+    if len(_TELEGRAM_HISTORY) > _TELEGRAM_MAX_CHATS:  # drop oldest chats
+        _TELEGRAM_HISTORY.pop(next(iter(_TELEGRAM_HISTORY)))
 
 
 def send_telegram_message(chat_id: int, text: str) -> None:
@@ -90,7 +105,9 @@ async def telegram_webhook(request: Request):
     if text.startswith("/start") or text.startswith("/help"):
         send_telegram_message(chat_id, TELEGRAM_ABOUT)
     elif text:
-        reply = agent.reply(text)
+        history = _TELEGRAM_HISTORY.get(chat_id, [])[-_TELEGRAM_MAX_TURNS:]
+        reply = agent.reply(text, history=history)
+        _remember(chat_id, text, reply)
         for i in range(0, len(reply), 4096):  # Telegram 4096-char limit
             send_telegram_message(chat_id, reply[i : i + 4096])
     return {"ok": True}
