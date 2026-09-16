@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="google-site-verification" content="jV93AThtzf2YsdrRRUE-NLsSKcHNB0nHJ3JVRY_C3mM" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f2f3f7" media="(prefers-color-scheme: light)" />
 <title>LegalWithDev — Legal AI Assistant</title>
 <style>
   :root {
@@ -74,6 +77,39 @@
   .typing span { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; animation: blink 1.2s infinite; }
   .typing span:nth-child(2) { animation-delay: .2s; } .typing span:nth-child(3) { animation-delay: .4s; }
   @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+  /* ============ APPLE-STYLE LIGHT MODE (device setting follow karta hai) ============ */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f2f3f7; --bg2: #eef0f6; --card: #ffffff; --line: #dfe3ee;
+      --ink: #1c1c1e; --muted: #6e7480; --brand: #4a6cf7; --brand2: #3b5bdb;
+      --accent: #4a6cf7; --chip-bg: #eef1fb;
+    }
+    body {
+      background: radial-gradient(1100px 500px at 85% -10%, #dfe6ff 0%, var(--bg) 55%) fixed, var(--bg);
+      color: var(--ink);
+    }
+    header { background: rgba(255,255,255,.78); border-bottom: 1px solid var(--line); }
+    footer { background: rgba(255,255,255,.78); border-top: 1px solid var(--line); }
+    .bot .msg { background: #ffffff; border: 1px solid var(--line); color: var(--ink);
+      box-shadow: 0 2px 10px rgba(28,28,30,.06); }
+    .user .msg { background: linear-gradient(135deg, #2f6bff, #7b5cff); box-shadow: 0 6px 16px rgba(47,107,255,.28); }
+    .msg h3, .msg .sec { color: #3b5bdb; border-bottom-color: var(--line); }
+    .msg strong { color: #000; }
+    .msg em { color: var(--muted); }
+    .msg .duty { color: #42538c; background: rgba(74,108,247,.07); }
+    .msg .helpline { color: #0a8a54; }
+    .avatar { background: linear-gradient(135deg, #4a6cf7, #7b5cff); }
+    .row .mini-avatar { background: linear-gradient(135deg, #4a6cf7, #7b5cff); }
+    .chip { background: var(--chip-bg); color: #3b5bdb; border-color: #d4dcf6; }
+    .chip:hover { background: #e2e8fa; }
+    .inputwrap { background: #ffffff; border-color: var(--line); }
+    input { color: var(--ink); }
+    input::placeholder { color: #9aa0ad; }
+    .legal-note { color: #8a90a0; }
+    .dot { background: #30b765; box-shadow: 0 0 8px rgba(48,183,101,.8); }
+    .typing span { background: var(--brand); }
+  }
 </style>
 </head>
 <body>
