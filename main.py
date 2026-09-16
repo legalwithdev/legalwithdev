@@ -31,7 +31,11 @@ class ChatIn(BaseModel):
 # ------------------------- web chat ------------------------- #
 @app.get("/", response_class=HTMLResponse)
 def index() -> HTMLResponse:
-    return HTMLResponse((HERE / "index.html").read_text(encoding="utf-8"))
+    # no-store: browser ko har baar fresh page lene do, warna purana JS cache ho jata hai
+    return HTMLResponse(
+        (HERE / "index.html").read_text(encoding="utf-8"),
+        headers={"Cache-Control": "no-store, must-revalidate"},
+    )
 
 
 @app.post("/api/chat")

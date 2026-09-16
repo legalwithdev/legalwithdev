@@ -94,14 +94,14 @@ async function ask(text) {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, history: history.slice(-6) })
+      body: JSON.stringify({ message: text, history: chatHistory.slice(-6) })
     });
     const data = await res.json();
     t.remove();
     const reply = data.reply || 'Sorry, something went wrong.';
     add(reply, 'bot');
-    history.push({ role: 'user', content: text });
-    history.push({ role: 'assistant', content: reply });
+    chatHistory.push({ role: 'user', content: text });
+    chatHistory.push({ role: 'assistant', content: reply });
   } catch (e) {
     t.remove();
     add('Connection error — is the server running?', 'bot');
@@ -110,7 +110,7 @@ async function ask(text) {
   input.focus();
 }
 
-let history = [];
+const chatHistory = [];  // conversation memory (naam change kiya - browser ke 'history' object se takraav na ho)
 
 form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
 document.getElementById('chips').addEventListener('click', e => {
