@@ -7,6 +7,8 @@ Open: http://localhost:8000
 from __future__ import annotations
 
 import os
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 from fastapi import FastAPI, Request
@@ -43,6 +45,50 @@ def health() -> dict:
         "ai_mode": agent.ai_enabled,
         "topics": len(agent.topics),
     }
+
+
+# ------------------- Telegram webhook ---------------------- #
+# One service, no extra worker: Telegram sends updates here.
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+
+TELEGRAM_ABOUT = (
+    "LegalWithDev - Indian legal information assistant.\n\n"
+    "Ask me about: consumer rights, tenant/rent issues, divorce & maintenance, "
+    "salary disputes, FIR & police matters, cheque bounce, RTI, property, "
+    "online fraud (UPI scams), and free legal aid.\n\n" + agent.disclaimer
+)
+
+
+def send_telegram_message(chat_id: int, text: str) -> None:
+    """Fire-and-forget reply to the user on Telegram (no extra libraries needed)."""
+    if not TELEGRAM_BOT_TOKEN:
+        return
+    try:
+        data = urllib.parse.urlencode({"chat_id": chat_id, "text": text}).encode()
+        urllib.request.urlopen(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            data=data,
+            timeout=15,
+        )
+    except Exception:
+        pass  # never crash the bot because one reply failed
+
+
+@app.post("/webhook/telegram")
+async def telegram_webhook(request: Request):
+    update = await request.json()
+    message = update.get("message") or update.get("edited_message") or {}
+    chat_id = message.get("chat", {}).get("id")
+    text = (message.get("text") or "").strip()
+    if not chat_id:
+        return {"ok": True}
+    if text.startswith("/start") or text.startswith("/help"):
+        send_telegram_message(chat_id, TELEGRAM_ABOUT)
+    elif text:
+        reply = agent.reply(text)
+        for i in range(0, len(reply), 4096):  # Telegram 4096-char limit
+            send_telegram_message(chat_id, reply[i : i + 4096])
+    return {"ok": True}
 
 
 # ------------------- WhatsApp webhook ----------------------- #
