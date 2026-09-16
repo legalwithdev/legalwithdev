@@ -25,6 +25,7 @@ HERE = Path(__file__).parent
 
 class ChatIn(BaseModel):
     message: str
+    history: list[dict] = []  # optional conversation memory from the web UI
 
 
 # ------------------------- web chat ------------------------- #
@@ -35,7 +36,7 @@ def index() -> HTMLResponse:
 
 @app.post("/api/chat")
 def chat(payload: ChatIn) -> dict:
-    return {"reply": agent.reply(payload.message)}
+    return {"reply": agent.reply(payload.message, history=payload.history)}
 
 
 @app.get("/health")

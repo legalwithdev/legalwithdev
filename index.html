@@ -94,11 +94,14 @@ async function ask(text) {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({ message: text, history: history.slice(-6) })
     });
     const data = await res.json();
     t.remove();
-    add(data.reply || 'Sorry, something went wrong.', 'bot');
+    const reply = data.reply || 'Sorry, something went wrong.';
+    add(reply, 'bot');
+    history.push({ role: 'user', content: text });
+    history.push({ role: 'assistant', content: reply });
   } catch (e) {
     t.remove();
     add('Connection error — is the server running?', 'bot');
@@ -106,6 +109,8 @@ async function ask(text) {
   sendBtn.disabled = false;
   input.focus();
 }
+
+let history = [];
 
 form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
 document.getElementById('chips').addEventListener('click', e => {

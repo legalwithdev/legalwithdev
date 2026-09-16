@@ -64,6 +64,24 @@ Rules:
    this website stores no chat history, and AI answers are generated through Google's Gemini API.
    NEVER claim end-to-end encryption or that no third party can read messages - that is not true.
    Do NOT add privacy or emergency notes to every answer - only when the user asks or the situation needs it.
+10. STAY ON TRACK - you are a legal assistant. If the user goes off-topic (asks the meaning of
+    their name, general chat, jokes, coding, etc.), give at most ONE short line and gently
+    steer them back to their legal matter (e.g. "waise, aapke legal sawal pe wapas aayein?").
+    Always connect your reply back to their legal issue where natural.
+11. ABUSE BY THE USER - if the user abuses you or uses foul language, NEVER insult back.
+    Give ONE calm, brief warning that abusive behaviour (including online abuse) can attract
+    legal consequences under the laws of Bharat(India), then offer to continue with their
+    legal question. If abuse continues, keep replies short and dignified.
+12. USER BEING ABUSED - if the user says someone is abusing, harassing, or threatening them,
+    treat it as a legal matter with empathy: police (100/112), cybercrime.gov.in for online
+    abuse/harassment, relevant harassment provisions, and NALSA (15100) for free legal help.
+13. NO UNVERIFIED CLAIMS - never state a law, section number, judgment, or government
+    position you are not confident about. If you cannot verify it, say sorry and move the
+    user on to the next question or practical step. Do NOT make opinionated claims about
+    the Government of Bharat(India), courts, or laws - stick to factual legal information only.
+14. LEGALLY PROHIBITED - if the user asks for something legally restricted or prohibited in
+    Bharat(India) (weapons, drugs, hacking, forged documents, ways to break the law), refuse
+    clearly and briefly, and offer to help with a lawful legal question instead.
 
 DUTY TO BHARAT FOOTER - end every substantive answer with a short, warm, dignified reminder
 of the citizen's Fundamental Duties under Article 51A of the Constitution of Bharat(India):
@@ -119,7 +137,7 @@ class LegalAgent:
     # ------------------------------------------------------------------ #
     # Public API
     # ------------------------------------------------------------------ #
-    def reply(self, text: str) -> str:
+    def reply(self, text: str, history: list | None = None) -> str:
         text = (text or "").strip()
         if not text:
             return "Please type your legal question. For example: 'My landlord is not returning my deposit'."
@@ -141,7 +159,7 @@ class LegalAgent:
 
         if self.ai_enabled:
             try:
-                return self._ai_reply(text)
+                return self._ai_reply(text, history=history)
             except Exception as exc:  # noqa: BLE001 - fall back gracefully
                 local = self._local_reply(text)
                 return local + f"\n\n(AI backend error: {exc})"
@@ -189,7 +207,7 @@ class LegalAgent:
             parts.append(f"## {t['title']}\n{t['answer']}\nSources: {', '.join(t.get('sources', []))}")
         return "\n\n".join(parts)
 
-    def _ai_reply(self, text: str) -> str:
+    def _ai_reply(self, text: str, history: list | None = None) -> str:
         try:
             from openai import OpenAI  # pip install openai
         except ImportError as exc:
@@ -200,6 +218,19 @@ class LegalAgent:
             api_key=cfg["api_key"],
             base_url=cfg["base_url"],
         )
+        # Conversation memory: keep the last few turns so follow-up questions
+        # ("ab first step kya lu isme") get answered in context.
+        chat_history: list[dict] = []
+        for m in (history or [])[-6:]:
+            if not isinstance(m, dict):
+                continue
+            role = m.get("role")
+            content = (m.get("content") or "").strip()
+            if role in ("user", "assistant") and content:
+                if role == "assistant" and len(content) > 700:
+                    content = content[:700] + " ..."
+                chat_history.append({"role": role, "content": content})
+
         answer = None
         for attempt in range(3):
             try:
@@ -209,7 +240,8 @@ class LegalAgent:
                         {
                             "role": "system",
                             "content": SYSTEM_PROMPT_TEMPLATE.format(kb_context=self._ai_context()),
-                        },
+                        }
+                    ] + chat_history + [
                         {"role": "user", "content": text},
                     ],
                     temperature=0.3,
