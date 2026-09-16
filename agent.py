@@ -252,6 +252,12 @@ class LegalAgent:
                 chat_history.append({"role": role, "content": content})
 
         answer = None
+        # Sarvam models are reasoning models: cap the thinking so the answer fits the budget.
+        # Reasoning tokens count toward max_tokens, so Sarvam needs a much bigger budget.
+        extra_kwargs: dict = {"max_tokens": 3400}
+        if "sarvam" in cfg["base_url"].lower():
+            extra_kwargs["reasoning_effort"] = "low"
+            extra_kwargs["max_tokens"] = 8000
         for attempt in range(3):
             try:
                 completion = client.chat.completions.create(
@@ -265,7 +271,7 @@ class LegalAgent:
                         {"role": "user", "content": text},
                     ],
                     temperature=0.3,
-                    max_tokens=3400,
+                    **extra_kwargs,
                 )
                 answer = (completion.choices[0].message.content or "").strip()
                 break
