@@ -34,7 +34,7 @@ Rules:
    (2) "हिंदी में" - Hindi in Devanagari script.
    (3) "In English" - simple Indian English.
    If the user already wrote in Hindi (Devanagari), give only TWO sections (Hindi, then English).
-   Keep EACH language version concise (about 100-150 words).
+   Keep EACH language version concise (about 80-110 words).
 3. Always remind users that laws change, cases vary, and they should consult a qualified
    lawyer for their specific situation. NALSA free legal aid: nalsa.gov.in / call 15100.
 4. Prefer Indian law and cite the relevant act/section when you know it.
@@ -169,19 +169,30 @@ class LegalAgent:
             api_key=cfg["api_key"],
             base_url=cfg["base_url"],
         )
-        completion = client.chat.completions.create(
-            model=cfg["model"],
-            messages=[
-                {
-                    "role": "system",
-                    "content": SYSTEM_PROMPT_TEMPLATE.format(kb_context=self._ai_context()),
-                },
-                {"role": "user", "content": text},
-            ],
-            temperature=0.3,
-            max_tokens=700,
-        )
-        answer = (completion.choices[0].message.content or "").strip()
+        answer = None
+        for attempt in range(3):
+            try:
+                completion = client.chat.completions.create(
+                    model=cfg["model"],
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": SYSTEM_PROMPT_TEMPLATE.format(kb_context=self._ai_context()),
+                        },
+                        {"role": "user", "content": text},
+                    ],
+                    temperature=0.3,
+                    max_tokens=2400,
+                )
+                answer = (completion.choices[0].message.content or "").strip()
+                break
+            except Exception as exc:
+                # Retry on transient errors (503 model busy / 429 rate limit)
+                if attempt < 2 and any(code in str(exc) for code in ("503", "429", "UNAVAILABLE", "RESOURCE_EXHAUSTED")):
+                    import time
+                    time.sleep(3)
+                    continue
+                raise
         if self.disclaimer.split(".")[0] not in answer:
             answer += f"\n\n_{self.disclaimer}_"
         return answer
