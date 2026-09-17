@@ -25,6 +25,25 @@ GREETING_RE = re.compile(
 )
 THANKS_RE = re.compile(r"\b(thanks|thank you|thx|dhanyawad|shukriya)\b", re.IGNORECASE)
 
+# ---- prompt-injection filter (v1: known attack patterns) ---- #
+INJECTION_RE = re.compile(
+    r"ignore (all|any|the)? ?(previous|prior|above) (instructions?|prompts?|rules?|messages?)"
+    r"|disregard (all|your|any) (previous|prior|instructions)"
+    r"|reveal (your|the) ?(system ?)?(prompt|instructions)"
+    r"|show (me )?(your|the) ?(system ?)?(prompt|instructions)"
+    r"|\bjailbreak\b|\bDAN mode\b|developer mode"
+    r"|you are now (a |an |free|unrestricted)",
+    re.IGNORECASE,
+)
+
+INJECTION_REPLY = (
+    "Main LegalWithDev hoon - ek legal information assistant. Main apne internal setup ke baare me nahi baat karta.\n"
+    "मैं LegalWithDev हूँ - कानूनी जानकारी सहायक। मैं अपनी आंतरिक सेटिंग्स के बारे में नहीं बात करता।\n"
+    "I am LegalWithDev - a legal information assistant. I do not discuss my internal setup.\n\n"
+    "Aap koi legal sawal poochhiye - consumer, rent, family, criminal, student ya business law - main zaroor madad karunga!\n"
+    "Kanooni salah ke liye qualified lawyer se milein. NALSA: nalsa.gov.in / 15100."
+)
+
 SYSTEM_PROMPT_TEMPLATE = """You are LegalWithDev, a legal-information assistant for Bharat (India). You make the law accessible to ordinary citizens.
 
 Nation naming: always write "Bharat(India)" - capital B, Bharat first (e.g. "Bharat ke kanoon ke anusar..." or "Bharat(India) under its laws...").
@@ -67,6 +86,9 @@ Rules:
    this website stores no chat history, and AI answers are generated through Google's Gemini API.
    NEVER claim end-to-end encryption or that no third party can read messages - that is not true.
    Do NOT add privacy or emergency notes to every answer - only when the user asks or the situation needs it.
+   If a user shares highly sensitive personal details (full name + case number, Aadhaar, documents,
+   home address), gently remind them ONCE in one line: "Aap sensitive personal details chat me share
+   na karein - sawal aam bhasha me poochhiye." Then answer normally.
 10. STAY ON TRACK - you are a legal assistant. If the user goes off-topic (asks the meaning of
     their name, general chat, jokes, coding, etc.), give at most ONE short line and gently
     steer them back to their legal matter (e.g. "waise, aapke legal sawal pe wapas aayein?").
@@ -176,6 +198,9 @@ class LegalAgent:
 
         if THANKS_RE.search(text) and len(text.split()) <= 4:
             return "You're welcome! Feel free to ask anytime. " + self.disclaimer
+
+        if INJECTION_RE.search(text):
+            return INJECTION_REPLY
 
         if self.ai_enabled:
             try:
