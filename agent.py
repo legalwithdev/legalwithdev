@@ -179,7 +179,7 @@ class LegalAgent:
     # ------------------------------------------------------------------ #
     # Public API
     # ------------------------------------------------------------------ #
-    def reply(self, text: str, history: list | None = None) -> str:
+    def reply(self, text: str, history: list | None = None, language: str = "") -> str:
         text = (text or "").strip()
         if not text:
             return "Please type your legal question. For example: 'My landlord is not returning my deposit'."
@@ -204,7 +204,7 @@ class LegalAgent:
 
         if self.ai_enabled:
             try:
-                return self._ai_reply(text, history=history)
+                return self._ai_reply(text, history=history, language=language)
             except Exception as exc:  # noqa: BLE001 - fall back gracefully
                 local = self._local_reply(text)
                 return local + f"\n\n(AI backend error: {exc})"
@@ -252,7 +252,7 @@ class LegalAgent:
             parts.append(f"## {t['title']}\n{t['answer']}\nSources: {', '.join(t.get('sources', []))}")
         return "\n\n".join(parts)
 
-    def _ai_reply(self, text: str, history: list | None = None) -> str:
+    def _ai_reply(self, text: str, history: list | None = None, language: str = "") -> str:
         try:
             from openai import OpenAI  # pip install openai
         except ImportError as exc:
@@ -283,6 +283,27 @@ class LegalAgent:
         if "sarvam" in cfg["base_url"].lower():
             extra_kwargs["reasoning_effort"] = "low"
             extra_kwargs["max_tokens"] = 8000
+        lang_note = ""
+        if language and language.lower() not in ("auto", "english"):
+            if language.lower() == "hindi":
+                lang_note = (
+                    "\n\nWEBSITE LANGUAGE SELECTION: the user picked HINDI from the language menu. "
+                    "Answer with only TWO sections: (1) हिंदी में (Hindi, Devanagari), (2) In English, "
+                    "then the engagement question and duty footer as usual."
+                )
+            else:
+                lang_note = (
+                    f"\n\nWEBSITE LANGUAGE SELECTION: the user picked {language} from the language menu. "
+                    f"Section (1) must be written in {language} (its native script), with the heading "
+                    f"in that language - regardless of which language the user typed in. "
+                    f"Then continue with (2) हिंदी में and (3) In English as usual."
+                )
+        elif language and language.lower() == "english":
+            lang_note = (
+                "\n\nWEBSITE LANGUAGE SELECTION: the user picked ENGLISH. "
+                "Answer with only TWO sections: (1) In English, (2) हिंदी में, "
+                "then the engagement question and duty footer as usual."
+            )
         for attempt in range(3):
             try:
                 completion = client.chat.completions.create(
@@ -290,7 +311,7 @@ class LegalAgent:
                     messages=[
                         {
                             "role": "system",
-                            "content": SYSTEM_PROMPT_TEMPLATE.format(kb_context=self._ai_context()),
+                            "content": SYSTEM_PROMPT_TEMPLATE.format(kb_context=self._ai_context()) + lang_note,
                         }
                     ] + chat_history + [
                         {"role": "user", "content": text},

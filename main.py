@@ -15,7 +15,7 @@ import urllib.request
 from pathlib import Path
 
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from pydantic import BaseModel
 
 from agent import LegalAgent
@@ -52,9 +52,15 @@ RATE_LIMIT_REPLY = (
 HERE = Path(__file__).parent
 
 
+@app.get("/translations.js")
+def translations_js() -> FileResponse:
+    return FileResponse(HERE / "translations.js", media_type="application/javascript", headers={"Cache-Control": "no-store"})
+
+
 class ChatIn(BaseModel):
     message: str
     history: list[dict] = []  # optional conversation memory from the web UI
+    language: str = ""  # optional language chosen in the website language selector (e.g. "Tamil")
 
 
 # ------------------------- web chat ------------------------- #
@@ -72,7 +78,7 @@ async def chat(payload: ChatIn, request: Request) -> dict:
     visitor_ip = request.headers.get("x-forwarded-for", request.client.host if request.client else "unknown")
     if _rate_limited(f"web:{visitor_ip}", RATE_LIMIT_WEB):
         return {"reply": RATE_LIMIT_REPLY}
-    return {"reply": agent.reply(payload.message, history=payload.history)}
+    return {"reply": agent.reply(payload.message, history=payload.history, language=payload.language)}
 
 
 @app.get("/health")
