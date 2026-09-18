@@ -187,12 +187,10 @@
 
     <section id="founder">
       <h2 class="section-title" id="t-foundertitle">Dev ke saath 🤝</h2>
-      <p class="section-sub" id="t-foundersub">Ek Indian developer ka mission — bina VC, bina funding.</p>
       <div class="founder">
         <div class="av">👨‍💻</div>
         <div>
           <h3>Dev — Founder, LegalWithDev</h3>
-          <p id="t-foundertext">"Ek raat ka idea, phone se bana — Bharat ke har citizen tak pahunchana hai. Legal information ko har bhasha me, free me." Yeh product ek Indian AI platform (Sarvam AI) ke assistant ke saath mil ke develop hua hai.</p>
         </div>
       </div>
       <div class="channels">
@@ -318,7 +316,7 @@ document.getElementById('chips').addEventListener('click', e => {
 });
 
 // ---------------- language selector ---------------- //
-const T_KEYS = ['t-h2','t-tagline','t-cta','t-feattitle','t-featsub','t-f1t','t-f1d','t-f2t','t-f2d','t-f3t','t-f3d','t-f4t','t-f4d','t-f5t','t-f5d','t-f6t','t-f6d','t-foundertitle','t-foundersub','t-foundertext','t-chattitle','t-chatsub'];
+const T_KEYS = ['t-h2','t-tagline','t-cta','t-feattitle','t-featsub','t-f1t','t-f1d','t-f2t','t-f2d','t-f3t','t-f3d','t-f4t','t-f4d','t-f5t','t-f5d','t-f6t','t-f6d','t-foundertitle','t-chattitle','t-chatsub'];
 const DEF = {};
 T_KEYS.forEach(id => { const el = document.getElementById(id); if (el) DEF[id] = el.innerHTML; });
 const DEF_PLACEHOLDER = input.placeholder;
@@ -339,7 +337,7 @@ function applyLanguage(code) {
     setHtml('t-cta', L.cta);
     setHtml('t-feattitle', L.featTitle);
     setHtml('t-featsub', L.featSub);
-    const map = { 't-f1t': 'f1t', 't-f1d': 'f1d', 't-f2t': 'f2t', 't-f2d': 'f2d', 't-f3t': 'f3t', 't-f3d': 'f3d', 't-f4t': 'f4t', 't-f4d': 'f4d', 't-f5t': 'f5t', 't-f5d': 'f5d', 't-f6t': 'f6t', 't-f6d': 'f6d', 't-foundertitle': 'founderTitle', 't-foundersub': 'founderSub', 't-foundertext': 'founderText', 't-chattitle': 'chatTitle', 't-chatsub': 'chatSub' };
+    const map = { 't-f1t': 'f1t', 't-f1d': 'f1d', 't-f2t': 'f2t', 't-f2d': 'f2d', 't-f3t': 'f3t', 't-f3d': 'f3d', 't-f4t': 'f4t', 't-f4d': 'f4d', 't-f5t': 'f5t', 't-f5d': 'f5d', 't-f6t': 'f6t', 't-f6d': 'f6d', 't-foundertitle': 'founderTitle', 't-chattitle': 'chatTitle', 't-chatsub': 'chatSub' };
     Object.keys(map).forEach(id => setHtml(id, L[map[id]]));
     input.placeholder = L.placeholder;
     const chipsBox = document.getElementById('chips');
