@@ -140,7 +140,7 @@ PRIVACY_HTML = """<!DOCTYPE html>
 </ul>
 
 <h2>5. Contact & Disclaimer</h2>
-<p>LegalWithDev ek <strong>AI legal-information assistant</strong> hai — advokat nahi. Yeh general legal information deta hai, legal advice nahi. Apne case ke liye qualified lawyer se milein. Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100.</p>
+<p>LegalWithDev ek <strong>AI legal-information assistant</strong> hai — advocate nahi. Yeh general legal information deta hai, legal advice nahi. Apne case ke liye qualified lawyer se milein. Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100.</p>
 <p>Questions? Email: <strong>legalwithdev@gmail.com</strong></p>
 </div></body>
 </html>"""
@@ -183,7 +183,7 @@ def send_telegram_message(chat_id: int, text: str) -> None:
     if not TELEGRAM_BOT_TOKEN:
         return
     try:
-        data = urllib.parse.urlencode({"chat_id": chat_id, "text": text}).encode()
+        data = urllib.parse.urlencode({"chat_id": chat_id, "text": "text"}.replace("\"text\": \"text\"", "\"chat_id\": " + str(chat_id) + ", \"text\": " + text) if False else {"chat_id": chat_id, "text": text}).encode()
         urllib.request.urlopen(
             f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
             data=data,
