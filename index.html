@@ -202,7 +202,7 @@
 
     <section id="ask">
       <h2 class="section-title" id="t-chattitle">⚖️ AI se poochho</h2>
-      <p class="section-sub" id="t-chatsub">General legal information — advice nahi. Qualified lawyer se milein apne case ke liye.</p>
+      <p class="section-sub" id="t-chatsub">General legal information — advice nahi. Qualified Advocate/Lawyer se milein apne case ke liye.</p>
       <div id="chat"></div>
     </section>
   </div>
@@ -224,7 +224,7 @@
 
   <footer class="site">
     🔒 Chat me apna sensitive/personal info (naam, case number, documents) share na karein.<br />
-    ⚠️ LegalWithDev ek AI legal-information assistant hai — advocate nahi. General information only; qualified lawyer se salah lein.<br />
+    ⚠️ LegalWithDev ek AI legal-information assistant hai — advocate nahi. General information only; qualified Advocate/Lawyer se salah lein.<br />
     Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100 · <a href="/privacy">Privacy Policy</a><br />
     Made with 🇮🇳 for Bharat · LegalWithDev © 2026
   </footer>
@@ -321,7 +321,7 @@ const DEF = {};
 T_KEYS.forEach(id => { const el = document.getElementById(id); if (el) DEF[id] = el.innerHTML; });
 const DEF_PLACEHOLDER = input.placeholder;
 const DEF_CHIPS = Array.from(document.querySelectorAll('#chips .chip')).map(b => b.textContent);
-const DEFAULT_WELCOME = 'Namaste! 🙏 I am LegalWithDev — your legal information assistant for Bharat.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Ek zaroori baat:** Apna sensitive personal info (naam, case number, documents, personal details) chat me share na karein — sawal aam bhasha me poochhiye.\n\nMain general legal information deta hoon, advice nahi — apne case ke liye qualified lawyer se milein.';
+const DEFAULT_WELCOME = 'Namaste! 🙏 I am LegalWithDev — your legal information assistant for Bharat.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Ek zaroori baat:** Apna sensitive personal info (naam, case number, documents, personal details) chat me share na karein — sawal aam bhasha me poochhiye.\n\nMain general legal information deta hoon, advice nahi — apne case ke liye qualified Advocate/Lawyer se milein.';
 
 let curLang = localStorage.getItem('lwd-lang') || 'auto';
 

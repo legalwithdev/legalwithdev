@@ -140,7 +140,7 @@ PRIVACY_HTML = """<!DOCTYPE html>
 </ul>
 
 <h2>5. Contact & Disclaimer</h2>
-<p>LegalWithDev ek <strong>AI legal-information assistant</strong> hai — advocate nahi. Yeh general legal information deta hai, legal advice nahi. Apne case ke liye qualified lawyer se milein. Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100.</p>
+<p>LegalWithDev ek <strong>AI legal-information assistant</strong> hai — advocate nahi. Yeh general legal information deta hai, legal advice nahi. Apne case ke liye qualified Advocate/Lawyer se milein. Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100.</p>
 <p>Questions? Email: <strong>legalwithdev@gmail.com</strong></p>
 </div></body>
 </html>"""

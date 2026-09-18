@@ -1,5 +1,5 @@
 {
-  "disclaimer": "This chatbot provides general legal information for India, not legal advice. Laws change and every case is different. For anything serious, please consult a qualified lawyer. You can find free legal aid via NALSA at https://nalsa.gov.in or by calling 15100.",
+  "disclaimer": "This chatbot provides general legal information for India, not legal advice. Laws change and every case is different. For anything serious, please consult a qualified Advocate/Lawyer. You can find free legal aid via NALSA at https://nalsa.gov.in or by calling 15100.",
   "topics": [
     {
       "id": "consumer_rights",
@@ -69,7 +69,7 @@
         "pati",
         "kharcha"
       ],
-      "answer": "Family law in India varies by personal law (Hindu Marriage Act, Special Marriage Act, Muslim Personal Law, etc.).\n\nKey points:\n• Mutual consent divorce: couples who agree can divorce faster - typically after living separately for the required period (often 1 year+ under the relevant Act; since Amardeep Singh v. Harveen Kaur (2017), courts can waive the 6-month cooling-off under Section 13B(2) of the Hindu Marriage Act where separation is already long and the settlement is genuine; a 2023 Constitution Bench (Shilpa Sailesh) confirmed the Supreme Court's power to dispense with it entirely).\n• Contested divorce requires proven grounds (cruelty, desertion, adultery, etc.).\n• Maintenance: a spouse who cannot support themselves, children (including disabled adult children) and parents can claim maintenance under Section 125 CrPC (now Section 144 BNSS) or the relevant personal law. Under the BNSS, interim maintenance must be decided within 60 days.\n• Child custody is decided on the welfare of the child, not automatically the mother or father.\n• 498A IPC (now Section 85/86 BNS) deals with cruelty by husband or relatives - a serious criminal matter needing a lawyer.",
+      "answer": "Family law in India varies by personal law (Hindu Marriage Act, Special Marriage Act, Muslim Personal Law, etc.).\n\nKey points:\n• Mutual consent divorce: couples who agree can divorce faster - typically after living separately for the required period (often 1 year+ under the relevant Act; since Amardeep Singh v. Harveen Kaur (2017), courts can waive the 6-month cooling-off under Section 13B(2) of the Hindu Marriage Act where separation is already long and the settlement is genuine; a 2023 Constitution Bench (Shilpa Sailesh) confirmed the Supreme Court's power to dispense with it entirely).\n• Contested divorce requires proven grounds (cruelty, desertion, adultery, etc.).\n• Maintenance: a spouse who cannot support themselves, children (including disabled adult children) and parents can claim maintenance under Section 125 CrPC (now Section 144 BNSS) or the relevant personal law. Under the BNSS, interim maintenance must be decided within 60 days.\n• Child custody is decided on the welfare of the child, not automatically the mother or father.\n• 498A IPC (now Section 85/86 BNS) deals with cruelty by husband or relatives - a serious criminal matter needing an Advocate/Lawyer.",
       "sources": [
         "Hindu Marriage Act, 1955",
         "Special Marriage Act, 1954",
@@ -126,7 +126,7 @@
         "police jaana",
         "report likhwani"
       ],
-      "answer": "When dealing with the police:\n\nKey points:\n• For a cognizable offence the police register an FIR (Section 173 BNSS, earlier Section 154 CrPC); for offences punishable with 3-7 years, the BNSS allows a preliminary enquiry of up to 14 days before registration. If registration is refused, you can send the complaint to the Superintendent of Police.\n• You can also file a 'Non-Cognizable' (NC) complaint for minor offences; police need court permission to investigate those.\n• If arrested, you have the right to be informed of the grounds of arrest, to have a relative/friend informed, and to meet a lawyer. Free legal aid is available (Article 39A, Constitution; call NALSA at 15100).\n• A woman arrested between sunset and sunrise has special protections; generally arrests of women after sunset require special orders of the magistrate.\n• Zero FIR: you can file an FIR at any police station regardless of jurisdiction.",
+      "answer": "When dealing with the police:\n\nKey points:\n• For a cognizable offence the police register an FIR (Section 173 BNSS, earlier Section 154 CrPC); for offences punishable with 3-7 years, the BNSS allows a preliminary enquiry of up to 14 days before registration. If registration is refused, you can send the complaint to the Superintendent of Police.\n• You can also file a 'Non-Cognizable' (NC) complaint for minor offences; police need court permission to investigate those.\n• If arrested, you have the right to be informed of the grounds of arrest, to have a relative/friend informed, and to meet an Advocate/Lawyer. Free legal aid is available (Article 39A, Constitution; call NALSA at 15100).\n• A woman arrested between sunset and sunrise has special protections; generally arrests of women after sunset require special orders of the magistrate.\n• Zero FIR: you can file an FIR at any police station regardless of jurisdiction.",
       "sources": [
         "BNSS, 2023 (replacing CrPC, 1973)",
         "Constitution of India, Article 39A",
@@ -240,7 +240,7 @@
         "ghareeb ke liye",
         "free madad"
       ],
-      "answer": "Free legal aid is your right if you cannot afford a lawyer.\n\nKey points:\n• NALSA (National Legal Services Authority): nalsa.gov.in, helpline 15100.\n• You're entitled to free legal aid if you belong to a vulnerable category (including women, children, SC/ST, persons in custody, low-income groups, persons with disabilities).\n• Every district has a District Legal Services Authority (DLSA) - visit the district court complex or your state's NALSA website.\n• Lok Adalats settle disputes free and quickly - watch for announcements in your district.",
+      "answer": "Free legal aid is your right if you cannot afford an Advocate/Lawyer.\n\nKey points:\n• NALSA (National Legal Services Authority): nalsa.gov.in, helpline 15100.\n• You're entitled to free legal aid if you belong to a vulnerable category (including women, children, SC/ST, persons in custody, low-income groups, persons with disabilities).\n• Every district has a District Legal Services Authority (DLSA) - visit the district court complex or your state's NALSA website.\n• Lok Adalats settle disputes free and quickly - watch for announcements in your district.",
       "sources": [
         "Legal Services Authorities Act, 1987"
       ]

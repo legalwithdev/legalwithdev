@@ -12,7 +12,7 @@ Muft kanooni madad (free legal aid) ka matlab hai: sarkar tumhare liye advocate 
 
 ## Kaun haqdaar hai?
 
-General roop se yeh shreniyan haqdaar hain (poori list ke liye qualified lawyer ya NALSA se confirm karein):
+General roop se yeh shreniyan haqdaar hain (poori list ke liye qualified Advocate/Lawyer ya NALSA se confirm karein):
 
 - Mahilayein (women)
 - Bachche (children)
@@ -36,7 +36,7 @@ General roop se yeh shreniyan haqdaar hain (poori list ke liye qualified lawyer 
 
 ## Zaroori baat
 
-Yeh general information hai, kanooni salah nahi. Har case alag hota hai — apne case ke liye qualified lawyer ya NALSA/DLSA se milein. Har jawab ki tarah, yahan bhi ek yaad: **advice chahiye ho to expert se hi lein.**
+Yeh general information hai, kanooni salah nahi. Har case alag hota hai — apne case ke liye qualified Advocate/Lawyer ya NALSA/DLSA se milein. Har jawab ki tarah, yahan bhi ek yaad: **advice chahiye ho to expert se hi lein.**
 
 ---
 
