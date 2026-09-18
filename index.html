@@ -46,6 +46,14 @@
   .langmenu button:hover { background: rgba(109,140,255,.12); }
   .langmenu button.sel { color: var(--brand2); font-weight: 700; }
 
+  @media (max-width: 680px) {
+    header.site { flex-wrap: wrap; padding: 10px 14px; row-gap: 8px; column-gap: 10px; }
+    header.site nav { margin-left: 0; gap: 13px; flex-wrap: wrap; }
+    header.site nav a { font-size: 12.5px; }
+    .langwrap { margin-left: auto; }
+    .langbtn { padding: 6px 11px; font-size: 12.5px; }
+  }
+
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
 
   /* HERO */
