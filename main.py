@@ -183,7 +183,7 @@ def send_telegram_message(chat_id: int, text: str) -> None:
     if not TELEGRAM_BOT_TOKEN:
         return
     try:
-        data = urllib.parse.urlencode({"chat_id": chat_id, "text": "text"}.replace("\"text\": \"text\"", "\"chat_id\": " + str(chat_id) + ", \"text\": " + text) if False else {"chat_id": chat_id, "text": text}).encode()
+        data = urllib.parse.urlencode({"chat_id": chat_id, "text": text}).encode()
         urllib.request.urlopen(
             f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
             data=data,
