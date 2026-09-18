@@ -57,6 +57,16 @@ def translations_js() -> FileResponse:
     return FileResponse(HERE / "translations.js", media_type="application/javascript", headers={"Cache-Control": "no-store"})
 
 
+@app.get("/logo.png")
+def logo_png() -> FileResponse:
+    return FileResponse(HERE / "logo.png", media_type="image/png", headers={"Cache-Control": "public, max-age=3600"})
+
+
+@app.get("/favicon.png")
+def favicon_png() -> FileResponse:
+    return FileResponse(HERE / "favicon.png", media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
+
+
 class ChatIn(BaseModel):
     message: str
     history: list[dict] = []  # optional conversation memory from the web UI
