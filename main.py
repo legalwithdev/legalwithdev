@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 import urllib.parse
 import urllib.request
@@ -18,8 +19,10 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 
 from agent import LegalAgent
+from blogengine import router as blog_router
 
-app = FastAPI(title="LegalWithDev - Legal AI Chatbot", version="0.1.0")
+app = FastAPI(title="LegalWithDev - Legal AI Chatbot", version="0.2.0")
+app.include_router(blog_router)
 agent = LegalAgent()
 
 # ------------------- rate limiting (per user/IP/chat) ------------------- #
