@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f2f3f7" media="(prefers-color-scheme: light)" />
+<meta name="description" content="Kyun LegalWithDev? Kanoon sabki bhasha me hona chahiye — free legal AI assistant for Bharat, 24/7, bina login." />
+<link rel="canonical" href="https://legalwithdev.onrender.com/about" />
+<title>Kyun LegalWithDev? — Free Legal AI Assistant for Bharat</title>
+<link rel="icon" type="image/png" href="/favicon.png" />
+<style>
+  :root {
+    --bg: #0b1020; --card: #151d33; --line: #232d4a;
+    --ink: #e8edf7; --muted: #8b95ad; --brand: #6d8cff; --brand2: #8aa2ff;
+    --accent: #4f7cff; --user-bg: linear-gradient(135deg, #4356d9, #6d5df6);
+    --ok: #34d399; --chip-bg: rgba(109,140,255,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, #1a2450 0%, var(--bg) 55%) fixed, var(--bg);
+    color: var(--ink);
+  }
+  header.site {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+    background: rgba(16,24,48,.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50;
+  }
+  .logo { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; object-fit: cover; box-shadow: 0 0 0 2px rgba(109,140,255,.25); }
+  header.site h1 { font-size: 17px; font-weight: 700; }
+  header.site .sub { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 1px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); display: inline-block; }
+  header.site nav { margin-left: auto; display: flex; gap: 16px; }
+  header.site nav a { color: var(--muted); text-decoration: none; font-size: 13.5px; }
+  header.site nav a:hover { color: var(--brand2); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .hero { padding: 54px 0 30px; text-align: center; }
+  .hero .flag { font-size: 34px; }
+  .hero h2 { font-size: 30px; line-height: 1.25; margin: 12px 0 10px; font-weight: 800; letter-spacing: -.3px; }
+  .hero h2 .grad { background: linear-gradient(90deg, #6d8cff, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.tagline { font-size: 16px; color: var(--muted); max-width: 560px; margin: 0 auto 24px; line-height: 1.6; }
+  .hero .langs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 26px; }
+  .hero .langs span { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--brand2); }
+  .cta { display: inline-block; background: var(--user-bg); color: #fff; text-decoration: none; font-weight: 700;
+    padding: 14px 30px; border-radius: 14px; font-size: 16px; box-shadow: 0 8px 24px rgba(67,86,217,.4); }
+  .section-title { text-align: center; font-size: 22px; font-weight: 800; margin: 44px 0 6px; }
+  .section-sub { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .card .ico { font-size: 26px; margin-bottom: 10px; }
+  .card h3 { font-size: 15.5px; margin-bottom: 6px; }
+  .card p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+  .founder { display: flex; gap: 16px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .founder .av { width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #2b3a6e, #6d5df6); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+  .founder h3 { font-size: 16px; }
+  .channels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+  .chan { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; text-decoration: none; color: var(--ink); display: flex; gap: 12px; align-items: center; }
+  .chan .ci { font-size: 24px; }
+  .chan b { font-size: 14.5px; display: block; }
+  .chan small { color: var(--muted); font-size: 12px; }
+  .chan.off { opacity: .55; }
+  footer.site { text-align: center; font-size: 11.5px; color: #5d6884; padding: 18px 16px 30px; line-height: 1.7; }
+  footer.site a { color: var(--brand2); text-decoration: none; }
+  @media (max-width: 680px) {
+    header.site { flex-wrap: wrap; padding: 10px 14px; row-gap: 8px; column-gap: 10px; }
+    header.site nav { margin-left: 0; gap: 13px; flex-wrap: wrap; }
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f2f3f7; --card: #ffffff; --line: #dfe3ee; --ink: #1c1c1e; --muted: #6e7480; --brand: #4a6cf7; --brand2: #3b5bdb; --chip-bg: #eef1fb; }
+    body { background: radial-gradient(1100px 500px at 85% -10%, #dfe6ff 0%, var(--bg) 55%) fixed, var(--bg); }
+    header.site { background: rgba(255,255,255,.8); }
+    .hero h2 .grad { background: linear-gradient(90deg, #3b5bdb, #7b5cff); -webkit-background-clip: text; background-clip: text; }
+    footer.site { color: #8a90a0; }
+  }
+</style>
+</head>
+<body>
+  <header class="site">
+    <img class="logo" src="/logo.png" alt="LegalWithDev logo" />
+    <div>
+      <h1>LegalWithDev</h1>
+      <div class="sub"><span class="dot"></span> Online · Answers in your native language + हिंदी + English</div>
+    </div>
+    <nav>
+      <a href="/">Chat</a>
+      <a href="/blog">Blog</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="flag">🇮🇳</div>
+      <h2>Bharat ka apna <span class="grad">Legal AI Assistant</span></h2>
+      <p class="tagline">Kanooni sawaal poochho — apni bhasha me. Consumer, rent, family, criminal, student ya business law — free, 24/7, bina login.</p>
+      <div class="langs">
+        <span>🇮🇳 Your language</span>
+        <span>🪷 हिंदी</span>
+        <span>🇬🇧 English</span>
+      </div>
+      <a class="cta" href="/">⚖️ Chat shuru karo — FREE</a>
+    </section>
+
+    <section id="features">
+      <h2 class="section-title">Kyun LegalWithDev?</h2>
+      <p class="section-sub">Ek simple idea: kanoon sabki bhasha me hona chahiye.</p>
+      <div class="grid">
+        <div class="card"><div class="ico">🗣️</div><h3>3 Bhasha, Ek Jawab</h3><p>Har jawab aapki native language + हिंदी + English me. Tamil, Telugu, Bengali — jaise aap likho, waise.</p></div>
+        <div class="card"><div class="ico">🧠</div><h3>Poori Conversation Yaad</h3><p>Follow-up poochho — "uske baad kya karu?" — bot context samajh ke jawab deta hai.</p></div>
+        <div class="card"><div class="ico">🏛️</div><h3>Sarkari Helplines</h3><p>NALSA 15100, Anti-Ragging 1800-180-5522, Consumer 1915 — verified government sources ke saath.</p></div>
+        <div class="card"><div class="ico">🔒</div><h3>Privacy-First</h3><p>Chat history server pe store nahi hoti — sirf aapke browser me. Sensitive personal info share na karne ka clear guidance.</p></div>
+        <div class="card"><div class="ico">🆓</div><h3>100% Free</h3><p>Bina login, bina paisa. Har citizen ke liye — kyunki kanooni jaankari adhikar hai, luxury nahi.</p></div>
+        <div class="card"><div class="ico">🇮🇳</div><h3>Duty Ka Reminder</h3><p>Har jawab ke saath Article 51A — rights ke saath duties bhi. Responsible citizen banna.</p></div>
+      </div>
+    </section>
+
+    <section id="founder">
+      <h2 class="section-title">Dev ke saath 🤝</h2>
+      <div class="founder">
+        <div class="av">👨‍💻</div>
+        <div>
+          <h3>Dev — Founder, LegalWithDev</h3>
+        </div>
+      </div>
+      <div class="channels">
+        <a class="chan" href="/"><span class="ci">💬</span><div><b>Website Chat</b><small>Abhi poochho — app kholo</small></div></a>
+        <a class="chan" href="https://t.me/legalwithdev_bot" target="_blank" rel="noopener"><span class="ci">✈️</span><div><b>Telegram Bot</b><small>@legalwithdev_bot</small></div></a>
+        <a class="chan off" href="/"><span class="ci">🟢</span><div><b>WhatsApp</b><small>Setup jald hi complete</small></div></a>
+      </div>
+    </section>
+  </div>
+
+  <footer class="site">
+    🔒 Chat me apna sensitive/personal info (naam, case number, documents) share na karein.<br />
+    ⚠️ LegalWithDev ek AI legal-information assistant hai — advocate nahi. General information only; qualified Advocate/Lawyer se salah lein.<br />
+    Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100 · <a href="/privacy">Privacy Policy</a><br />
+    Made with 🇮🇳 for Bharat · LegalWithDev © 2026
+  </footer>
+</body>
+</html>

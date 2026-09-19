@@ -87,6 +87,13 @@ def robots_txt() -> PlainTextResponse:
 def sitemap_xml() -> FileResponse:
     return FileResponse(HERE / "sitemap.xml", media_type="application/xml", headers={"Cache-Control": "no-store"})
 
+@app.get("/about", response_class=HTMLResponse)
+def about() -> HTMLResponse:
+    return HTMLResponse(
+        (HERE / "about.html").read_text(encoding="utf-8"),
+        headers={"Cache-Control": "no-store, must-revalidate"},
+    )
+
 class ChatIn(BaseModel):
     message: str
     history: list[dict] = []  # optional conversation memory from the web UI
