@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /webhook/
+
+Sitemap: https://legalwithdev.onrender.com/sitemap.xml

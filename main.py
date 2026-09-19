@@ -78,6 +78,15 @@ def icon_192() -> FileResponse:
 def apple_touch_icon() -> FileResponse:
     return FileResponse(HERE / "apple-touch-icon.png", media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
 
+# ------------------- SEO ------------------- #
+@app.get("/robots.txt")
+def robots_txt() -> PlainTextResponse:
+    return PlainTextResponse((HERE / "robots.txt").read_text(encoding="utf-8"), media_type="text/plain", headers={"Cache-Control": "no-store"})
+
+@app.get("/sitemap.xml")
+def sitemap_xml() -> FileResponse:
+    return FileResponse(HERE / "sitemap.xml", media_type="application/xml", headers={"Cache-Control": "no-store"})
+
 class ChatIn(BaseModel):
     message: str
     history: list[dict] = []  # optional conversation memory from the web UI
