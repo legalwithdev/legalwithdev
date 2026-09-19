@@ -514,6 +514,7 @@ document.getElementById('menuBtn').onclick = () => {
 };
 scrim.onclick = () => { sidebar.classList.add('closed'); scrim.classList.remove('show'); };
 document.getElementById('newChat').onclick = newChat;
+if (window.innerWidth <= 760) sidebar.classList.add('closed');
 
 /* ---------------- edge swipe: left se right swipe -> menu open, right se left -> close ---------------- */
 (function () {
