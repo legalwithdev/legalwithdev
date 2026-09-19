@@ -185,6 +185,13 @@
     #scrim.show { display: block; }
   }
 
+  /* ---------- INSTALLED APP (PWA): phone status bar overlap fix ---------- */
+  @media (display-mode: standalone) {
+    header.top { padding-top: calc(10px + max(env(safe-area-inset-top), 24px)); }
+    #sidebar, #scrim { top: calc(57px + max(env(safe-area-inset-top), 24px)); }
+    #splash { padding-top: max(env(safe-area-inset-top), 24px); }
+  }
+
   /* APPLE-STYLE LIGHT MODE */
   @media (prefers-color-scheme: light) {
     :root { --bg: #f2f3f7; --card: #ffffff; --line: #dfe3ee; --ink: #1c1c1e; --muted: #6e7480; --brand: #4a6cf7; --brand2: #3b5bdb; --chip-bg: #eef1fb; }
