@@ -3,7 +3,9 @@
 <head>
 <script>
 /* Installed APP (PWA) user -> chat app par bhejo. Browser user -> yehi website dikhega. */
-if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) { location.replace('/app'); }
+var dmStandalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+var dmBrowser = window.matchMedia && window.matchMedia('(display-mode: browser)').matches;
+if (dmStandalone && !dmBrowser) { location.replace('/app'); }
 </script>
 
 <meta charset="UTF-8" />
