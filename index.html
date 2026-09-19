@@ -3,9 +3,11 @@
 <head>
 <script>
 /* Installed APP (PWA) user -> chat app par bhejo. Browser user -> yehi website dikhega. */
-var dmStandalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+var dmApp = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+  || (window.matchMedia && window.matchMedia('(display-mode: fullscreen)').matches)
+  || (window.matchMedia && window.matchMedia('(display-mode: minimal-ui)').matches);
 var dmBrowser = window.matchMedia && window.matchMedia('(display-mode: browser)').matches;
-if (dmStandalone && !dmBrowser) { location.replace('/app'); }
+if (dmApp && !dmBrowser) { location.replace('/app'); }
 </script>
 
 <meta charset="UTF-8" />
@@ -236,7 +238,7 @@ if (dmStandalone && !dmBrowser) { location.replace('/app'); }
     </section>
 
     <section id="founder">
-      <h2 class="section-title" id="t-foundertitle">Dev ke saath 🤝</h2>
+      <h2 class="section-title" id="t-foundertitle">Dev ke saath �h2>
       <div class="founder">
         <div class="av">👨‍💻</div>
         <div>

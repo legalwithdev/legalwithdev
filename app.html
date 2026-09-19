@@ -186,6 +186,14 @@
     #scrim.show { display: block; }
   }
 
+  /* ---------- INSTALLED APP (PWA): fullscreen / status bar handling ---------- */
+  @media (display-mode: fullscreen) {
+    .inputbar { padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
+  }
+  body.fs-on header.top { padding-top: 10px !important; }
+  body.fs-on #sidebar, body.fs-on #scrim { top: 57px !important; }
+  body.fs-on #splash { padding-top: 0 !important; }
+
   /* ---------- INSTALLED APP (PWA): phone status bar overlap fix ---------- */
   @media (display-mode: standalone) {
     header.top { padding-top: calc(10px + max(env(safe-area-inset-top), 24px)); }
@@ -517,6 +525,29 @@ else {
   setTimeout(() => splash.classList.add('hide'), 1900);
   setTimeout(() => splash.style.display = 'none', 2600);
 }
+
+/* ---------------- immersive mode: system bars (time/battery) auto-hide ---------------- */
+(function () {
+  var isAppCtx = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+    || (window.matchMedia && window.matchMedia('(display-mode: fullscreen)').matches)
+    || (window.matchMedia && window.matchMedia('(display-mode: minimal-ui)').matches);
+  if (!isAppCtx) return; // sirf installed app me, browser me nahi
+  // (a) pehla tap/touch -> OS-level fullscreen (purani installed app me turant bars hide)
+  var goFS = function () {
+    try {
+      var p = document.documentElement.requestFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+    document.removeEventListener('click', goFS, true);
+    document.removeEventListener('touchstart', goFS, true);
+  };
+  document.addEventListener('click', goFS, true);
+  document.addEventListener('touchstart', goFS, true);
+  // (b) jab fullscreen active ho to upar ka extra padding hata do
+  document.addEventListener('fullscreenchange', function () {
+    document.body.classList.toggle('fs-on', !!document.fullscreenElement);
+  });
+})();
 
 /* ---------------- boot ---------------- */
 buildMenu();
