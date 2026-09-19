@@ -273,15 +273,14 @@ let curId = null;
 let sending = false;
 try {
   chats = JSON.parse(localStorage.getItem('lwd-chats') || '[]');
-  curId = localStorage.getItem('lwd-cur') || null;
   if (!Array.isArray(chats)) chats = [];
-  if (curId && !chats.find(c => c.id === curId)) curId = null;
 } catch (e) { chats = []; }
+curId = null; // HAR VISIT PE FRESH CHAT - purani chats sirf sidebar me list hoti hain
 
 function saveChats() {
   try {
     localStorage.setItem('lwd-chats', JSON.stringify(chats.slice(-30)));
-    if (curId) localStorage.setItem('lwd-cur', curId);
+    localStorage.removeItem('lwd-cur');
   } catch (e) {}
 }
 function newChat() {
