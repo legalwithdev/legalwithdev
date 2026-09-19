@@ -310,3 +310,4 @@ def whatsapp_verify(request: Request):
 async def whatsapp_receive(request: Request):
     payload = await request.json()
     replies = handle_whatsapp_message(payload, agent)
+    return JSONResponse({"handled": len(replies)})
