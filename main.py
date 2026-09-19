@@ -15,7 +15,7 @@ import urllib.request
 from pathlib import Path
 
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel
 
 from agent import LegalAgent
@@ -30,7 +30,6 @@ _RATE_BUCKETS: dict[str, list[float]] = {}
 RATE_LIMIT_WEB = 15    # messages per hour, per visitor (website)
 RATE_LIMIT_CHAT = 20  # messages per hour, per user (Telegram / WhatsApp)
 
-
 def _rate_limited(key: str, limit: int) -> bool:
     """True if this key has already hit `limit` messages in the last hour."""
     now = time.time()
@@ -41,7 +40,6 @@ def _rate_limited(key: str, limit: int) -> bool:
     hits.append(now)
     return False
 
-
 RATE_LIMIT_REPLY = (
     "Aap bahut zyada messages bhej rahe hain. Thoda ruk kar phir try karein (1 ghante me limited sawal allowed hain).\n"
     "आप बहुत ज़्यादा संदेश भेज रहे हैं। थोड़ा रुककर फिर प्रयास करें।\n"
@@ -51,21 +49,17 @@ RATE_LIMIT_REPLY = (
 
 HERE = Path(__file__).parent
 
-
 @app.get("/translations.js")
 def translations_js() -> FileResponse:
     return FileResponse(HERE / "translations.js", media_type="application/javascript", headers={"Cache-Control": "no-store"})
-
 
 @app.get("/logo.png")
 def logo_png() -> FileResponse:
     return FileResponse(HERE / "logo.png", media_type="image/png", headers={"Cache-Control": "public, max-age=3600"})
 
-
 @app.get("/favicon.png")
 def favicon_png() -> FileResponse:
     return FileResponse(HERE / "favicon.png", media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
-
 
 class ChatIn(BaseModel):
     message: str
@@ -82,14 +76,12 @@ def index() -> HTMLResponse:
         headers={"Cache-Control": "no-store, must-revalidate"},
     )
 
-
 @app.post("/api/chat")
 async def chat(payload: ChatIn, request: Request) -> dict:
     visitor_ip = request.headers.get("x-forwarded-for", request.client.host if request.client else "unknown")
     if _rate_limited(f"web:{visitor_ip}", RATE_LIMIT_WEB):
         return {"reply": RATE_LIMIT_REPLY}
     return {"reply": agent.reply(payload.message, history=payload.history, language=payload.language)}
-
 
 @app.get("/health")
 def health() -> dict:
@@ -168,7 +160,6 @@ _TELEGRAM_HISTORY: dict[int, list] = {}
 _TELEGRAM_MAX_TURNS = 6   # messages of context per chat
 _TELEGRAM_MAX_CHATS = 200  # safety cap so memory never grows unbounded
 
-
 def _remember(chat_id: int, user_text: str, bot_reply: str) -> None:
     hist = _TELEGRAM_HISTORY.setdefault(chat_id, [])
     hist.append({"role": "user", "content": user_text})
@@ -176,7 +167,6 @@ def _remember(chat_id: int, user_text: str, bot_reply: str) -> None:
     del hist[:-_TELEGRAM_MAX_TURNS]
     if len(_TELEGRAM_HISTORY) > _TELEGRAM_MAX_CHATS:  # drop oldest chats
         _TELEGRAM_HISTORY.pop(next(iter(_TELEGRAM_HISTORY)))
-
 
 def send_telegram_message(chat_id: int, text: str) -> None:
     """Fire-and-forget reply to the user on Telegram (no extra libraries needed)."""
@@ -191,7 +181,6 @@ def send_telegram_message(chat_id: int, text: str) -> None:
         )
     except Exception:
         pass  # never crash the bot because one reply failed
-
 
 @app.post("/webhook/telegram")
 async def telegram_webhook(request: Request):
@@ -221,7 +210,6 @@ _WHATSAPP_HISTORY: dict[str, list] = {}
 _WHATSAPP_MAX_TURNS = 6    # messages of context per chat
 _WHATSAPP_MAX_CHATS = 200  # safety cap
 
-
 def _wa_remember(sender: str, user_text: str, bot_reply: str) -> None:
     hist = _WHATSAPP_HISTORY.setdefault(sender, [])
     hist.append({"role": "user", "content": user_text})
@@ -230,7 +218,6 @@ def _wa_remember(sender: str, user_text: str, bot_reply: str) -> None:
     if len(_WHATSAPP_HISTORY) > _WHATSAPP_MAX_CHATS:
         _WHATSAPP_HISTORY.pop(next(iter(_WHATSAPP_HISTORY)))
 
-
 def verify_whatsapp_webhook(query_params: dict):
     """Meta's webhook verification handshake (GET with hub.challenge)."""
     mode = query_params.get("hub.mode")
@@ -238,9 +225,10 @@ def verify_whatsapp_webhook(query_params: dict):
     challenge = query_params.get("hub.challenge", "")
     expected = os.getenv("WHATSAPP_VERIFY_TOKEN", "change-me")
     if mode == "subscribe" and token == expected:
-        return int(challenge)
-    return {"status": "rejected"}
-
+        # Echo the challenge back EXACTLY as Meta sent it, as plain text.
+        # Never int() it - Meta may send non-numeric challenge strings.
+        return PlainTextResponse(content=challenge)
+    return PlainTextResponse(status_code=403)
 
 def handle_whatsapp_message(payload: dict, agent) -> list[str]:
     """Extract inbound WhatsApp text messages, answer with the agent,
@@ -266,7 +254,6 @@ def handle_whatsapp_message(payload: dict, agent) -> list[str]:
                 replies.append(reply)
                 send_whatsapp_text(sender, reply[:4000])
     return replies
-
 
 def send_whatsapp_text(to_phone: str, body: str) -> dict | None:
     """Send a WhatsApp text message via the Meta Cloud API (no extra library needed).
@@ -296,7 +283,6 @@ def send_whatsapp_text(to_phone: str, body: str) -> dict | None:
             return json.loads(resp.read().decode() or "{}")
     except Exception:
         return None  # never crash the webhook because one reply failed
-
 
 @app.get("/webhook/whatsapp")
 def whatsapp_verify(request: Request):
