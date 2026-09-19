@@ -10,6 +10,8 @@
 <meta name="description" content="LegalWithDev — Bharat ka apna legal AI assistant. Free legal information in your native language + Hindi + English. Website, Telegram aur WhatsApp pe." />
 <title>LegalWithDev — Bharat ka Legal AI Assistant</title>
 <link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <style>
   :root {
     --bg: #0b1020; --card: #151d33; --line: #232d4a;
@@ -387,6 +389,13 @@ function buildMenu() {
 buildMenu();
 applyLanguage(curLang);
 addWelcome();
+
+// PWA: register service worker (only on secure connections - https or localhost)
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
