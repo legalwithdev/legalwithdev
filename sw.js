@@ -6,7 +6,7 @@
    - NEVER touch: /api/* (chat POST), /webhook/* (Telegram/WhatsApp),
      third-party requests, and anything that is not a GET.
    This means: chat always needs the server; offline users get the last cached
-     page shell instead of a browser error page.
+   page shell instead of a browser error page.
 */
 const CACHE = "lwd-static-v1";
 const PRECACHE = [
