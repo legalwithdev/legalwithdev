@@ -514,7 +514,35 @@ document.getElementById('menuBtn').onclick = () => {
 };
 scrim.onclick = () => { sidebar.classList.add('closed'); scrim.classList.remove('show'); };
 document.getElementById('newChat').onclick = newChat;
-if (window.innerWidth <= 760) sidebar.classList.add('closed');
+
+/* ---------------- edge swipe: left se right swipe -> menu open, right se left -> close ---------------- */
+(function () {
+  var sx = null, sy = null, sOpen = null;
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { sx = null; return; }
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    sOpen = !sidebar.classList.contains('closed');
+  }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (sx === null) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - sx;
+    var dy = t.clientY - sy;
+    var mostlyHorizontal = Math.abs(dy) < 80 && Math.abs(dx) > 60;
+    // (1) left edge (48px) se RIGHT swipe + menu band -> menu khol do
+    if (!sOpen && sx <= 48 && dx > 60 && mostlyHorizontal) {
+      sidebar.classList.remove('closed');
+      scrim.classList.add('show');
+    }
+    // (2) menu khula ho + LEFT swipe -> band kar do
+    else if (sOpen && dx < -60 && mostlyHorizontal) {
+      sidebar.classList.add('closed');
+      scrim.classList.remove('show');
+    }
+    sx = null; sy = null; sOpen = null;
+  }, { passive: true });
+})();
 
 const splash = document.getElementById('splash');
 let shown = false;
