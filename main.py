@@ -30,6 +30,7 @@ _RATE_BUCKETS: dict[str, list[float]] = {}
 RATE_LIMIT_WEB = 15    # messages per hour, per visitor (website)
 RATE_LIMIT_CHAT = 20  # messages per hour, per user (Telegram / WhatsApp)
 
+
 def _rate_limited(key: str, limit: int) -> bool:
     """True if this key has already hit `limit` messages in the last hour."""
     now = time.time()
@@ -40,59 +41,10 @@ def _rate_limited(key: str, limit: int) -> bool:
     hits.append(now)
     return False
 
+
 RATE_LIMIT_REPLY = (
     "Aap bahut zyada messages bhej rahe hain. Thoda ruk kar phir try karein (1 ghante me limited sawal allowed hain).\n"
-    "à¤†à¤ª à¤¬à¤¹à¥à¤¤ à¤œà¤¼à¥à¤¯à¤¾à¤¦à¤¾ à¤¸à¤‚à¤¦à¥‡à¤¶ à¤­à¥‡à¤œ à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚à¥¤ à¤¥à¥‹à¤¡à¤¼à¤¾ à¤°à¥à¤•à¤•à¤° à¤«à¤¿à¤° à¤ªà¥à¤°à¤¯à¤¾à¤¸ à¤•à¤°à¥‡à¤‚à¥¤\n"
-    "You are sending too many messages. Please wait a while and try again.\n\n"
-    "Yeh free service hai - sab users ke liye available rakhne ke liye limit hai. NALSA: nalsa.gov.in / 15100."
-)
-
-HERE = Path(__file__).parent
-
-@app.get("/translations.js")
-def translations_js() -> FileResponse:
-    return FileResponse(HERE / "translations.js", media_type="application/javascript", headers={"Cache-Control": "no-store"})
-
-@app.get("/logo.png")
-def logo_png() -> FileResponse:
-    return FileResponse(HERE / "logo.png", media_type="image/png", headers={"Cache-Control": "public, max-age=3600"})
-
-@app.get("/favicon.png")
-def favicon_png() -> FileResponse:
-    return FileResponse(HERE / "favicon.png", media_type="image/png", headers={"Cache-Control": "public, max-age=86400"})
-
-class ChatIn(BaseModel):
-    message: str
-    history: list[dict] = []  # optional conversation memory from the web UI
-    language: str = ""  # optional language chosen in the website language selector (e.g. "Tamil")
-
-
-# ------------------------- web chat ------------------------- #
-@app.get("/", response_class=HTMLResponse)
-def index() -> HTMLResponse:
-    # no-store: browser ko har baar fresh page lene do, warna purana JS cache ho jata hai
-    return HTMLResponse(
-        (HERE / "index.html").read_text(encoding="utf-8"),
-        headers={"Cache-Control": "no-store, must-revalidate"},
-    )
-
-@app.post("/api/chat")
-async def chat(payload: ChatIn, request: Request) -> dict:
-    visitor_ip = request.headers.get("x-forwarded-for", request.client.host if request.client else "unknown")
-    if _rate_limited(f"web:{visitor_ip}", RATE_LIMIT_WEB):
-        return {"reply": RATE_LIMIT_REPLY}
-    return {"reply": agent.reply(payload.message, history=payload.history, language=payload.language)}
-
-@app.get("/health")
-def health() -> dict:
-    return {
-        "status": "ok",
-        "ai_mode": agent.ai_enabled,
-        "topics": len(agent.topics),
-    }
-
-
-# ------------------------- privacy policy ------------------------- #
+    "à¤†à¤ª à¤¬à¤¸à¥€à¤¤ à¤œà¤¼à¥à¸ƒ‚’£‚’âà´›‚’£‚–”-7‚’Ë‚’ÿ‚–‚’Èƒ‚’×‚–‚’pƒ‚’Ã‚’ç‚–ƒ‚’ç‚–#‚’‚–ƒ‚’—‚–/‚’‡‚’ó‚’øƒ‚’Ã‚–‚’W‚’W‚’Àƒ‚’¯‚’ÿ‚’Àƒ‚’«‚–7‚’Ã‚’¿‚’û‚’àƒ‚’W‚’Ã‚–‚’‚–‘q¸ˆ(€€€€‰e½Ô…É”Í•¹‘¥¹œÑ½¼µ…¹äµ•ÍÍ…•Ì¸A±•…Í”İ…¥Ğ„İ¡¥±”…¹ÑÉä……¥¸¹q¹q¸ˆ(€€€€‰e• ™É•”Í•ÉÙ¥”¡…¤€´Í…ˆÕÍ•ÉÌ­”±¥å”…Ù…¥±…‰±”É…­¡¹”­”±¥å”±¥µ¥Ğ¡…¤¸91Mè¹…±Í„¹½Ø¹¥¸€¼€ÄÔÄÀÀ¸ˆ(¤()!I€ôA…Ñ ¡}}™¥±•}|¤¹Á…É•¹Ğ(()…ÁÀ¹•Ğ ˆ½ÑÉ…¹Í±…Ñ¥½¹Ì¹©Ìˆ¤)‘•˜ÑÉ…¹Í±…Ñ¥½¹Í}©Ì ¤€´ø¥±•I•ÍÁ½¹Í”è(€€€É•ÑÕÉ¸¥±•I•ÍÁ½¹Í”¡!I€¼€‰ÑÉ…¹Í±…Ñ¥½¹Ì¹©Ìˆ°µ•‘¥…}ÑåÁ”ô‰…ÁÁ±¥…Ñ¥½¸½©…Ù…ÍÉ¥ÁĞˆ°¡•…‘•ÉÌõì‰…¡”µ½¹ÑÉ½°ˆè€‰¹¼µÍÑ½É”‰ô¤(()…ÁÀ¹•Ğ ˆ½±½¼¹Á¹œˆ¤)‘•˜±½½}Á¹œ ¤€´ø¥±•I•ÍÁ½¹Í”è(€€€É•ÑÕÉ¸¥±•I•ÍÁ½¹Í”¡!I€¼€‰±½¼¹Á¹œˆ°µ•‘¥…}ÑåÁ”ô‰¥µ…”½Á¹œˆ°¡•…‘•ÉÌõì‰…¡”µ½¹ÑÉ½°ˆè€‰ÁÕ‰±¥Œ°µ…àµ…”ôÌØÀÀ‰ô¤(()…ÁÀ¹•Ğ ˆ½™…Ù¥½¸¹Á¹œˆ¤)‘•˜™…Ù¥½¹}Á¹œ ¤€´ø¥±•I•ÍÁ½¹Í”è(€€€É•ÑÕÉ¸¥±•I•ÍÁ½¹Í”¡!I€¼€‰™…Ù¥½¸¹Á¹œˆ°µ•‘¥…}ÑåÁ”ô‰¥µ…”½Á¹œˆ°¡•…‘•ÉÌõì‰…¡”µ½¹ÑÉ½°ˆè€‰ÁÕ‰±¥Œ°µ…àµ…”ôàØĞÀÀ‰ô¤(()±…ÍÌ¡…Ñ%¸¡	…Í•5½‘•°¤è(€€€µ•ÍÍ…”èÍÑÈ(€€€¡¥ÍÑ½Éäè±¥ÍÑm‘¥Ñt€ômt€€Œ½ÁÑ¥½¹…°½¹Ù•ÉÍ…Ñ¥½¸µ•µ½Éä™É½´Ñ¡”İ•ˆU$(€€€±…¹Õ…”èÍÑÈ€ô€ˆˆ€€Œ½ÁÑ¥½¹…°±…¹Õ…”¡½Í•¸¥¸Ñ¡”İ•‰Í¥Ñ”±…¹Õ…”Í•±•Ñ½È€¡”¹œ¸€‰Q…µ¥°ˆ¤(((Œ€´´´´´´´´´´´´´´´´´´´´´´´´´İ•ˆ¡…Ğ€´´´´´´´´´´´´´´´´´´´´´´´´´€Œ)…ÁÀ¹•Ğ ˆ¼ˆ°É•ÍÁ½¹Í•}±…ÍÌõ!Q51I•ÍÁ½¹Í”¤)‘•˜¥¹‘•à ¤€´ø!Q51I•ÍÁ½¹Í”è(€€€€Œ¹¼µÍÑ½É”è‰É½İÍ•È­¼¡…È‰……È™É•Í Á…”±•¹”‘¼°İ…É¹„ÁÕÉ…¹„)L…¡”¡¼©…Ñ„¡…¤(€€€É•ÑÕÉ¸!Q51I•ÍÁ½¹Í” (€€€€€€€€¡!I€¼€‰¥¹‘•à¹¡Ñµ°ˆ¤¹É•…‘}Ñ•áĞ¡•¹½‘¥¹œô‰ÕÑ˜´àˆ¤°(€€€€€€€¡•…‘•ÉÌõì‰…¡”µ½¹ÑÉ½°ˆè€‰¹¼µÍÑ½É”°µÕÍĞµÉ•Ù…±¥‘…Ñ”‰ô°(€€€€¤(()…ÁÀ¹Á½ÍĞ ˆ½…Á¤½¡…Ğˆ¤)…Íå¹Œ‘•˜¡…Ğ¡Á…å±½…è¡…Ñ%¸°É•ÅÕ•ÍĞèI•ÅÕ•ÍĞ¤€´ø‘¥Ğè(€€€Ù¥Í¥Ñ½É}¥À€ôÉ•ÅÕ•ÍĞ¹¡•…‘•ÉÌ¹•Ğ ‰àµ™½Éİ…É‘•µ™½Èˆ°É•ÅÕ•ÍĞ¹±¥•¹Ğ¹¡½ÍĞ¥˜É•ÅÕ•ÍĞ¹±¥•¹Ğ•±Í”€‰Õ¹­¹½İ¸ˆ¤(€€€¥˜}É…Ñ•}±¥µ¥Ñ•¡˜‰İ•ˆéíÙ¥Í¥Ñ½É}¥Áôˆ°IQ}1%5%Q}]¤è(€€€€€€€É•ÑÕÉ¸ì‰É•Á±äˆèIQ}1%5%Q}IA1eô(€€€É•ÑÕÉ¸ì‰É•Á±äˆè…•¹Ğ¹É•Á±ä¡Á…å±½…¹µ•ÍÍ…”°¡¥ÍÑ½ÉäõÁ…å±½…¹¡¥ÍÑ½Éä°±…¹Õ…”õÁ…å±½…¹±…¹Õ…”¥ô(()…ÁÀ¹•Ğ ˆ½¡•…±Ñ ˆ¤)‘•˜¡•…±Ñ  ¤€´ø‘¥Ğè(€€€É•ÑÕÉ¸ì(€€€€€€€€‰ÍÑ…ÑÕÌˆè€‰½¬ˆ°(€€€€€€€€‰…¥}µ½‘”ˆè…•¹Ğ¹…¥}•¹…‰±•°(€€€€€€€€‰Ñ½Á¥Ìˆè±•¸¡…•¹Ğ¹Ñ½Á¥Ì¤°(€€€ô(((Œ€´´´´´´´´´´´´´´´´´´´´´´´´´ÁÉ¥Ù…äÁ½±¥ä€´´´´´´´´´´´´´´´´´´------- #
 PRIVACY_HTML = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,12 +60,12 @@ PRIVACY_HTML = """<!DOCTYPE html>
 </style>
 </head>
 <body><div class="card">
-<h1>âš–ï¸ LegalWithDev â€” Privacy Policy</h1>
+<h1>âš›e Ar WithDewâ˜• Privacy Policy</h1>
 <p class="muted">Last updated: 17 September 2026</p>
 
 <h2>1. Kya store hota hai</h2>
-<p>Hamari website par aapki chat history <strong>server par store nahi hoti</strong>. Baat-cheet sirf aapke browser ki memory (RAM) me rehti hai aur page band karne par chali jaati hai.</p>
-<p>Telegram / WhatsApp par, aapke recent messages sirf <strong>conversation context yaad rakhne ke liye</strong> server ki temporary memory (RAM) me rehte hain. Yeh data disk par save nahi hota aur server restart hone par clear ho jata hai.</p>
+<p>Hamari website par aapki chat history <strong>server par store nahi hotai</strong>. Baat-cheet sirf aapke browser ki memory (RAM) me rehti hai aur page band karne par chali jaati hai.</p>
+<p>Telegram / WhatsApp par, aapke recent messages sirf <strong>conversation context yaad rakhne ke liie</strong> server ki temporary memory (RAM) me rehte hain. Yeh data disk par save nahi hota aur server restart hone par clear ho jata hai.</p>
 
 <h2>2. Aapka data kahan jaata hai</h2>
 <p>Jab aap sawal poochte hain, woh message <strong>HTTPS (encrypted) connection</strong> par hamare server tak aata hai, aur AI jawab banane ke liye <strong>Google Gemini API</strong> ko bheja jaata hai.</p>
@@ -143,13 +95,13 @@ def privacy() -> HTMLResponse:
     return HTMLResponse(PRIVACY_HTML, headers={"Cache-Control": "no-store, must-revalidate"})
 
 
-# ------------------- Telegram webhook ---------------------- #
+# ---------------------- Telegram webhook ----------------------- #
 # One service, no extra worker: Telegram sends updates here.
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 
 TELEGRAM_ABOUT = (
     "LegalWithDev - Indian legal information assistant for Bharat.\n\n"
-    "Poochho kuch bhi: consumer rights, tenant/rent issues, divorce & maintenance, "
+    "Poochho kuch bhu: consumer rights, tenant/rent issues, divorce & maintenance, "
     "salary disputes, FIR & police matters, cheque bounce, RTI, property, ragging, "
     "online fraud (UPI scams), aur free legal aid.\n\n"
     "Answers in your native language + Hindi + English.\n\n" + agent.disclaimer
@@ -160,13 +112,15 @@ _TELEGRAM_HISTORY: dict[int, list] = {}
 _TELEGRAM_MAX_TURNS = 6   # messages of context per chat
 _TELEGRAM_MAX_CHATS = 200  # safety cap so memory never grows unbounded
 
+
 def _remember(chat_id: int, user_text: str, bot_reply: str) -> None:
     hist = _TELEGRAM_HISTORY.setdefault(chat_id, [])
     hist.append({"role": "user", "content": user_text})
     hist.append({"role": "assistant", "content": bot_reply[:700]})
     del hist[:-_TELEGRAM_MAX_TURNS]
-    if len(_TELEGRAM_HISTORY) > _TELEGRAM_MAX_CHATS:  # drop oldest chats
+    if len(_TELEGRAM_HISTORY) > _TELEGRAM_MAX_CHATS: # drop oldest chats
         _TELEGRAM_HISTORY.pop(next(iter(_TELEGRAM_HISTORY)))
+
 
 def send_telegram_message(chat_id: int, text: str) -> None:
     """Fire-and-forget reply to the user on Telegram (no extra libraries needed)."""
@@ -181,6 +135,7 @@ def send_telegram_message(chat_id: int, text: str) -> None:
         )
     except Exception:
         pass  # never crash the bot because one reply failed
+
 
 @app.post("/webhook/telegram")
 async def telegram_webhook(request: Request):
@@ -210,6 +165,7 @@ _WHATSAPP_HISTORY: dict[str, list] = {}
 _WHATSAPP_MAX_TURNS = 6    # messages of context per chat
 _WHATSAPP_MAX_CHATS = 200  # safety cap
 
+
 def _wa_remember(sender: str, user_text: str, bot_reply: str) -> None:
     hist = _WHATSAPP_HISTORY.setdefault(sender, [])
     hist.append({"role": "user", "content": user_text})
@@ -217,6 +173,7 @@ def _wa_remember(sender: str, user_text: str, bot_reply: str) -> None:
     del hist[:-_WHATSAPP_MAX_TURNS]
     if len(_WHATSAPP_HISTORY) > _WHATSAPP_MAX_CHATS:
         _WHATSAPP_HISTORY.pop(next(iter(_WHATSAPP_HISTORY)))
+
 
 def verify_whatsapp_webhook(query_params: dict):
     """Meta's webhook verification handshake (GET with hub.challenge)."""
@@ -229,6 +186,7 @@ def verify_whatsapp_webhook(query_params: dict):
         # Never int() it - Meta may send non-numeric challenge strings.
         return PlainTextResponse(content=challenge)
     return PlainTextResponse(status_code=403)
+
 
 def handle_whatsapp_message(payload: dict, agent) -> list[str]:
     """Extract inbound WhatsApp text messages, answer with the agent,
@@ -254,6 +212,7 @@ def handle_whatsapp_message(payload: dict, agent) -> list[str]:
                 replies.append(reply)
                 send_whatsapp_text(sender, reply[:4000])
     return replies
+
 
 def send_whatsapp_text(to_phone: str, body: str) -> dict | None:
     """Send a WhatsApp text message via the Meta Cloud API (no extra library needed).
@@ -283,6 +242,7 @@ def send_whatsapp_text(to_phone: str, body: str) -> dict | None:
             return json.loads(resp.read().decode() or "{}")
     except Exception:
         return None  # never crash the webhook because one reply failed
+
 
 @app.get("/webhook/whatsapp")
 def whatsapp_verify(request: Request):
