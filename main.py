@@ -24,8 +24,8 @@ from blogengine import router as blog_router
 app = FastAPI(title="LegalWithDev - Legal AI Chatbot", version="0.2.0")
 app.include_router(blog_router)
 
-# ------------- CORS (Option B: static frontend Cloudflare Pages se aayega) ------------- #
-# Static site pages.dev pe hogi, /api/chat Render pe - browser cross-origin call karega,
+# ------------- CORS (Option B: static frontend Cloudflare se aayega) ------------- #
+# Static site pages.dev/workers.dev pe hogi, /api/chat Render pe - browser cross-origin call karega,
 # isliye CORS allow karna zaroori hai. Extra origins ALLOWED_ORIGINS env se juda sakte hain.
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 import os as _os  # noqa: E402
@@ -33,6 +33,7 @@ _EXTRA_ORIGINS = [o.strip() for o in _os.environ.get("ALLOWED_ORIGINS", "").spli
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://legalwithdev.pages.dev"] + _EXTRA_ORIGINS,
+    allow_origin_regex=r"https://[a-z0-9-]+\.workers\.dev",  # Cloudflare Workers naya URL format
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
