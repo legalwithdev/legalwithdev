@@ -315,6 +315,11 @@ I18N.en = {
   welcome: `Namaste! 🙏 I am LegalWithDev — your legal information assistant for India.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Important:** Do not share sensitive personal info (name, case number, documents) in chat — ask questions in general terms.\n\nI provide general legal information, not advice — consult a qualified Advocate/Lawyer for your case.`
 };
 
+// ---------------- AUTO label ko Hinglish me (user request) ---------------- //
+// translations.js me "Auto — जैसे लिखो" hai - yahan "Auto — jaise likho" kar dete hain.
+var _autoLang = LANGS.find(l => l.code === 'auto');
+if (_autoLang) _autoLang.label = 'Auto — jaise likho';
+
 // ---------------- menu bar (khaali drawer) ---------------- //
 var siteMenu = document.getElementById('siteMenu');
 var menuScrim = document.getElementById('menuScrim');
