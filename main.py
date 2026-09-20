@@ -94,11 +94,18 @@ def about() -> HTMLResponse:
         headers={"Cache-Control": "no-store, must-revalidate"},
     )
 
+@app.get("/shop", response_class=HTMLResponse)
+def shop() -> HTMLResponse:
+    # affiliate store - legal books, study material aur merchandise (Amazon.in links)
+    return HTMLResponse(
+        (HERE / "shop.html").read_text(encoding="utf-8"),
+        headers={"Cache-Control": "no-store, must-revalidate"},
+    )
+
 class ChatIn(BaseModel):
     message: str
     history: list[dict] = []  # optional conversation memory from the web UI
     language: str = ""  # optional language chosen in the website language selector (e.g. "Tamil")
-
 
 # ------------------------- web chat ------------------------- #
 @app.get("/", response_class=HTMLResponse)
@@ -183,7 +190,6 @@ PRIVACY_HTML = """<!DOCTYPE html>
 @app.get("/privacy", response_class=HTMLResponse)
 def privacy() -> HTMLResponse:
     return HTMLResponse(PRIVACY_HTML, headers={"Cache-Control": "no-store, must-revalidate"})
-
 
 # ------------------- Telegram webhook ---------------------- #
 # One service, no extra worker: Telegram sends updates here.
