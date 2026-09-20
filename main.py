@@ -15,7 +15,7 @@ import urllib.request
 from pathlib import Path
 
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse
 from pydantic import BaseModel
 
 from agent import LegalAgent
@@ -116,14 +116,11 @@ def index() -> HTMLResponse:
         headers={"Cache-Control": "no-store, must-revalidate"},
     )
 
-@app.get("/app", response_class=HTMLResponse)
-def app_chat() -> HTMLResponse:
-    # Installed PWA (app) interface: chat-first UI. Browser users ko website ("/") milti hai;
-    # app users index.html ke redirect se yahan aate hain. noindex: SEO duplicate se bachav.
-    return HTMLResponse(
-        (HERE / "app.html").read_text(encoding="utf-8"),
-        headers={"Cache-Control": "no-store, must-revalidate"},
-    )
+@app.get("/app")
+def app_chat() -> RedirectResponse:
+    # EK INTERFACE HAR JAGAH: app users ko bhi wahi website interface milti hai.
+    # Purane /app links/bookmarks website par land karte hain.
+    return RedirectResponse(url="/", status_code=307)
 
 @app.post("/api/chat")
 async def chat(payload: ChatIn, request: Request) -> dict:
@@ -139,7 +136,6 @@ def health() -> dict:
         "ai_mode": agent.ai_enabled,
         "topics": len(agent.topics),
     }
-
 
 # ------------------------- privacy policy ------------------------- #
 PRIVACY_HTML = """<!DOCTYPE html>

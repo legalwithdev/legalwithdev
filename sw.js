@@ -1,4 +1,4 @@
-/* LegalWithDev service worker - v3
+/* LegalWithDev service worker - v4
    Strategy (safe for a chat app on a free tier):
    - HTML pages + translations.js + blog: NETWORK-FIRST (user always gets fresh
      content when online), cache fallback only when offline.
@@ -7,8 +7,9 @@
      third-party requests, and anything that is not a GET.
    This means: chat always needs the server; offline users get the last cached
    page shell instead of a browser error page.
+   v4: /app bhi network-first - ek interface har jagah (purana cached app UI hata gaya).
 */
-const CACHE = "lwd-static-v3";
+const CACHE = "lwd-static-v4";
 const PRECACHE = [
   "/logo.png",
   "/favicon.png",
@@ -40,7 +41,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
   if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/webhook/")) return;
 
-  const dynamic = url.pathname === "/" || url.pathname === "/translations.js" || url.pathname.startsWith("/blog");
+  const dynamic = url.pathname === "/" || url.pathname === "/app" || url.pathname === "/translations.js" || url.pathname.startsWith("/blog");
   if (dynamic) {
     // network-first: freshness matters more than speed here
     event.respondWith(
@@ -59,8 +60,7 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(req).then(
       (m) =>
-        m ||
-        fetch(req).then((res) => {
+        m || fetch(req).then((res) => {
           const copy = res.clone();
           caches.open(CACHE).then((cache) => cache.put(req, copy));
           return res;
