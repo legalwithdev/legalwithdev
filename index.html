@@ -198,7 +198,7 @@
       <a href="/privacy">Privacy</a>
     </nav>
     <div class="langwrap">
-      <button id="langbtn" class="langbtn">🌐 <span id="curlang">Auto</span></button>
+      <button id="langbtn" class="langbtn">🌐 <span id="curlang">English</span></button>
       <div id="langmenu" class="langmenu"></div>
     </div>
   </header>
@@ -380,7 +380,7 @@ const DEF_PLACEHOLDER = input.placeholder;
 const DEF_CHIPS = Array.from(document.querySelectorAll('#chips .chip')).map(b => b.textContent);
 const DEFAULT_WELCOME = 'Namaste! 🙏 I am LegalWithDev — your legal information assistant for Bharat.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Ek zaroori baat:** Apna sensitive personal info (naam, case number, documents, personal details) chat me share na karein — sawal aam bhasha me poochhiye.\n\nMain general legal information deta hoon, advice nahi — apne case ke liye qualified Advocate/Lawyer se milein.';
 
-let curLang = localStorage.getItem('lwd-lang') || 'auto';
+let curLang = localStorage.getItem('lwd-lang') || 'en'; // DEFAULT: English — user 🌐 button se apni language choose kar sakta hai
 
 function setHtml(id, val) { const el = document.getElementById(id); if (el && val) el.innerHTML = val; }
 
@@ -413,7 +413,7 @@ function applyLanguage(code) {
       b.className = 'chip'; b.textContent = c; chipsBox.appendChild(b);
     });
   }
-  const label = (LANGS.find(l => l.code === curLang) || { label: 'Auto' }).label;
+  const label = (LANGS.find(l => l.code === curLang) || { label: 'English' }).label;
   document.getElementById('curlang').textContent = label;
 }
 
@@ -424,7 +424,9 @@ function addWelcome() {
 
 function buildMenu() {
   const menu = document.getElementById('langmenu');
-  LANGS.forEach(l => {
+  // DEFAULT LANGUAGE ENGLISH — sabse upar English, baaki sab translations.js (LANGS) se
+  const MENU = [{ code: 'en', label: 'English' }].concat(LANGS);
+  MENU.forEach(l => {
     const b = document.createElement('button');
     b.textContent = l.label;
     if (l.code === curLang) b.classList.add('sel');
@@ -432,7 +434,8 @@ function buildMenu() {
       menu.classList.remove('open');
       if (curLang !== l.code) {
         applyLanguage(l.code);
-        add((I18N[l.code] ? '✅ ' + (LANGS.find(x => x.code === l.code).label) : '✅ Auto') + ' — ab main isi bhasha me jawab dunga!', 'bot');
+        const nm = l.code === 'en' ? 'English' : (I18N[l.code] ? (LANGS.find(x => x.code === l.code) || {}).label : 'Auto');
+        add('✅ ' + nm + ' — ab main isi bhasha me jawab dunga!', 'bot');
       }
     };
     menu.appendChild(b);
