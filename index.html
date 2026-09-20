@@ -141,7 +141,14 @@
   .msg strong { color: #fff; }
   .msg .duty { margin-top: 12px; padding: 8px 12px; border-left: 3px solid var(--accent); background: rgba(79,124,255,.07); border-radius: 0 10px 10px 0; font-size: 13px; color: #b9c6e8; }
   .msg .helpline { color: #7ee2b8; font-weight: 600; }
-  .inputbar { background: rgba(16,24,48,.85); backdrop-filter: blur(12px); border-top: 1px solid var(--line); padding: 10px 12px 12px; }
+  .inputbar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+    background: rgba(16,24,48,.92); backdrop-filter: blur(12px); border-top: 1px solid var(--line);
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    transition: transform .25s ease;
+  }
+  .inputbar.hide { transform: translateY(120%); } /* menu/options khulne pe chat bar gayab, band hote hi wapas */
+  body { padding-bottom: 140px; } /* fixed chat bar ke size ka space, taaki content chhipe na */
   .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
   .chip { background: var(--chip-bg); color: var(--brand2); border: 1px solid rgba(109,140,255,.25); border-radius: 999px; font-size: 12.5px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
@@ -311,11 +318,19 @@ I18N.en = {
 // ---------------- menu bar (khaali drawer) ---------------- //
 var siteMenu = document.getElementById('siteMenu');
 var menuScrim = document.getElementById('menuScrim');
+// CHAT BAR LOCK: homepage pe hamesha bottom me fixed. Menu/language menu khule -> auto-hide.
+var chatBar = document.querySelector('.inputbar');
+function updateChatBar() {
+  var overlayOpen = siteMenu.classList.contains('open')
+    || document.getElementById('langmenu').classList.contains('open');
+  if (chatBar) chatBar.classList.toggle('hide', overlayOpen);
+}
 document.getElementById('siteMenuBtn').onclick = function () {
   siteMenu.classList.toggle('open');
   menuScrim.classList.toggle('show', siteMenu.classList.contains('open'));
+  updateChatBar();
 };
-menuScrim.onclick = function () { siteMenu.classList.remove('open'); menuScrim.classList.remove('show'); };
+menuScrim.onclick = function () { siteMenu.classList.remove('open'); menuScrim.classList.remove('show'); updateChatBar(); };
 
 const chat = document.getElementById('chat');
 const form = document.getElementById('f');
@@ -475,8 +490,8 @@ function buildMenu() {
     };
     menu.appendChild(b);
   });
-  document.getElementById('langbtn').onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); };
-  document.addEventListener('click', () => menu.classList.remove('open'));
+  document.getElementById('langbtn').onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); updateChatBar(); };
+  document.addEventListener('click', () => { menu.classList.remove('open'); updateChatBar(); });
 }
 
 buildMenu();
