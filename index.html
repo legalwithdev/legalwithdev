@@ -149,6 +149,10 @@
   }
   .inputbar.hide { transform: translateY(120%); } /* menu/options khulne pe chat bar gayab, band hote hi wapas */
   body { padding-bottom: 140px; } /* fixed chat bar ke size ka space, taaki content chhipe na */
+  /* CHAT MODE: user ne chat start kiya -> sab kuch gayab, screen pe sirf assistant + user ka chat */
+  body.chatting .hero, body.chatting footer.site, body.chatting #ask .section-title, body.chatting #ask .section-sub { display: none; }
+  body.chatting #chat { height: calc(100vh - 205px); }
+  body.chatting #ask { padding-top: 4px; }
   .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
   .chip { background: var(--chip-bg); color: var(--brand2); border: 1px solid rgba(109,140,255,.25); border-radius: 999px; font-size: 12.5px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
@@ -378,6 +382,7 @@ function addTyping() {
 
 async function ask(text) {
   if (!text.trim()) return;
+  document.body.classList.add('chatting'); // CHAT MODE: hero/footer/headings sab gayab, sirf chat
   add(text, 'user');
   input.value = '';
   sendBtn.disabled = true;
