@@ -279,6 +279,35 @@
 
 <script src="/translations.js"></script>
 <script>
+// ---------------- ENGLISH UI (DEFAULT LANGUAGE) ---------------- //
+// translations.js me 'en' entry nahi hai — yahan define karte hain.
+// Default English; user 🌐 button se apni language choose karta hai.
+I18N.en = {
+  ai: 'English',
+  h2: `India's own <span class="grad">Legal AI Assistant</span>`,
+  tagline: `Ask any legal question — in your language. Consumer, rent, family, criminal, student or business law — free, 24/7, no login.`,
+  cta: `⚖️ Ask Legal AI — FREE`,
+  featTitle: `Why LegalWithDev?`,
+  featSub: `One simple idea: the law should speak everyone's language.`,
+  f1t: `3 Languages, One Answer`, f1d: `Every answer in your native language + हिंदी + English. Tamil, Telugu, Bengali — however you write.`,
+  f2t: `Full Conversation Memory`, f2d: `Ask follow-ups — "what should I do next?" — the bot answers with context.`,
+  f3t: `Government Helplines`, f3d: `NALSA 15100, Anti-Ragging 1800-180-5522, Consumer 1915 — from verified government sources.`,
+  f4t: `Privacy-First`, f4d: `Chat history is never stored on our servers. Clear guidance to never share sensitive personal info.`,
+  f5t: `100% Free`, f5d: `No login, no payment. For every citizen — because legal information is a right, not a luxury.`,
+  f6t: `A Duty Reminder`, f6d: `Every answer includes Article 51A — duties along with rights. Be a responsible citizen.`,
+  founderTitle: `With Dev 🤝`,
+  chatTitle: `⚖️ Ask the AI`,
+  chatSub: `General legal information — not advice. Consult a qualified Advocate/Lawyer for your case.`,
+  placeholder: `Ask your legal question…`,
+  chip1: `My landlord won't return my deposit`,
+  chip2: `How do I file a consumer complaint?`,
+  chip3: `Cheque bounce — what can I do?`,
+  chip4: `Company is not paying my salary`,
+  chip5: `UPI fraud — help!`,
+  chip6: `How to file an RTI?`,
+  welcome: `Namaste! 🙏 I am LegalWithDev — your legal information assistant for India.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Important:** Do not share sensitive personal info (name, case number, documents) in chat — ask questions in general terms.\n\nI provide general legal information, not advice — consult a qualified Advocate/Lawyer for your case.`
+};
+
 // ---------------- menu bar (khaali drawer) ---------------- //
 var siteMenu = document.getElementById('siteMenu');
 var menuScrim = document.getElementById('menuScrim');
@@ -380,7 +409,13 @@ const DEF_PLACEHOLDER = input.placeholder;
 const DEF_CHIPS = Array.from(document.querySelectorAll('#chips .chip')).map(b => b.textContent);
 const DEFAULT_WELCOME = 'Namaste! 🙏 I am LegalWithDev — your legal information assistant for Bharat.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Ek zaroori baat:** Apna sensitive personal info (naam, case number, documents, personal details) chat me share na karein — sawal aam bhasha me poochhiye.\n\nMain general legal information deta hoon, advice nahi — apne case ke liye qualified Advocate/Lawyer se milein.';
 
-let curLang = localStorage.getItem('lwd-lang') || 'en'; // DEFAULT: English — user 🌐 button se apni language choose kar sakta hai
+let curLang = localStorage.getItem('lwd-lang') || 'en'; // DEFAULT: English
+// ONE-TIME MIGRATION: 'auto' pehle default tha (bina click ke bhi har visitor ke phone me save ho jata tha).
+// Purane users ek baar English pe aa jayenge; uske baad jo bhi select karenge wahi rahega.
+if (!localStorage.getItem('lwd-migrated-en')) {
+  if (curLang === 'auto') { curLang = 'en'; try { localStorage.setItem('lwd-lang', 'en'); } catch (e) {} }
+  try { localStorage.setItem('lwd-migrated-en', '1'); } catch (e) {}
+}
 
 function setHtml(id, val) { const el = document.getElementById(id); if (el && val) el.innerHTML = val; }
 
