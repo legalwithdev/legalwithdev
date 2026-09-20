@@ -73,7 +73,7 @@
   header.site nav { margin-left: auto; display: flex; gap: 16px; }
   header.site nav a { color: var(--muted); text-decoration: none; font-size: 13.5px; }
   header.site nav a:hover { color: var(--brand2); }
-  .langwrap { position: relative; margin-left: 6px; }
+  .langwrap { position: relative; margin-left: auto; }
   .langbtn { background: var(--chip-bg); color: var(--brand2); border: 1px solid rgba(109,140,255,.25); border-radius: 999px; padding: 7px 13px; font-size: 13.5px; cursor: pointer; font-weight: 600; }
   .langmenu { position: absolute; right: 0; top: calc(100% + 8px); background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.35); min-width: 210px; max-height: 62vh; overflow-y: auto; z-index: 100; display: none; padding: 6px; }
   .langmenu.open { display: block; }
@@ -163,8 +163,12 @@
   @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
   .menubtn { background: var(--chip-bg); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; width: 38px; height: 38px; font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .menubtn:hover { border-color: var(--brand); }
-  #siteMenu { position: fixed; z-index: 300; top: 0; left: 0; bottom: 0; width: 270px; background: rgba(13,19,38,.97); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .25s ease; }
+  #siteMenu { position: fixed; z-index: 300; top: 0; left: 0; bottom: 0; width: 270px; background: rgba(13,19,38,.97); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .25s ease; padding-top: 14px; overflow-y: auto; }
   #siteMenu.open { transform: none; }
+  #siteMenu .mtitle { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; padding: 8px 22px; }
+  #siteMenu a { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-size: 15px; padding: 12px 22px; }
+  #siteMenu a:hover { background: rgba(109,140,255,.1); color: var(--brand2); }
+  #siteMenu .mfoot { padding: 16px 22px; font-size: 11px; color: var(--muted); line-height: 1.6; }
   #menuScrim { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 250; display: none; }
   #menuScrim.show { display: block; }
   footer.site { text-align: center; font-size: 11.5px; color: #5d6884; padding: 18px 16px 30px; line-height: 1.7; }
@@ -197,13 +201,6 @@
       <h1>LegalWithDev</h1>
       <div class="sub"><span class="dot"></span> Online · Answers in your native language + हिंदी + English</div>
     </div>
-    <nav>
-      <a href="#features">Features</a>
-      <a href="/blog">Blog</a>
-      <a href="/shop">Shop 🛍️</a>
-      <a href="#ask">Ask AI</a>
-      <a href="/privacy">Privacy</a>
-    </nav>
     <div class="langwrap">
       <button id="langbtn" class="langbtn">🌐 <span id="curlang">English</span></button>
       <div id="langmenu" class="langmenu"></div>
@@ -221,34 +218,6 @@
         <span>🇬🇧 English</span>
       </div>
       <a class="cta" id="t-cta" href="#ask">⚖️ Ask Legal AI — FREE</a>
-    </section>
-
-    <section id="features">
-      <h2 class="section-title" id="t-feattitle">Kyun LegalWithDev?</h2>
-      <p class="section-sub" id="t-featsub">Ek simple idea: kanoon sabki bhasha me hona chahiye.</p>
-      <div class="grid">
-        <div class="card"><div class="ico">🗣️</div><h3 id="t-f1t">3 Bhasha, Ek Jawab</h3><p id="t-f1d">Har jawab aapki native language + हिंदी + English me. Tamil, Telugu, Bengali — jaise aap likho, waise.</p></div>
-        <div class="card"><div class="ico">🧠</div><h3 id="t-f2t">Poori Conversation Yaad</h3><p id="t-f2d">Follow-up poochho — "uske baad kya karu?" — bot context samajh ke jawab deta hai.</p></div>
-        <div class="card"><div class="ico">🏛️</div><h3 id="t-f3t">Sarkari Helplines</h3><p id="t-f3d">NALSA 15100, Anti-Ragging 1800-180-5522, Consumer 1915 — verified government sources ke saath.</p></div>
-        <div class="card"><div class="ico">🔒</div><h3 id="t-f4t">Privacy-First</h3><p id="t-f4d">Chat history server pe store nahi hoti. Sensitive personal info share na karne ka clear guidance.</p></div>
-        <div class="card"><div class="ico">🆓</div><h3 id="t-f5t">100% Free</h3><p id="t-f5d">Bina login, bina paisa. Har citizen ke liye — kyunki kanooni jaankari adhikar hai, luxury nahi.</p></div>
-        <div class="card"><div class="ico">🇮🇳</div><h3 id="t-f6t">Duty Ka Reminder</h3><p id="t-f6d">Har jawab ke saath Article 51A — rights ke saath duties bhi. Responsible citizen banna.</p></div>
-      </div>
-    </section>
-
-    <section id="founder">
-      <h2 class="section-title" id="t-foundertitle">Dev ke saath 🤝</h2>
-      <div class="founder">
-        <div class="av">👨‍💻</div>
-        <div>
-          <h3>Dev — Founder, LegalWithDev</h3>
-        </div>
-      </div>
-      <div class="channels">
-        <a class="chan" href="#ask"><span class="ci">💬</span><div><b>Website Chat</b><small>Abhi poochho — scroll karo</small></div></a>
-        <a class="chan" href="https://t.me/legalwithdev_bot" target="_blank" rel="noopener"><span class="ci">✈️</span><div><b>Telegram Bot</b><small>@legalwithdev_bot</small></div></a>
-        <a class="chan off" href="#ask"><span class="ci">🟢</span><div><b>WhatsApp</b><small>Setup jald hi complete</small></div></a>
-      </div>
     </section>
 
     <section id="ask">
@@ -280,8 +249,17 @@
     Made with 🇮🇳 for Bharat · LegalWithDev © 2026
   </footer>
 
-<!-- khaali menu bar drawer - click pe khulta hai, abhi andar kuch nahi -->
-<nav id="siteMenu" aria-label="Menu"></nav>
+<!-- menu bar drawer - SAB KUCH yahan hai; homepage pe sirf legal assistant -->
+<nav id="siteMenu" aria-label="Menu">
+  <div class="mtitle">Menu</div>
+  <a href="#ask">💬 Ask AI (Chat)</a>
+  <a href="/about">✨ Kyun LegalWithDev?</a>
+  <a href="/blog">📝 Blog</a>
+  <a href="/shop">🛍️ Shop</a>
+  <a href="https://t.me/legalwithdev_bot" target="_blank" rel="noopener">✈️ Telegram Bot</a>
+  <a href="/privacy">🔒 Privacy Policy</a>
+  <div class="mfoot">Made with 🇮🇳 for Bharat<br />LegalWithDev © 2026<br />100% free · Bina login</div>
+</nav>
 <div id="menuScrim"></div>
 
 <script src="/translations.js"></script>
@@ -320,7 +298,7 @@ I18N.en = {
 var _autoLang = LANGS.find(l => l.code === 'auto');
 if (_autoLang) _autoLang.label = 'Auto — jaise likho';
 
-// ---------------- menu bar (khaali drawer) ---------------- //
+// ---------------- menu bar ---------------- //
 var siteMenu = document.getElementById('siteMenu');
 var menuScrim = document.getElementById('menuScrim');
 // CHAT BAR LOCK: homepage pe hamesha bottom me fixed. Menu/language menu khule -> auto-hide.
@@ -336,6 +314,14 @@ document.getElementById('siteMenuBtn').onclick = function () {
   updateChatBar();
 };
 menuScrim.onclick = function () { siteMenu.classList.remove('open'); menuScrim.classList.remove('show'); updateChatBar(); };
+// drawer ke links pe click -> drawer band (chat pe wapas aa jao)
+Array.from(siteMenu.querySelectorAll('a')).forEach(function (a) {
+  a.addEventListener('click', function () {
+    siteMenu.classList.remove('open');
+    menuScrim.classList.remove('show');
+    updateChatBar();
+  });
+});
 
 const chat = document.getElementById('chat');
 const form = document.getElementById('f');
