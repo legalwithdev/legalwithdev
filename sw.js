@@ -1,4 +1,4 @@
-/* LegalWithDev service worker - v4
+/* LegalWithDev service worker - v5
    Strategy (safe for a chat app on a free tier):
    - HTML pages + translations.js + blog: NETWORK-FIRST (user always gets fresh
      content when online), cache fallback only when offline.
@@ -8,8 +8,9 @@
    This means: chat always needs the server; offline users get the last cached
    page shell instead of a browser error page.
    v4: /app bhi network-first - ek interface har jagah (purana cached app UI hata gaya).
+   v5: Gemini-style naya UI + multiple chats - naya homepage sabko mile.
 */
-const CACHE = "lwd-static-v4";
+const CACHE = "lwd-static-v5";
 const PRECACHE = [
   "/logo.png",
   "/favicon.png",

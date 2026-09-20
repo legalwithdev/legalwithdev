@@ -5,8 +5,8 @@
 <meta name="google-site-verification" content="jV93AThtzf2YsdrRRUE-NLsSKcHNB0nHJ3JVRY_C3mM" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
-<meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
-<meta name="theme-color" content="#f2f3f7" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#131314" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f0f4f9" media="(prefers-color-scheme: light)" />
 <meta name="description" content="LegalWithDev — Bharat ka apna legal AI assistant. Free legal information in your native language + Hindi + English. Website, Telegram aur WhatsApp pe." />
 <link rel="canonical" href="https://legalwithdev.onrender.com/" />
 <meta property="og:type" content="website" />
@@ -45,166 +45,162 @@
 <link rel="icon" type="image/png" href="/favicon.png" />
 <link rel="manifest" href="/manifest.json" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<!-- Emoji graphics: Twemoji (CC-BY 4.0, Twitter) via jsDelivr - sab phones pe same emoji look -->
 <style>
   :root {
-    --bg: #0b1020; --card: #151d33; --line: #232d4a;
-    --ink: #e8edf7; --muted: #8b95ad; --brand: #6d8cff; --brand2: #8aa2ff;
-    --accent: #4f7cff; --user-bg: linear-gradient(135deg, #4356d9, #6d5df6);
-    --ok: #34d399; --chip-bg: rgba(109,140,255,.08);
+    --bg: #131314; --surface: #1e1f20; --surface2: #282a2c; --line: #2f3031;
+    --ink: #e3e3e3; --muted: #a2a7ad; --blue: #4285f4; --purple: #9b72cb;
+    --grad: linear-gradient(90deg, #4285f4, #9b72cb);
+    --ok: #34d399; --user-bg: var(--surface2);
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f0f4f9; --surface: #ffffff; --surface2: #e9eef6; --line: #dadce0; --ink: #1f1f1f; --muted: #5f6368; }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  html, body { height: 100%; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", sans-serif;
-    background: radial-gradient(1200px 600px at 80% -10%, #1a2450 0%, var(--bg) 55%) fixed, var(--bg);
-    color: var(--ink);
+    background: var(--bg); color: var(--ink);
+    display: flex; flex-direction: column; overflow: hidden;
   }
-  header.site {
-    display: flex; align-items: center; gap: 12px; padding: 14px 18px;
-    background: rgba(16,24,48,.85); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50;
+  img.emoji { height: 1.15em; width: 1.15em; vertical-align: -0.22em; margin: 0 1px; } /* twemoji */
+
+  /* HEADER - Gemini style */
+  header.site { display: flex; align-items: center; gap: 8px; padding: 10px 12px 6px; flex-shrink: 0; }
+  .menubtn {
+    background: transparent; border: 0; color: var(--muted); font-size: 19px; cursor: pointer;
+    width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .logo { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
-    object-fit: cover;
-    box-shadow: 0 0 0 2px rgba(109,140,255,.25); }
-  header.site h1 { font-size: 17px; font-weight: 700; }
-  header.site .sub { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 1px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); display: inline-block; }
-  header.site nav { margin-left: auto; display: flex; gap: 16px; }
-  header.site nav a { color: var(--muted); text-decoration: none; font-size: 13.5px; }
-  header.site nav a:hover { color: var(--brand2); }
-  .langwrap { position: relative; margin-left: auto; }
-  .langbtn { background: var(--chip-bg); color: var(--brand2); border: 1px solid rgba(109,140,255,.25); border-radius: 999px; padding: 7px 13px; font-size: 13.5px; cursor: pointer; font-weight: 600; }
-  .langmenu { position: absolute; right: 0; top: calc(100% + 8px); background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.35); min-width: 210px; max-height: 62vh; overflow-y: auto; z-index: 100; display: none; padding: 6px; }
+  .menubtn:active { background: var(--surface2); }
+  .brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .logo { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; object-fit: cover; }
+  header.site h1 { font-size: 16.5px; font-weight: 600; letter-spacing: .2px; white-space: nowrap; }
+  .langwrap { position: relative; }
+  .langbtn {
+    background: transparent; color: var(--muted); border: 0; border-radius: 999px; padding: 8px 12px;
+    font-size: 13px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+  }
+  .langbtn:active { background: var(--surface2); }
+  .langmenu { position: absolute; right: 0; top: calc(100% + 6px); background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 32px rgba(0,0,0,.4); min-width: 215px; max-height: 60vh; overflow-y: auto; z-index: 200; display: none; padding: 6px; }
   .langmenu.open { display: block; }
   .langmenu button { display: block; width: 100%; text-align: left; background: transparent; border: 0; color: var(--ink); padding: 10px 14px; border-radius: 10px; font-size: 14.5px; cursor: pointer; }
-  .langmenu button:hover { background: rgba(109,140,255,.12); }
-  .langmenu button.sel { color: var(--brand2); font-weight: 700; }
+  .langmenu button:hover { background: var(--surface2); }
+  .langmenu button.sel { color: var(--blue); font-weight: 700; }
 
-  @media (max-width: 680px) {
-    header.site { flex-wrap: wrap; padding: 10px 14px; row-gap: 8px; column-gap: 10px; }
-    header.site nav { margin-left: 0; gap: 13px; flex-wrap: wrap; }
-    header.site nav a { font-size: 12.5px; }
-    .langwrap { margin-left: auto; }
-    .langbtn { padding: 6px 11px; font-size: 12.5px; }
+  /* MAIN: home + chat */
+  main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-height: 0; }
+  #home { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 16px 150px; text-align: center; }
+  @media (max-height: 660px) { #home { justify-content: flex-start; } }
+  #home .hello { font-size: 15px; color: var(--muted); font-weight: 500; }
+  #home h2 {
+    font-size: 32px; font-weight: 500; line-height: 1.28; margin: 6px 0 10px; letter-spacing: -.5px;
+    background: linear-gradient(90deg, #4285f4, #9b72cb 60%, #d96570);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    max-width: 560px; padding: 0 6px;
   }
+  #home .tagline { font-size: 13.5px; color: var(--muted); max-width: 430px; line-height: 1.6; }
+  .cards { display: flex; gap: 10px; margin-top: 26px; width: 100%; max-width: 660px; overflow-x: auto; padding: 4px 2px; scrollbar-width: none; }
+  .cards::-webkit-scrollbar { display: none; }
+  .card {
+    background: var(--surface); border-radius: 16px; padding: 14px 16px; min-width: 152px; max-width: 195px;
+    text-align: left; cursor: pointer; border: 1px solid transparent; flex-shrink: 0;
+    display: flex; flex-direction: column; gap: 8px; justify-content: flex-start;
+  }
+  .card:active { background: var(--surface2); }
+  .card .ico { font-size: 20px; line-height: 1; }
+  .card b { font-size: 12.5px; font-weight: 600; line-height: 1.45; color: var(--ink); }
+  footer.site { margin-top: 34px; font-size: 11px; color: var(--muted); line-height: 1.8; max-width: 480px; }
+  footer.site a { color: var(--muted); text-decoration: underline; }
 
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
-
-  /* HERO */
-  .hero { padding: 54px 0 30px; text-align: center; }
-  .hero .flag { font-size: 34px; }
-  .hero h2 { font-size: 30px; line-height: 1.25; margin: 12px 0 10px; font-weight: 800; letter-spacing: -.3px; }
-  .hero h2 .grad { background: linear-gradient(90deg, #6d8cff, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .hero p.tagline { font-size: 16px; color: var(--muted); max-width: 560px; margin: 0 auto 24px; line-height: 1.6; }
-  .hero .langs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 26px; }
-  .hero .langs span { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 14px; font-size: 13px; color: var(--brand2); }
-  .cta { display: inline-block; background: var(--user-bg); color: #fff; text-decoration: none; font-weight: 700;
-    padding: 14px 30px; border-radius: 14px; font-size: 16px; box-shadow: 0 8px 24px rgba(67,86,217,.4); }
-
-  /* FEATURES */
-  .section-title { text-align: center; font-size: 22px; font-weight: 800; margin: 44px 0 6px; }
-  .section-sub { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 22px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
-  .card .ico { font-size: 26px; margin-bottom: 10px; }
-  .card h3 { font-size: 15.5px; margin-bottom: 6px; }
-  .card p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
-
-  /* FOUNDER + CHANNELS */
-  .duo { display: grid; grid-template-columns: 1fr; gap: 14px; }
-  .founder { display: flex; gap: 16px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
-  .founder .av { width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0;
-    background: linear-gradient(135deg, #2b3a6e, #6d5df6); display: flex; align-items: center; justify-content: center; font-size: 30px; }
-  .founder h3 { font-size: 16px; }
-  .founder p { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-top: 4px; }
-  .channels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
-  .chan { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; text-decoration: none; color: var(--ink); display: flex; gap: 12px; align-items: center; }
-  .chan .ci { font-size: 24px; }
-  .chan b { font-size: 14.5px; display: block; }
-  .chan small { color: var(--muted); font-size: 12px; }
-  .chan.off { opacity: .55; }
-
-  /* CHAT */
-  #ask { padding: 10px 0 30px; }
-  #chat { height: 62vh; overflow-y: auto; padding: 18px 6px; display: flex; flex-direction: column; gap: 14px; }
-  .row { display: flex; gap: 10px; align-items: flex-end; }
+  /* CHAT MODE: user ne chat start ki -> home gayab, sirf chat */
+  body.chatting #home { display: none; }
+  #chatwrap { display: none; flex: 1; flex-direction: column; min-height: 0; }
+  body.chatting #chatwrap { display: flex; }
+  #chat { flex: 1; overflow-y: auto; padding: 14px 12px 150px; display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; gap: 10px; align-items: flex-start; max-width: 740px; width: 100%; margin: 0 auto; }
   .row.user { justify-content: flex-end; }
-  .mini-avatar { width: 30px; height: 30px; border-radius: 50%; font-size: 15px; flex-shrink: 0;
-    background: linear-gradient(135deg, #2b3a6e, #4f7cff); display: flex; align-items: center; justify-content: center; }
-  .msg { max-width: 86%; padding: 13px 16px; border-radius: 18px; line-height: 1.65; font-size: 14.5px; word-wrap: break-word; animation: pop .18s ease; }
-  @keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  .bot .msg { background: var(--card); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
-  .user .msg { background: var(--user-bg); border-bottom-right-radius: 6px; color: #fff; }
-  .msg .sec { font-size: 13px; font-weight: 700; color: var(--brand2); text-transform: uppercase; letter-spacing: .8px;
-    margin: 14px 0 6px; padding-bottom: 4px; border-bottom: 1px dashed var(--line); }
-  .msg strong { color: #fff; }
-  .msg .duty { margin-top: 12px; padding: 8px 12px; border-left: 3px solid var(--accent); background: rgba(79,124,255,.07); border-radius: 0 10px 10px 0; font-size: 13px; color: #b9c6e8; }
+  .row.user .msg { background: var(--surface2); }
+  .mini-avatar { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; object-fit: cover; }
+  .msg { border-radius: 20px; padding: 13px 17px; line-height: 1.65; font-size: 14.5px; word-wrap: break-word; max-width: 86%; }
+  .msg .sec { font-size: 13px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .8px; margin: 14px 0 6px; padding-bottom: 4px; border-bottom: 1px dashed var(--line); }
+  .msg strong { color: var(--blue); }
+  .msg .duty { margin-top: 12px; padding: 8px 12px; border-left: 3px solid var(--blue); background: rgba(66,133,244,.07); border-radius: 0 10px 10px 0; font-size: 13px; color: var(--muted); }
   .msg .helpline { color: #7ee2b8; font-weight: 600; }
-  .inputbar {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
-    background: rgba(16,24,48,.92); backdrop-filter: blur(12px); border-top: 1px solid var(--line);
-    padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-    transition: transform .25s ease;
-  }
-  .inputbar.hide { transform: translateY(120%); } /* menu/options khulne pe chat bar gayab, band hote hi wapas */
-  body { padding-bottom: 140px; } /* fixed chat bar ke size ka space, taaki content chhipe na */
-  /* CHAT MODE: user ne chat start kiya -> sab kuch gayab, screen pe sirf assistant + user ka chat */
-  body.chatting .hero, body.chatting footer.site, body.chatting #ask .section-title, body.chatting #ask .section-sub { display: none; }
-  body.chatting #chat { height: calc(100vh - 205px); }
-  body.chatting #ask { padding-top: 4px; }
-  .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
-  .chips::-webkit-scrollbar { display: none; }
-  .chip { background: var(--chip-bg); color: var(--brand2); border: 1px solid rgba(109,140,255,.25); border-radius: 999px; font-size: 12.5px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
-  form { display: flex; gap: 10px; max-width: 840px; margin: 0 auto; }
-  .inputwrap { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 14px; display: flex; align-items: center; padding: 2px 4px 2px 14px; }
-  input { flex: 1; border: 0; background: transparent; color: var(--ink); font-size: 15px; outline: none; padding: 11px 0; }
-  input::placeholder { color: #5d6884; }
-  #send { background: var(--user-bg); border: 0; border-radius: 11px; padding: 10px 18px; font-size: 14.5px; color: #fff; cursor: pointer; font-weight: 600; }
-  .typing { display: inline-flex; gap: 5px; padding: 8px 2px; }
-  .typing span { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; animation: blink 1.2s infinite; }
+  .typing { display: inline-flex; gap: 5px; padding: 6px 2px; }
+  .typing span { width: 7px; height: 7px; background: var(--muted); border-radius: 50%; animation: blink 1.2s infinite; }
   .typing span:nth-child(2) { animation-delay: .2s; } .typing span:nth-child(3) { animation-delay: .4s; }
   @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
-  .menubtn { background: var(--chip-bg); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; width: 38px; height: 38px; font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .menubtn:hover { border-color: var(--brand); }
-  #siteMenu { position: fixed; z-index: 300; top: 0; left: 0; bottom: 0; width: 270px; background: rgba(13,19,38,.97); border-right: 1px solid var(--line); transform: translateX(-100%); transition: transform .25s ease; padding-top: 14px; overflow-y: auto; }
-  #siteMenu.open { transform: none; }
-  #siteMenu .mtitle { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; padding: 8px 22px; }
-  #siteMenu a { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-size: 15px; padding: 12px 22px; }
-  #siteMenu a:hover { background: rgba(109,140,255,.1); color: var(--brand2); }
-  #siteMenu .mfoot { padding: 16px 22px; font-size: 11px; color: var(--muted); line-height: 1.6; }
-  #siteMenu .mdisc { padding: 14px 22px; font-size: 11.5px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--line); margin-top: 12px; }
-  #menuScrim { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 250; display: none; }
-  #menuScrim.show { display: block; }
-  footer.site { text-align: center; font-size: 11.5px; color: #5d6884; padding: 18px 16px 30px; line-height: 1.7; }
-  footer.site a { color: var(--brand2); text-decoration: none; }
 
-  /* APPLE-STYLE LIGHT MODE */
-  @media (prefers-color-scheme: light) {
-    :root { --bg: #f2f3f7; --card: #ffffff; --line: #dfe3ee; --ink: #1c1c1e; --muted: #6e7480; --brand: #4a6cf7; --brand2: #3b5bdb; --chip-bg: #eef1fb; }
-    body { background: radial-gradient(1100px 500px at 85% -10%, #dfe6ff 0%, var(--bg) 55%) fixed, var(--bg); }
-    header.site, .inputbar { background: rgba(255,255,255,.8); }
-    .bot .msg { background: #ffffff; box-shadow: 0 2px 10px rgba(28,28,30,.06); }
-    .user .msg { background: linear-gradient(135deg, #2f6bff, #7b5cff); box-shadow: 0 6px 16px rgba(47,107,255,.28); }
-    .msg strong { color: #000; }
-    .msg .duty { color: #42538c; }
-    .msg .helpline { color: #0a8a54; }
-    .mini-avatar, .founder .av { background: linear-gradient(135deg, #4a6cf7, #7b5cff); }
-    .chip { border-color: #d4dcf6; }
-    input::placeholder { color: #9aa0ad; }
-    .hero h2 .grad { background: linear-gradient(90deg, #3b5bdb, #7b5cff); -webkit-background-clip: text; background-clip: text; }
-    #siteMenu { background: rgba(233,236,246,.97); }
-    footer.site { color: #8a90a0; }
+  /* GEMINI-STYLE INPUT PILL */
+  .dock {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+    padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg);
   }
+  .pill {
+    max-width: 740px; margin: 0 auto; background: var(--surface); border-radius: 28px;
+    display: flex; align-items: center; padding: 6px 6px 6px 8px; gap: 4px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.18);
+  }
+  .pill button.icon {
+    background: transparent; border: 0; color: var(--muted); font-size: 19px; cursor: pointer;
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .pill button.icon:active { background: var(--surface2); }
+  .pill input { flex: 1; border: 0; background: transparent; color: var(--ink); font-size: 15.5px; outline: none; padding: 10px 4px; min-width: 0; }
+  .pill input::placeholder { color: var(--muted); }
+  .send {
+    width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer; flex-shrink: 0;
+    background: var(--grad); color: #fff; display: flex; align-items: center; justify-content: center;
+    opacity: .4; pointer-events: none; transition: opacity .15s;
+  }
+  .send.on { opacity: 1; pointer-events: auto; }
+  .dock .hint { text-align: center; font-size: 10.5px; color: var(--muted); padding: 7px 10px 2px; line-height: 1.5; }
+
+  /* TOAST */
+  #toast {
+    position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--surface2); color: var(--ink); font-size: 13px; padding: 10px 18px;
+    border-radius: 999px; z-index: 400; opacity: 0; pointer-events: none; transition: all .25s;
+    max-width: 86%; text-align: center;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* MENU DRAWER + MULTIPLE CHATS */
+  #menuScrim { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 250; display: none; }
+  #menuScrim.show { display: block; }
+  #siteMenu {
+    position: fixed; z-index: 300; top: 0; left: 0; bottom: 0; width: 275px;
+    background: var(--surface); border-radius: 0 20px 20px 0; transform: translateX(-105%);
+    transition: transform .25s ease; padding: 12px 0 20px; overflow-y: auto;
+  }
+  #siteMenu.open { transform: none; }
+  #siteMenu .newchat {
+    display: flex; align-items: center; gap: 10px; margin: 8px 14px 4px; background: var(--surface2);
+    border: 0; border-radius: 24px; padding: 12px 16px; color: var(--ink); font-size: 14px; font-weight: 600;
+    cursor: pointer; width: calc(100% - 28px);
+  }
+  #siteMenu .newchat:active { filter: brightness(1.25); }
+  #siteMenu .mtitle { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; padding: 12px 22px 6px; }
+  #siteMenu .chats { max-height: 210px; overflow-y: auto; }
+  #siteMenu .chats .empty { padding: 4px 22px 8px; font-size: 11.5px; color: var(--muted); }
+  #siteMenu .citem { display: flex; align-items: center; gap: 10px; padding: 9px 14px 9px 22px; font-size: 13px; color: var(--ink); cursor: pointer; border: 0; background: transparent; width: 100%; text-align: left; }
+  #siteMenu .citem.on { background: var(--surface2); }
+  #siteMenu .citem span.t { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #siteMenu .citem .del { color: var(--muted); background: none; border: 0; font-size: 13px; cursor: pointer; padding: 4px 8px; border-radius: 50%; flex-shrink: 0; font-family: sans-serif; }
+  #siteMenu a { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-size: 14.5px; padding: 12px 22px; }
+  #siteMenu a:active { background: var(--surface2); }
+  #siteMenu .mdisc { padding: 14px 22px; font-size: 11.5px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--line); margin-top: 12px; }
+  #siteMenu .mfoot { padding: 12px 22px 4px; font-size: 10.5px; color: var(--muted); line-height: 1.7; }
 </style>
 </head>
 <body>
   <header class="site">
     <button id="siteMenuBtn" class="menubtn" aria-label="Menu">☰</button>
-    <img class="logo" src="/logo.png" alt="LegalWithDev logo" />
-    <div>
+    <div class="brand">
+      <img class="logo" src="/logo.png" alt="LegalWithDev logo" />
       <h1>LegalWithDev</h1>
-      <div class="sub"><span class="dot"></span> Online · Answers in your native language + हिंदी + English</div>
     </div>
     <div class="langwrap">
       <button id="langbtn" class="langbtn">🌐 <span id="curlang">English</span></button>
@@ -212,126 +208,168 @@
     </div>
   </header>
 
-  <div class="wrap">
-    <section class="hero">
-      <div class="flag">🇮🇳</div>
-      <h2 id="t-h2">Bharat ka apna <span class="grad">Legal AI Assistant</span></h2>
-      <p class="tagline" id="t-tagline">Kanooni sawaal poochho — apni bhasha me. Consumer, rent, family, criminal, student ya business law — free, 24/7, bina login.</p>
-      <div class="langs">
-        <span>🇮🇳 Your language</span>
-        <span>🪷 हिंदी</span>
-        <span>🇬🇧 English</span>
-      </div>
-      <a class="cta" id="t-cta" href="#ask">⚖️ Ask Legal AI — FREE</a>
+  <main>
+    <!-- HOME: Gemini-jaisa greeting (chat start hone pe gayab ho jata hai) -->
+    <section id="home">
+      <div class="hello">Namaste 🙏</div>
+      <h2 id="t-h2">India's own <span class="grad">Legal AI Assistant</span></h2>
+      <p class="tagline" id="t-tagline">Free legal information in your language — consumer, rent, family, criminal, student or business law. 24/7, no login.</p>
+      <div class="cards" id="cards"></div>
+      <footer class="site">
+        Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100 · <a href="/privacy">Privacy Policy</a> · <a href="/shop">Shop</a> · <a href="/about">About</a><br />
+        Made with 🇮🇳 for India · LegalWithDev © 2026 · 100% free, no login<br />
+        Emoji graphics: Twemoji (CC-BY 4.0)
+      </footer>
     </section>
 
-    <section id="ask">
-      <h2 class="section-title" id="t-chattitle">⚖️ AI se poochho</h2>
-      <p class="section-sub" id="t-chatsub">General legal information — advice nahi. Qualified Advocate/Lawyer se milein apne case ke liye.</p>
+    <!-- CHAT: chat start hone pe yahi screen bhar jata hai -->
+    <section id="chatwrap">
       <div id="chat"></div>
     </section>
-  </div>
+  </main>
 
-  <div class="inputbar">
-    <div class="chips" id="chips">
-      <button class="chip">My landlord won't return my deposit</button>
-      <button class="chip">How do I file a consumer complaint?</button>
-      <button class="chip">Cheque bounce — what can I do?</button>
-      <button class="chip">Company is not paying my salary</button>
-      <button class="chip">UPI fraud — help!</button>
-      <button class="chip">How to file an RTI?</button>
+  <!-- GEMINI-STYLE INPUT PILL -->
+  <div class="dock">
+    <div class="pill">
+      <button class="icon" id="plusBtn" title="Attach" aria-label="Attach">＋</button>
+      <input id="q" placeholder="Ask anything…" autocomplete="off" />
+      <button class="icon" id="micBtn" title="Voice input" aria-label="Voice input">🎤</button>
+      <button class="send" id="send" title="Send" aria-label="Send">➤</button>
     </div>
-    <form id="f">
-      <div class="inputwrap"><input id="q" placeholder="Apna legal sawal poochhiye…" autocomplete="off" /></div>
-      <button id="send">Send ➤</button>
-    </form>
+    <div class="hint">AI legal information — not advice. Consult a qualified Advocate for your case. Do not share sensitive personal info in chat.</div>
   </div>
 
-  <footer class="site">
-    Free legal aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100 · <a href="/privacy">Privacy Policy</a> · <a href="/shop">Shop 🛍️</a><br />
-    Made with 🇮🇳 for Bharat · LegalWithDev © 2026
-  </footer>
+  <div id="toast" aria-live="polite"></div>
 
-<!-- menu bar drawer - SAB KUCH yahan hai; homepage pe sirf legal assistant -->
-<nav id="siteMenu" aria-label="Menu">
-  <div class="mtitle">Menu</div>
-  <a href="#ask">💬 Ask AI (Chat)</a>
-  <a href="/about">✨ Kyun LegalWithDev?</a>
-  <a href="/blog">📝 Blog</a>
-  <a href="/shop">🛍️ Shop</a>
-  <a href="https://t.me/legalwithdev_bot" target="_blank" rel="noopener">✈️ Telegram Bot</a>
-  <a href="/privacy">🔒 Privacy Policy</a>
-  <div class="mdisc">🔒 Chat me apna sensitive/personal info (naam, case number, documents) share na karein.<br />⚠️ LegalWithDev ek AI legal-information assistant hai — advocate nahi. General information only; qualified Advocate/Lawyer se salah lein.</div>
-  <div class="mfoot">Made with 🇮🇳 for Bharat<br />LegalWithDev © 2026<br />100% free · Bina login</div>
-</nav>
-<div id="menuScrim"></div>
+  <!-- MENU DRAWER: New chat + Recent chats + sab links -->
+  <nav id="siteMenu" aria-label="Menu">
+    <button class="newchat" id="newChatBtn">＋ New chat</button>
+    <div class="mtitle">Recent chats</div>
+    <div class="chats" id="chatList"></div>
+    <div class="mtitle">More</div>
+    <a href="/about">✨ Why LegalWithDev?</a>
+    <a href="/blog">📝 Blog</a>
+    <a href="/shop">🛍️ Shop</a>
+    <a href="https://t.me/legalwithdev_bot" target="_blank" rel="noopener">✈️ Telegram Bot</a>
+    <a href="/privacy">🔒 Privacy Policy</a>
+    <div class="mdisc">🔒 Do not share sensitive/personal info (name, case number, documents) in chat.<br />⚠️ LegalWithDev is an AI legal-information assistant — not an advocate. General information only; consult a qualified Advocate/Lawyer.</div>
+    <div class="mfoot">Chats are saved only on this device (not on our servers).<br />Made with 🇮🇳 for India · LegalWithDev © 2026</div>
+  </nav>
+  <div id="menuScrim"></div>
 
 <script src="/translations.js"></script>
 <script>
 // ---------------- ENGLISH UI (DEFAULT LANGUAGE) ---------------- //
 // translations.js me 'en' entry nahi hai — yahan define karte hain.
-// Default English; user 🌐 button se apni language choose karta hai.
 I18N.en = {
   ai: 'English',
   h2: `India's own <span class="grad">Legal AI Assistant</span>`,
-  tagline: `Ask any legal question — in your language. Consumer, rent, family, criminal, student or business law — free, 24/7, no login.`,
-  cta: `⚖️ Ask Legal AI — FREE`,
-  featTitle: `Why LegalWithDev?`,
-  featSub: `One simple idea: the law should speak everyone's language.`,
-  f1t: `3 Languages, One Answer`, f1d: `Every answer in your native language + हिंदी + English. Tamil, Telugu, Bengali — however you write.`,
-  f2t: `Full Conversation Memory`, f2d: `Ask follow-ups — "what should I do next?" — the bot answers with context.`,
-  f3t: `Government Helplines`, f3d: `NALSA 15100, Anti-Ragging 1800-180-5522, Consumer 1915 — from verified government sources.`,
-  f4t: `Privacy-First`, f4d: `Chat history is never stored on our servers. Clear guidance to never share sensitive personal info.`,
-  f5t: `100% Free`, f5d: `No login, no payment. For every citizen — because legal information is a right, not a luxury.`,
-  f6t: `A Duty Reminder`, f6d: `Every answer includes Article 51A — duties along with rights. Be a responsible citizen.`,
-  founderTitle: `With Dev 🤝`,
-  chatTitle: `⚖️ Ask the AI`,
-  chatSub: `General legal information — not advice. Consult a qualified Advocate/Lawyer for your case.`,
-  placeholder: `Ask your legal question…`,
+  tagline: `Free legal information in your language — consumer, rent, family, criminal, student or business law. 24/7, no login.`,
+  placeholder: `Ask anything…`,
   chip1: `My landlord won't return my deposit`,
   chip2: `How do I file a consumer complaint?`,
   chip3: `Cheque bounce — what can I do?`,
   chip4: `Company is not paying my salary`,
   chip5: `UPI fraud — help!`,
-  chip6: `How to file an RTI?`,
-  welcome: `Namaste! 🙏 I am LegalWithDev — your legal information assistant for India.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Important:** Do not share sensitive personal info (name, case number, documents) in chat — ask questions in general terms.\n\nI provide general legal information, not advice — consult a qualified Advocate/Lawyer for your case.`
+  chip6: `How to file an RTI?`
 };
 
-// ---------------- AUTO label ko Hinglish me (user request) ---------------- //
-// translations.js me "Auto — जैसे लिखो" hai - yahan "Auto — jaise likho" kar dete hain.
+// ---------------- AUTO label Hinglish (user request) ---------------- //
 var _autoLang = LANGS.find(l => l.code === 'auto');
 if (_autoLang) _autoLang.label = 'Auto — jaise likho';
 
-// ---------------- menu bar ---------------- //
+// ---------------- TWEMOJI: sab phones pe same emoji look ---------------- //
+var TW_BASE = 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/';
+function emj(root) {
+  if (!window.twemoji) return;
+  try { twemoji.parse(root || document.body, { base: TW_BASE, folder: 'svg', ext: '.svg' }); } catch (e) {}
+}
+(function () {
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js';
+  s.onload = function () { emj(); };
+  s.onerror = function () { /* native emojis fallback — koi problem nahi */ };
+  document.head.appendChild(s);
+})();
+
+// ---------------- menu drawer ---------------- //
 var siteMenu = document.getElementById('siteMenu');
 var menuScrim = document.getElementById('menuScrim');
-// CHAT BAR LOCK: homepage pe hamesha bottom me fixed. Menu/language menu khule -> auto-hide.
-var chatBar = document.querySelector('.inputbar');
-function updateChatBar() {
-  var overlayOpen = siteMenu.classList.contains('open')
-    || document.getElementById('langmenu').classList.contains('open');
-  if (chatBar) chatBar.classList.toggle('hide', overlayOpen);
-}
 document.getElementById('siteMenuBtn').onclick = function () {
   siteMenu.classList.toggle('open');
   menuScrim.classList.toggle('show', siteMenu.classList.contains('open'));
-  updateChatBar();
 };
-menuScrim.onclick = function () { siteMenu.classList.remove('open'); menuScrim.classList.remove('show'); updateChatBar(); };
-// drawer ke links pe click -> drawer band (chat pe wapas aa jao)
+menuScrim.onclick = function () { siteMenu.classList.remove('open'); menuScrim.classList.remove('show'); };
 Array.from(siteMenu.querySelectorAll('a')).forEach(function (a) {
-  a.addEventListener('click', function () {
-    siteMenu.classList.remove('open');
-    menuScrim.classList.remove('show');
-    updateChatBar();
-  });
+  a.addEventListener('click', function () { siteMenu.classList.remove('open'); menuScrim.classList.remove('show'); });
 });
 
-const chat = document.getElementById('chat');
-const form = document.getElementById('f');
-const input = document.getElementById('q');
-const sendBtn = document.getElementById('send');
-const chatHistory = [];
+// ---------------- TOAST (chhota popup message) ---------------- //
+var toastTimer = null;
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2400);
+}
+
+// ---------------- MULTIPLE CHATS (sirf is device pe save - server pe nahi) ---------------- //
+var CHATS_KEY = 'lwd-chats';
+var chats = [];
+try { chats = JSON.parse(localStorage.getItem(CHATS_KEY) || '[]'); } catch (e) { chats = []; }
+var activeId = null;
+function saveChats() {
+  try {
+    if (chats.length > 30) chats = chats.slice(0, 30); // limit
+    chats.forEach(function (c) { if (c.msgs.length > 100) c.msgs = c.msgs.slice(-100); });
+    localStorage.setItem(CHATS_KEY, JSON.stringify(chats));
+  } catch (e) {}
+}
+function renderChatList() {
+  var list = document.getElementById('chatList');
+  list.innerHTML = '';
+  if (!chats.length) { list.innerHTML = '<div class="empty">No chats yet — your chats will appear here</div>'; return; }
+  chats.forEach(function (c) {
+    var b = document.createElement('button');
+    b.className = 'citem' + (c.id === activeId ? ' on' : '');
+    var ic = document.createElement('span'); ic.textContent = '💬';
+    var t = document.createElement('span'); t.className = 't'; t.textContent = c.title;
+    var d = document.createElement('span'); d.className = 'del'; d.textContent = '✕'; d.title = 'Delete chat';
+    d.onclick = function (ev) {
+      ev.stopPropagation();
+      chats = chats.filter(function (x) { return x.id !== c.id; });
+      if (activeId === c.id) { activeId = null; goHome(); }
+      saveChats(); renderChatList();
+    };
+    b.appendChild(ic); b.appendChild(t); b.appendChild(d);
+    b.onclick = function () { openChat(c.id); };
+    list.appendChild(b);
+  });
+  emj(list);
+}
+function goHome() {
+  document.body.classList.remove('chatting');
+  document.getElementById('chat').innerHTML = '';
+  siteMenu.classList.remove('open'); menuScrim.classList.remove('show');
+}
+function openChat(id) {
+  var c = chats.find(function (x) { return x.id === id; });
+  if (!c) return;
+  activeId = id;
+  var chatEl = document.getElementById('chat');
+  chatEl.innerHTML = '';
+  document.body.classList.add('chatting');
+  c.msgs.forEach(function (m) { add(m.t, m.w); });
+  siteMenu.classList.remove('open'); menuScrim.classList.remove('show');
+  renderChatList();
+}
+document.getElementById('newChatBtn').onclick = function () { activeId = null; goHome(); renderChatList(); };
+
+// ---------------- CHAT ---------------- //
+var chat = document.getElementById('chat');
+var input = document.getElementById('q');
+var sendBtn = document.getElementById('send');
 
 function esc(s) {
   return s.split('&').join('&' + 'amp;').split('<').join('&' + 'lt;').split('>').join('&' + 'gt;');
@@ -353,8 +391,8 @@ function add(text, who) {
   const row = document.createElement('div');
   row.className = 'row ' + who;
   if (who === 'bot') {
-    const av = document.createElement('div');
-    av.className = 'mini-avatar'; av.textContent = '⚖️';
+    const av = document.createElement('img');
+    av.className = 'mini-avatar'; av.src = '/logo.png'; av.alt = 'LegalWithDev';
     row.appendChild(av);
   }
   const div = document.createElement('div');
@@ -362,14 +400,15 @@ function add(text, who) {
   div.innerHTML = who === 'bot' ? fmt(text) : esc(text);
   row.appendChild(div);
   chat.appendChild(row);
+  emj(row);
   chat.scrollTop = chat.scrollHeight;
-  return div;
+  return row;
 }
 function addTyping() {
   const row = document.createElement('div');
   row.className = 'row bot';
-  const av = document.createElement('div');
-  av.className = 'mini-avatar'; av.textContent = '⚖️';
+  const av = document.createElement('img');
+  av.className = 'mini-avatar'; av.src = '/logo.png'; av.alt = 'LegalWithDev';
   row.appendChild(av);
   const div = document.createElement('div');
   div.className = 'msg';
@@ -381,54 +420,107 @@ function addTyping() {
 }
 
 async function ask(text) {
-  if (!text.trim()) return;
-  document.body.classList.add('chatting'); // CHAT MODE: hero/footer/headings sab gayab, sirf chat
+  if (!text || !text.trim()) return;
+  document.body.classList.add('chatting'); // CHAT MODE: home gayab, sirf chat
+  if (!activeId) {
+    var v = text.trim();
+    var c = { id: Date.now(), title: v.length > 34 ? v.slice(0, 34) + '…' : v, msgs: [] };
+    chats.unshift(c); activeId = c.id;
+  }
+  var cur = chats.find(function (x) { return x.id === activeId; });
+  cur.msgs.push({ t: text, w: 'user' });
   add(text, 'user');
   input.value = '';
-  sendBtn.disabled = true;
+  sendBtn.classList.remove('on');
+  renderChatList();
   const t = addTyping();
   try {
+    const history = cur.msgs.slice(-8, -1).map(function (m) {
+      return { role: m.w === 'user' ? 'user' : 'assistant', content: m.t };
+    });
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, history: chatHistory.slice(-6), language: curLang !== 'auto' ? (I18N[curLang] ? I18N[curLang].ai : '') : '' })
+      body: JSON.stringify({ message: text, history: history, language: curLang !== 'auto' ? (I18N[curLang] ? I18N[curLang].ai : '') : '' })
     });
     const data = await res.json();
     t.remove();
     const reply = data.reply || 'Sorry, something went wrong.';
     add(reply, 'bot');
-    chatHistory.push({ role: 'user', content: text });
-    chatHistory.push({ role: 'assistant', content: reply });
+    cur.msgs.push({ t: reply, w: 'bot' });
   } catch (e) {
     t.remove();
-    add('Connection error — is the server running?', 'bot');
+    const errmsg = 'Connection error — is the server running? Please try again.';
+    add(errmsg, 'bot');
+    cur.msgs.push({ t: errmsg, w: 'bot' });
   }
-  sendBtn.disabled = false;
+  saveChats();
   input.focus();
 }
 
-form.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
-document.getElementById('chips').addEventListener('click', e => {
-  if (e.target.classList.contains('chip')) ask(e.target.textContent);
+input.addEventListener('input', function () {
+  sendBtn.classList.toggle('on', input.value.trim().length > 0);
+});
+sendBtn.onclick = function () { ask(input.value); };
+input.addEventListener('keydown', function (e) { if (e.key === 'Enter') ask(input.value); });
+document.getElementById('cards').addEventListener('click', function (e) {
+  var card = e.target.closest('.card');
+  if (card) ask(card.querySelector('b').textContent);
 });
 
-// ---------------- language selector ---------------- //
-const T_KEYS = ['t-h2','t-tagline','t-cta','t-feattitle','t-featsub','t-f1t','t-f1d','t-f2t','t-f2d','t-f3t','t-f3d','t-f4t','t-f4d','t-f5t','t-f5d','t-f6t','t-f6d','t-foundertitle','t-chattitle','t-chatsub'];
-const DEF = {};
-T_KEYS.forEach(id => { const el = document.getElementById(id); if (el) DEF[id] = el.innerHTML; });
-const DEF_PLACEHOLDER = input.placeholder;
-const DEF_CHIPS = Array.from(document.querySelectorAll('#chips .chip')).map(b => b.textContent);
-const DEFAULT_WELCOME = 'Namaste! 🙏 I am LegalWithDev — your legal information assistant for Bharat.\n\nAsk me anything about: consumer rights, tenant/rent issues, divorce & maintenance, salary disputes, FIR & police matters, cheque bounce, RTI, property, online fraud (UPI scams), ragging, or free legal aid.\n\nI answer in **your native language + हिंदी + English**.\n\n🔒 **Ek zaroori baat:** Apna sensitive personal info (naam, case number, documents, personal details) chat me share na karein — sawal aam bhasha me poochhiye.\n\nMain general legal information deta hoon, advice nahi — apne case ke liye qualified Advocate/Lawyer se milein.';
+// ---------------- PLUS + MIC buttons ---------------- //
+document.getElementById('plusBtn').onclick = function () {
+  toast('File attach — coming soon 📎');
+};
+document.getElementById('micBtn').onclick = function () {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { toast('Voice input is not supported in this browser 🎤'); return; }
+  try {
+    var r = new SR();
+    r.lang = (curLang === 'auto' ? 'en' : curLang) + '-IN';
+    r.interimResults = false;
+    var oldPh = input.placeholder;
+    input.placeholder = 'Listening…';
+    r.onresult = function (ev) {
+      var said = ev.results[0][0].transcript;
+      input.value = said;
+      sendBtn.classList.add('on');
+    };
+    r.onend = function () { input.placeholder = oldPh; };
+    r.onerror = function () { input.placeholder = oldPh; toast('Could not hear — try again 🎤'); };
+    r.start();
+  } catch (e) {
+    toast('Voice input is not available right now 🎤');
+  }
+};
+
+// ---------------- LANGUAGE SELECTOR ---------------- //
+var DEF_H2 = null, DEF_TAG = null;
+const CARD_ICONS = ['🏠', '🛒', '💸', '💼', '📱', '📄'];
 
 let curLang = localStorage.getItem('lwd-lang') || 'en'; // DEFAULT: English
-// ONE-TIME MIGRATION: 'auto' pehle default tha (bina click ke bhi har visitor ke phone me save ho jata tha).
-// Purane users ek baar English pe aa jayenge; uske baad jo bhi select karenge wahi rahega.
+// ONE-TIME MIGRATION: 'auto' purana default tha
 if (!localStorage.getItem('lwd-migrated-en')) {
   if (curLang === 'auto') { curLang = 'en'; try { localStorage.setItem('lwd-lang', 'en'); } catch (e) {} }
   try { localStorage.setItem('lwd-migrated-en', '1'); } catch (e) {}
 }
 
 function setHtml(id, val) { const el = document.getElementById(id); if (el && val) el.innerHTML = val; }
+
+function buildCards(L) {
+  var box = document.getElementById('cards');
+  box.innerHTML = '';
+  var texts = [L.chip1, L.chip2, L.chip3, L.chip4, L.chip5, L.chip6];
+  texts.forEach(function (tx, i) {
+    var c = document.createElement('div');
+    c.className = 'card';
+    var ic = document.createElement('span'); ic.className = 'ico'; ic.textContent = CARD_ICONS[i] || '💬';
+    var b = document.createElement('b'); b.textContent = tx;
+    c.appendChild(ic); c.appendChild(b);
+    box.appendChild(c);
+  });
+  emj(box);
+}
 
 function applyLanguage(code) {
   curLang = code;
@@ -437,40 +529,21 @@ function applyLanguage(code) {
   if (L) {
     setHtml('t-h2', L.h2);
     setHtml('t-tagline', L.tagline);
-    setHtml('t-cta', L.cta);
-    setHtml('t-feattitle', L.featTitle);
-    setHtml('t-featsub', L.featSub);
-    const map = { 't-f1t': 'f1t', 't-f1d': 'f1d', 't-f2t': 'f2t', 't-f2d': 'f2d', 't-f3t': 'f3t', 't-f3d': 'f3d', 't-f4t': 'f4t', 't-f4d': 'f4d', 't-f5t': 'f5t', 't-f5d': 'f5d', 't-f6t': 'f6t', 't-f6d': 'f6d', 't-foundertitle': 'founderTitle', 't-chattitle': 'chatTitle', 't-chatsub': 'chatSub' };
-    Object.keys(map).forEach(id => setHtml(id, L[map[id]]));
-    input.placeholder = L.placeholder;
-    const chipsBox = document.getElementById('chips');
-    chipsBox.innerHTML = '';
-    [L.chip1, L.chip2, L.chip3, L.chip4, L.chip5, L.chip6].forEach(c => {
-      const b = document.createElement('button');
-      b.className = 'chip'; b.textContent = c; chipsBox.appendChild(b);
-    });
-  } else {
-    T_KEYS.forEach(id => setHtml(id, DEF[id]));
-    input.placeholder = DEF_PLACEHOLDER;
-    const chipsBox = document.getElementById('chips');
-    chipsBox.innerHTML = '';
-    DEF_CHIPS.forEach(c => {
-      const b = document.createElement('button');
-      b.className = 'chip'; b.textContent = c; chipsBox.appendChild(b);
-    });
+    input.placeholder = L.placeholder || 'Ask anything…';
+    buildCards(L);
+  } else if (DEF_H2) {
+    setHtml('t-h2', DEF_H2);
+    setHtml('t-tagline', DEF_TAG);
+    input.placeholder = 'Ask anything…';
+    buildCards(I18N.en);
   }
   const label = (LANGS.find(l => l.code === curLang) || { label: 'English' }).label;
   document.getElementById('curlang').textContent = label;
 }
 
-function addWelcome() {
-  const L = I18N[curLang];
-  add(L ? L.welcome : DEFAULT_WELCOME, 'bot');
-}
-
 function buildMenu() {
   const menu = document.getElementById('langmenu');
-  // DEFAULT LANGUAGE ENGLISH — sabse upar English, baaki sab translations.js (LANGS) se
+  // DEFAULT LANGUAGE ENGLISH — sabse upar
   const MENU = [{ code: 'en', label: 'English' }].concat(LANGS);
   MENU.forEach(l => {
     const b = document.createElement('button');
@@ -480,21 +553,25 @@ function buildMenu() {
       menu.classList.remove('open');
       if (curLang !== l.code) {
         applyLanguage(l.code);
-        const nm = l.code === 'en' ? 'English' : (I18N[l.code] ? (LANGS.find(x => x.code === l.code) || {}).label : 'Auto');
-        add('✅ ' + nm + ' — ab main isi bhasha me jawab dunga!', 'bot');
+        var nm = l.code === 'en' ? 'English' : (LANGS.find(x => x.code === l.code) || {}).label;
+        toast('✅ ' + nm + ' — now answering in this language');
       }
     };
     menu.appendChild(b);
   });
-  document.getElementById('langbtn').onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); updateChatBar(); };
-  document.addEventListener('click', () => { menu.classList.remove('open'); updateChatBar(); });
+  document.getElementById('langbtn').onclick = e => { e.stopPropagation(); menu.classList.toggle('open'); };
+  document.addEventListener('click', () => { menu.classList.remove('open'); });
 }
 
+// ---------------- INIT ---------------- //
+DEF_H2 = document.getElementById('t-h2').innerHTML;
+DEF_TAG = document.getElementById('t-tagline').innerHTML;
 buildMenu();
 applyLanguage(curLang);
-addWelcome();
+renderChatList();
+emj();
 
-// PWA: register service worker (only on secure connections - https or localhost)
+// PWA: register service worker (https ya localhost pe)
 if ('serviceWorker' in navigator && window.isSecureContext) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
