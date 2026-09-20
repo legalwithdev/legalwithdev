@@ -438,7 +438,7 @@ async function ask(text) {
     const history = cur.msgs.slice(-8, -1).map(function (m) {
       return { role: m.w === 'user' ? 'user' : 'assistant', content: m.t };
     });
-    const res = await fetch('/api/chat', {
+    const res = await fetch('https://legalwithdev.onrender.com/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text, history: history, language: curLang !== 'auto' ? (I18N[curLang] ? I18N[curLang].ai : '') : '' })
