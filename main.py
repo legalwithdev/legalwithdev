@@ -23,6 +23,19 @@ from blogengine import router as blog_router
 
 app = FastAPI(title="LegalWithDev - Legal AI Chatbot", version="0.2.0")
 app.include_router(blog_router)
+
+# ------------- CORS (Option B: static frontend Cloudflare Pages se aayega) ------------- #
+# Static site pages.dev pe hogi, /api/chat Render pe - browser cross-origin call karega,
+# isliye CORS allow karna zaroori hai. Extra origins ALLOWED_ORIGINS env se juda sakte hain.
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+import os as _os  # noqa: E402
+_EXTRA_ORIGINS = [o.strip() for o in _os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://legalwithdev.pages.dev"] + _EXTRA_ORIGINS,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+)
 agent = LegalAgent()
 
 # ------------------- rate limiting (per user/IP/chat) ------------------- #
@@ -259,7 +272,7 @@ def _wa_remember(sender: str, user_text: str, bot_reply: str) -> None:
     hist.append({"role": "user", "content": user_text})
     hist.append({"role": "assistant", "content": bot_reply[:700]})
     del hist[:-_WHATSAPP_MAX_TURNS]
-    if len(_WHATSAPP_HISTORY) > _WHATSAPP_MAX_CHATS:
+    if len(_WHATSAPP_HISTORY) > _WHATSAPP_MAX_CHATS:  # drop oldest chats
         _WHATSAPP_HISTORY.pop(next(iter(_WHATSAPP_HISTORY)))
 
 def verify_whatsapp_webhook(query_params: dict):
