@@ -2,7 +2,7 @@
 // _ underscore wala folder Pages route nahi banata - ye sirf import hoti hai.
 // KB (knowledge base) build ke waqt bundle ho jaati hai - runtime fetch ki zaroorat nahi.
 
-import KB from "../../indian_law_kb.json" with { type: "json" };
+import KB from "../../indian_law_kb.json";
 
 const TOPICS = KB.topics;
 const DISCLAIMER = KB.disclaimer;
