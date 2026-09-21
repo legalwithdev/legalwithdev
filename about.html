@@ -54,8 +54,10 @@
   .card h3 { font-size: 15.5px; margin-bottom: 6px; }
   .card p { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
   .founder { display: flex; gap: 16px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
-  .founder .av { width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0;
-    background: linear-gradient(135deg, #2b3a6e, #6d5df6); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+  .founder .av { width: 88px; height: 88px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #2b3a6e, #6d5df6); display: flex; align-items: center; justify-content: center; font-size: 30px; overflow: hidden; }
+  .founder .av img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+  .founder p { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-top: 4px; max-width: 560px; }
   .founder h3 { font-size: 16px; }
   .channels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
   .chan { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; text-decoration: none; color: var(--ink); display: flex; gap: 12px; align-items: center; }
@@ -119,11 +121,12 @@
     </section>
 
     <section id="founder">
-      <h2 class="section-title">Dev ke saath 🤝</h2>
+      <h2 class="section-title">Meet Dev 🕶️</h2>
       <div class="founder">
-        <div class="av">👨‍💻</div>
+        <div class="av"><img src="https://github.com/legalwithdev/legalwithdev/releases/download/mascot-v1/mascot-dev.png" alt="Dev - LegalWithDev mascot" /></div>
         <div>
           <h3>Dev — Founder, LegalWithDev</h3>
+          <p>Namaste! Main hoon Dev — LegalWithDev ka mascot. Kanoon ki baat aapki bhasha me — simple, free, 24/7. Sawal poochho, main hazir hoon.</p>
         </div>
       </div>
       <div class="channels">
