@@ -130,6 +130,7 @@
   .typing { display: inline-flex; gap: 5px; padding: 6px 2px; }
   .typing span { width: 7px; height: 7px; background: var(--muted); border-radius: 50%; animation: blink 1.2s infinite; }
   .typing span:nth-child(2) { animation-delay: .2s; } .typing span:nth-child(3) { animation-delay: .4s; }
+  .think-status { font-size: 13px; color: var(--muted); margin-left: 3px; user-select: none; }
   @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
 
   /* GEMINI-STYLE INPUT PILL */
@@ -377,6 +378,8 @@ function esc(s) {
 function fmt(text) {
   let h = esc(text);
   h = h.replace(/\b(15100|1800[-\s]?180[-\s]?5522|1800[-\s]?11[-\s]?4000|1915|1930|1091|112|100)\b/g, '<span class="helpline">$1</span>');
+  // inline merge hue section headings ("(1) आपकी भाषा में:") ko alag heading line banao
+  h = h.replace(/(?:^|\n)\(?[1-3]\)?\s*\*{0,2}\s*(आपकी भाषा में|हिंदी में|In English)\*{0,2}:?\s*/g, '\n<div class="sec">$1</div>\n');
   h = h.replace(/^#{1,3}\s*(.+)$/gm, '<div class="sec">$1</div>');
   h = h.replace(/^\*\*(.+?):?\*\*$/gm, '<div class="sec">$1</div>');
   h = h.replace(/^(\*?_?)?(Kartavya|कर्तव्य|Duties to Bharat|Fundamental Duties|अधिकारों के साथ|अपने देश)([\s\S]{0,400})$/m, '<div class="duty">$2$3</div>');
@@ -412,12 +415,26 @@ function addTyping() {
   row.appendChild(av);
   const div = document.createElement('div');
   div.className = 'msg';
-  div.innerHTML = '<span class="typing"><span></span><span></span><span></span></span>';
+  div.innerHTML = '<span class="typing"><span></span><span></span><span></span></span><span class="think-status">' + THINKING_STEPS[0] + '</span>';
   row.appendChild(div);
   chat.appendChild(row);
   chat.scrollTop = chat.scrollHeight;
   return row;
 }
+
+// AI kaam kar raha hai - user ko dikhta rahe (engagement)
+var THINKING_STEPS = [
+  'Sawal samajh raha hoon...',
+  'Kanoon aur sections check kar raha hoon...',
+  'Aapke case ke hisaab se jawab bana raha hoon...',
+  'Thodi gehraai me verify kar raha hoon...',
+  'Jawab polish kar raha hoon, bas aa gaya...'
+];
+var THINKING_TICK_MS = 2600;
+
+// API fallback: pehle same-origin (pages.dev Function / onrender khud),
+// warna Render par. Agar Function bina env-vars chal raha ho to bhi chat kaam karega.
+var API_URLS = ['/api/chat', 'https://legalwithdev.onrender.com/api/chat'];
 
 async function ask(text) {
   if (!text || !text.trim()) return;
@@ -434,21 +451,41 @@ async function ask(text) {
   sendBtn.classList.remove('on');
   renderChatList();
   const t = addTyping();
+  var thinkIdx = 0;
+  var thinkTimer = setInterval(function () {
+    if (thinkIdx < THINKING_STEPS.length - 1) thinkIdx++;
+    var st = t.querySelector('.think-status');
+    if (st) st.textContent = THINKING_STEPS[thinkIdx];
+  }, THINKING_TICK_MS);
   try {
     const history = cur.msgs.slice(-8, -1).map(function (m) {
       return { role: m.w === 'user' ? 'user' : 'assistant', content: m.t };
     });
-    const res = await fetch('https://legalwithdev.onrender.com/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, history: history, language: curLang !== 'auto' ? (I18N[curLang] ? I18N[curLang].ai : '') : '' })
-    });
-    const data = await res.json();
+    var payload = JSON.stringify({ message: text, history: history, language: curLang !== 'auto' ? (I18N[curLang] ? I18N[curLang].ai : '') : '' });
+    var data = null;
+    for (var ai = 0; ai < API_URLS.length; ai++) {
+      try {
+        var res = await fetch(API_URLS[ai], {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload
+        });
+        if (!res.ok) continue;
+        var d = await res.json();
+        // degraded (bina AI key ke local-mode) reply aayi aur agli URL bachi hai? agli try karo
+        if (d && d.reply && String(d.reply).indexOf('connect an AI model') >= 0 && ai < API_URLS.length - 1) continue;
+        data = d;
+        break;
+      } catch (e2) { /* agli URL try karo */ }
+    }
+    if (!data) throw new Error('no endpoint reachable');
+    clearInterval(thinkTimer);
     t.remove();
     const reply = data.reply || 'Sorry, something went wrong.';
     add(reply, 'bot');
     cur.msgs.push({ t: reply, w: 'bot' });
   } catch (e) {
+    clearInterval(thinkTimer);
     t.remove();
     const errmsg = 'Connection error — is the server running? Please try again.';
     add(errmsg, 'bot');
