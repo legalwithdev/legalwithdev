@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /webhook/
 
-Sitemap: https://legalwithdev.onrender.com/sitemap.xml
+Sitemap: https://legalwithdev.pages.dev/sitemap.xml
