@@ -36,7 +36,7 @@ everything to GitHub straight from a phone.
 ### Part 2 — GitHub (about 10 minutes)
 4. Open **Chrome** → go to **github.com** → **Sign up** (free).
 5. Turn ON **"Desktop site"** in Chrome's menu (⋮) — important!
-6. Tap the *++** (top right) → **New repository** → name it `legalwithdev`
+6. Tap the **+** (top right) → **New repository** → name it `legalwithdev`
    → **Create repository**.
 7. On the next page tap the link **"uploading an existing file"**.
 8. Tap **"choose your files"** → select **all 7 files at once** from your
