@@ -1,0 +1,18 @@
+name: Restore whatsapp.js
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git checkout 8703fb239cf1be1032b6c5a519f6e92305698a7d -- functions/webhook/whatsapp.js
+          git config user.name "legalwithdev-bot"
+          git config user.email "action@github.com"
+          git add functions/webhook/whatsapp.js
+          git commit -m "Restore known-good whatsapp.js from 8703fb2 (fix corrupted commit)"
+          git push
