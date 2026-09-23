@@ -244,7 +244,8 @@ async function aiReply(text, history, language, cfg) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${cfg.api_key}`,
         },
-        body: JSON.stringify({ model: cfg.model, messages, temperature: 0.3, ...extra, signal: AbortSignal.timeout(12000) }),
+        body: JSON.stringify({ model: cfg.model, messages, temperature: 0.3, ...extra }),
+        signal: AbortSignal.timeout(12000),
       });
       if (!res.ok) {
         const errText = `${res.status} ${await res.text().catch(() => "")}`;
