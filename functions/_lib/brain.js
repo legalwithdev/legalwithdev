@@ -236,7 +236,7 @@ async function aiReply(text, history, language, cfg) {
     extra = { reasoning_effort: "low", max_tokens: 8000 };
   }
   let lastErr = null;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const res = await fetch(cfg.base_url.replace(/\/$/, "") + "/chat/completions", {
         method: "POST",
@@ -244,7 +244,7 @@ async function aiReply(text, history, language, cfg) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${cfg.api_key}`,
         },
-        body: JSON.stringify({ model: cfg.model, messages, temperature: 0.3, ...extra }),
+        body: JSON.stringify({ model: cfg.model, messages, temperature: 0.3, ...extra, signal: AbortSignal.timeout(12000) }),
       });
       if (!res.ok) {
         const errText = `${res.status} ${await res.text().catch(() => "")}`;
@@ -261,7 +261,7 @@ async function aiReply(text, history, language, cfg) {
       return answer;
     } catch (e) {
       lastErr = e;
-      if (attempt === 2) break;
+      if (attempt === 1) break;
       await new Promise((r) => setTimeout(r, 1000));
     }
   }
