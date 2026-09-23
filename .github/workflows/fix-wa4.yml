@@ -1,0 +1,22 @@
+name: Raise AI timeout to 25s single attempt
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sed -i 's/AbortSignal.timeout(12000)/AbortSignal.timeout(25000)/' functions/_lib/brain.js
+          sed -i 's/for (let attempt = 0; attempt < 2; attempt++)/for (let attempt = 0; attempt < 1; attempt++)/' functions/_lib/brain.js
+          sed -i 's/if (attempt === 1) break;/if (attempt === 0) break;/' functions/_lib/brain.js
+          grep -q "AbortSignal.timeout(25000)" functions/_lib/brain.js || { echo "TIMEOUT PATCH FAILED"; exit 1; }
+          grep -q "AbortSignal.timeout(12000)" functions/_lib/brain.js && { echo "OLD TIMEOUT STILL THERE"; exit 1; }
+          cp functions/_lib/brain.js /tmp/b.mjs && node --check /tmp/b.mjs || { echo "SYNTAX FAIL"; exit 1; }
+          rm -f .github/workflows/fix-wa4.yml
+          git config user.name "legalwithdev-bot"
+          git config user.email "action@github.com"
+          git add -A
+          git commit -m "Brain: 25s single-attempt AI timeout (12s was cutting off slow Gemini replies)"
+          git push
