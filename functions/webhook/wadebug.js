@@ -1,4 +1,4 @@
-// functions/webhook/wadebug.js - GET /webhook/wadebug?debug=<VERIFY_TOKEN>[&send=1&to=<wa_id>]
+// functions/webhook/wadebug.js - GET /webhook/wadebug?debug=<VERIFY_TOKEN>[&send=1&to=<wa_id>][&check=1][&fix=1]
 // Bot ka black-box: token set hai?, webhook POST aaye?, aur (send=1 par) Graph API se
 // seedha test message bhej kar uska EXACT status/error dikhaata hai. User content store nahi hota.
 export async function onRequestGet(context) {
@@ -52,6 +52,30 @@ export async function onRequestGet(context) {
       } catch (e) {
         diag.testSend = { status: -1, error: String((e && e.message) || e) };
       }
+    }
+  }
+
+  const wabaId = "1443459081005286";
+  const auth = "Bearer " + (env.WHATSAPP_TOKEN || "");
+  if (url.searchParams.get("check") === "1") {
+    try {
+      const res = await fetch("https://graph.facebook.com/v21.0/" + wabaId + "/subscribed_apps", {
+        headers: { Authorization: auth },
+      });
+      diag.subscribedApps = { status: res.status, body: (await res.text()).slice(0, 400) };
+    } catch (e) {
+      diag.subscribedApps = { error: String((e && e.message) || e) };
+    }
+  }
+  if (url.searchParams.get("fix") === "1") {
+    try {
+      const res = await fetch(
+        "https://graph.facebook.com/v21.0/" + wabaId + "/subscribed_apps?subscribed_fields=messages",
+        { method: "POST", headers: { Authorization: auth } }
+      );
+      diag.fixSubscribe = { status: res.status, body: (await res.text()).slice(0, 400) };
+    } catch (e) {
+      diag.fixSubscribe = { error: String((e && e.message) || e) };
     }
   }
   return Response.json({ ok: true, diag });
