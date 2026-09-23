@@ -109,3 +109,4 @@ WhatsApp needs Meta business approval:
 ## Deploy log
 
 - 23 Sep 2026: WhatsApp bot webhook (functions/webhook/whatsapp.js) live-deploy trigger (after 5f5621a).
+- 23 Sep 2026 (evening): re-trigger deploy for permanent-token rollout (WhatsApp webhook).
