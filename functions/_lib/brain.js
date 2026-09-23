@@ -236,7 +236,7 @@ async function aiReply(text, history, language, cfg) {
     extra = { reasoning_effort: "low", max_tokens: 8000 };
   }
   let lastErr = null;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; attempt < 1; attempt++) {
     try {
       const res = await fetch(cfg.base_url.replace(/\/$/, "") + "/chat/completions", {
         method: "POST",
@@ -245,7 +245,7 @@ async function aiReply(text, history, language, cfg) {
           Authorization: `Bearer ${cfg.api_key}`,
         },
         body: JSON.stringify({ model: cfg.model, messages, temperature: 0.3, ...extra }),
-        signal: AbortSignal.timeout(12000),
+        signal: AbortSignal.timeout(25000),
       });
       if (!res.ok) {
         const errText = `${res.status} ${await res.text().catch(() => "")}`;
@@ -262,7 +262,7 @@ async function aiReply(text, history, language, cfg) {
       return answer;
     } catch (e) {
       lastErr = e;
-      if (attempt === 1) break;
+      if (attempt === 0) break;
       await new Promise((r) => setTimeout(r, 1000));
     }
   }
