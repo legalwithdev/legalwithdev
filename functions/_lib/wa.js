@@ -10,20 +10,14 @@ export const CHUNK_CHAR_LIMIT = 3900; // WhatsApp 4096 char limit, safe margin
 const DIAG_TTL = 3 * 24 * 3600; // diagnostics 3 din
 
 export const RATE_LIMIT_REPLY =
-  "Aap bahut zyada messages bhej rahe hain. Thoda ruk kar phir try karein (1 ghante me limited sawal allowed hain).\n" +
-  "आप बहुत ज़्यादा संदेश भेज रहे हैं। थोड़ा रुककर फिर प्रयास करें।\n" +
-  "You are sending too many messages. Please wait a while and try again.\n\n" +
-  "Yeh free service hai - sab users ke liye available rakhne ke liye limit hai. NALSA: nalsa.gov.in / 15100.";
+  "You are sending too many messages. Please wait a while and try again (only a limited number of questions per hour are allowed).\n\n" +
+  "This is a free service - the limit keeps it available for everyone. NALSA: nalsa.gov.in / 15100.";
 
 export const BOT_DISCLOSURE =
-  "🤖 Ye ek automated legal-information assistant hai (LegalWithDev).\n" +
-  "🤖 यह एक स्वचालित कानूनी जानकारी सहायक है (LegalWithDev)।\n" +
   "🤖 This is an automated legal-information assistant (LegalWithDev).\n\n";
 
 export const ATTACHMENT_REPLY =
-  "Main abhi sirf TEXT messages samajh sakta hoon - apna sawal likh kar bhejein.\n" +
-  "मैं अभी केवल टेक्स्ट संदेश समझ सकता हूँ - अपना प्रश्न लिखकर भेजें।\n" +
-  "I can only understand TEXT messages for now - please type your question";
+  "I can only understand TEXT messages for now - please type your question.";
 
 // ---------- rate limiting (in-memory, approximate) ---------- //
 const buckets = new Map();
