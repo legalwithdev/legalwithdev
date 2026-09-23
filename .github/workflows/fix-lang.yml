@@ -15,13 +15,14 @@ jobs:
           python3 brain-lang-12.py
           python3 brain-lang-34.py
           python3 brain-lang-57.py
-          python3 wa-lang.py
+          python3 wa-lang-12.py
+          python3 wa-lang-34.py
           cp functions/_lib/brain.js /tmp/b.mjs && node --check /tmp/b.mjs || { echo "BRAIN SYNTAX FAIL"; exit 1; }
           cp functions/_lib/wa.js /tmp/w.mjs && node --check /tmp/w.mjs || { echo "WA SYNTAX FAIL"; exit 1; }
           if grep -q "WEBSITE LANGUAGE SELECTION" functions/_lib/brain.js; then echo "LANGNOTE STILL THERE"; exit 1; fi
           if grep -q "THREE languages" functions/_lib/brain.js; then echo "3-LANG STILL THERE"; exit 1; fi
           if grep -q "Answer in EXACTLY the same language" functions/_lib/brain.js; then echo "NEW RULE OK"; else echo "NEW RULE MISSING"; exit 1; fi
-          rm -f brain-lang-12.py brain-lang-34.py brain-lang-57.py wa-lang.py .github/workflows/fix-lang.yml
+          rm -f brain-lang-12.py brain-lang-34.py brain-lang-57.py wa-lang-12.py wa-lang-34.py .github/workflows/fix-lang.yml
           git config user.name "legalwithdev-bot"
           git config user.email "action@github.com"
           git add -A
