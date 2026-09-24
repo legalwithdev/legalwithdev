@@ -83,7 +83,7 @@ export async function onRequestPost(context) {
     "Poochho kuch bhi: consumer rights, tenant/rent issues, divorce & maintenance, " +
     "salary disputes, FIR & police matters, cheque bounce, RTI, property, ragging, " +
     "online fraud (UPI scams), aur free legal aid.\n\n" +
-    "Answers in your native language + Hindi + English.\n\n" + brain.disclaimer;
+    "I answer in whatever language you ask your question in.\n\n" + brain.disclaimer;
 
   if (text.startsWith("/start") || text.startsWith("/help")) {
     await sendTelegramMessage(token, chatId, about);

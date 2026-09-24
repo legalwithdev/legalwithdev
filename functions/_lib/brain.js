@@ -170,10 +170,10 @@ function localReply(text) {
   }
   const titles = TOPICS.map((t) => `• ${t.title}`).join("\n");
   return (
-    "I'm not sure about that one yet - my built-in knowledge covers these areas:\n\n" +
+    "I'm sorry, I couldn't answer that one just now - please try again in a moment.\n\n" +
+    "My built-in quick answers cover these common topics:\n\n" +
     `${titles}\n\n` +
-    "To enable free-form answers on ANY legal question, connect an AI model " +
-    "(see the README, section 'Connecting an AI brain').\n\n" +
+    "You can also try rephrasing with keywords like 'deposit', 'cheque', 'FIR', 'RTI', 'scam' or 'salary'.\n\n" +
     DISCLAIMER
   );
 }

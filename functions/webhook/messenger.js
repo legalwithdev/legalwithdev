@@ -27,7 +27,7 @@ const ABOUT_TEXT =
   "Poochho kuch bhi: consumer rights, tenant/rent issues, divorce & maintenance, " +
   "salary disputes, FIR & police matters, cheque bounce, RTI, property, ragging, " +
   "online fraud (UPI scams), aur free legal aid.\n\n" +
-  "Answers in your native language + Hindi + English.\n\n" +
+  "I answer in whatever language you ask your question in.\n\n" +
   "Kanooni salah ke liye qualified Advocate/Lawyer se milein. NALSA: nalsa.gov.in / 15100.";
 
 const ATTACHMENT_REPLY =
