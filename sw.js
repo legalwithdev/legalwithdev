@@ -1,7 +1,8 @@
-/* LegalWithDev service worker - v5
+/* LegalWithDev service worker - v6
    Strategy (safe for a chat app on a free tier):
-   - HTML pages + translations.js + blog: NETWORK-FIRST (user always gets fresh
-     content when online), cache fallback only when offline.
+   - ALL HTML pages (home, app, about, shop, blog, privacy) + translations.js:
+     NETWORK-FIRST (user always gets fresh content when online), cache
+     fallback only when offline.
    - Static assets (logo, icons): CACHE-FIRST.
    - NEVER touch: /api/* (chat POST), /webhook/* (Telegram/WhatsApp),
      third-party requests, and anything that is not a GET.
@@ -9,8 +10,10 @@
    page shell instead of a browser error page.
    v4: /app bhi network-first - ek interface har jagah (purana cached app UI hata gaya).
    v5: Gemini-style naya UI + multiple chats - naya homepage sabko mile.
+   v6: /about, /shop, /privacy bhi network-first + naya cache naam - v5 cache me
+       fase purane (Hinglish) pages delete ho jate hain, sabko fresh English mile.
 */
-const CACHE = "lwd-static-v5";
+const CACHE = "lwd-static-v6";
 const PRECACHE = [
   "/logo.png",
   "/favicon.png",
@@ -42,7 +45,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
   if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/webhook/")) return;
 
-  const dynamic = url.pathname === "/" || url.pathname === "/app" || url.pathname === "/translations.js" || url.pathname.startsWith("/blog");
+  const dynamic = url.pathname === "/" || url.pathname === "/app" || url.pathname === "/translations.js" || url.pathname.startsWith("/blog") || url.pathname.startsWith("/about") || url.pathname.startsWith("/shop") || url.pathname.startsWith("/privacy");
   if (dynamic) {
     // network-first: freshness matters more than speed here
     event.respondWith(
