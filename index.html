@@ -61,11 +61,11 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  html, body { min-height: 100%; }
+  html, body { height: 100%; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", "Noto Sans Devanagari", sans-serif;
     background: var(--bg); color: var(--ink);
-    display: flex; flex-direction: column; overflow-x: hidden;
+    display: flex; flex-direction: column; overflow: hidden;
   }
   img.emoji { height: 1.15em; width: 1.15em; vertical-align: -0.22em; margin: 0 1px; } /* twemoji */
 
@@ -93,8 +93,8 @@
   .langmenu button.sel { color: var(--blue); font-weight: 700; }
 
   /* MAIN: home + chat */
-  main { flex: 1; display: flex; flex-direction: column; }
-  #home { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 26px 16px 6px; text-align: center; }
+  main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-height: 0; }
+  #home { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 16px 150px; text-align: center; }
   @media (max-height: 660px) { #home { justify-content: flex-start; } }
   #home .hello { font-size: 15px; color: var(--muted); font-weight: 500; }
   /* MASCOT: Dev character + speech bubble */
@@ -126,11 +126,10 @@
   footer.site a { color: var(--muted); text-decoration: underline; }
 
   /* CHAT MODE: user ne chat start ki -> home gayab, sirf chat */
-  /* WEBSITE VIEW: chat box homepage pe hi rehta hai, home kabhi gayab nahi hota */
-  #chatwrap { display: flex; flex-direction: column; width: calc(100% - 24px); max-width: 760px; margin: 14px auto 8px; height: 68vh; min-height: 400px; max-height: 660px; border: 1px solid var(--glass-line); border-radius: 22px; background: var(--glass-bg); box-shadow: 0 18px 48px rgba(0,0,0,.22); overflow: hidden; -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.5); backdrop-filter: blur(var(--glass-blur)) saturate(1.5); }
-  .chat-head { display: flex; align-items: center; gap: 7px; padding: 11px 16px; border-bottom: 1px solid var(--glass-line); font-size: 13.5px; color: var(--ink); background: var(--surface2); flex-shrink: 0; }
-  .chat-head b { font-weight: 650; }
-  #chat { flex: 1; overflow-y: auto; padding: 14px 12px 4px; display: flex; flex-direction: column; gap: 16px; }
+  body.chatting #home { display: none; }
+  #chatwrap { display: none; flex: 1; flex-direction: column; min-height: 0; }
+  body.chatting #chatwrap { display: flex; }
+  #chat { flex: 1; overflow-y: auto; padding: 14px 12px 150px; display: flex; flex-direction: column; gap: 16px; }
   .row { display: flex; gap: 10px; align-items: flex-start; max-width: 740px; width: 100%; margin: 0 auto; }
   .row.user { justify-content: flex-end; }
   .row.user .msg { background: var(--surface2); }
@@ -148,10 +147,9 @@
 
   /* GEMINI-STYLE INPUT PILL */
   .dock {
-    position: static; flex-shrink: 0; z-index: 40;
-    padding: 8px 10px calc(10px + env(safe-area-inset-bottom, 0px));
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+    padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px));
     background: transparent;
-    border-top: 1px solid var(--glass-line);
   }
   .pill {
     max-width: 740px; margin: 0 auto; background: var(--glass-bg); border-radius: 28px;
@@ -250,10 +248,11 @@
       </footer>
     </section>
 
-    <!-- WEBSITE VIEW: AI assistant box homepage pe embedded -->
+    <!-- CHAT: chat start hone pe yahi screen bhar jata hai -->
     <section id="chatwrap">
-      <div class="chat-head">⚖️ <b>Ask Dev</b> — AI Legal Assistant</div>
       <div id="chat"></div>
+    </section>
+  </main>
 
   <!-- GEMINI-STYLE INPUT PILL -->
   <div class="dock">
@@ -265,8 +264,6 @@
     </div>
     <div class="hint">AI legal information — not advice. Consult a qualified Advocate for your case. Do not share sensitive personal info in chat.</div>
   </div>
-    </section>
-  </main>
 
   <div id="toast" aria-live="polite"></div>
 
@@ -466,7 +463,7 @@ var API_URLS = ['/api/chat', 'https://legalwithdev.onrender.com/api/chat'];
 
 async function ask(text) {
   if (!text || !text.trim()) return;
-  document.getElementById('chatwrap').scrollIntoView({ behavior: 'smooth' }); // WEBSITE VIEW: chat box pe scroll
+  document.body.classList.add('chatting'); // CHAT MODE: home gayab, sirf chat
   if (!activeId) {
     var v = text.trim();
     var c = { id: Date.now(), title: v.length > 34 ? v.slice(0, 34) + '…' : v, msgs: [] };
