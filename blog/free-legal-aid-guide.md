@@ -1,43 +1,43 @@
-# Muft Kanooni Madad (Free Legal Aid) — Bharat me kaun, kaise aur kahan
+# Free Legal Aid in India — who qualifies, how and where
 
 date: 18 September 2026
 
-Advocate ka kharcha har koi nahi utha sakta. Isliye Bharat ke Samvidhan ne Article 39A me aur Legal Services Authorities Act, 1987 ke tahat muft kanooni madad ka intezaam kiya hai. Jaaniye kaun haqdaar hai aur kaise milta hai.
+Not everyone can afford a lawyer. That is why the Constitution of India, under Article 39A and the Legal Services Authorities Act, 1987, provides for free legal aid. Here is who qualifies and how to get it.
 
 ---
 
-## Muft legal aid kya hai?
+## What is free legal aid?
 
-Muft kanooni madad (free legal aid) ka matlab hai: sarkar tumhare liye advocate ka kharcha utha sakti hai, court fees maff ho sakti hai, aur kanooni salah muft milti hai. Iska intezaam **National Legal Services Authority (NALSA)** ke through hota hai — har rajya me State Legal Services Authority aur har zile me District Legal Services Authority (DLSA) kaam karti hai.
+Free legal aid means: the government can bear the cost of an advocate for you, court fees can be waived, and legal advice can be free. It is administered through the **National Legal Services Authority (NALSA)** — every state has a State Legal Services Authority and every district has a District Legal Services Authority (DLSA).
 
-## Kaun haqdaar hai?
+## Who qualifies?
 
-General roop se yeh shreniyan haqdaar hain (poori list ke liye qualified Advocate/Lawyer ya NALSA se confirm karein):
+In general, these categories qualify (for the complete list, confirm with a qualified Advocate/Lawyer or NALSA):
 
-- Mahilayein (women)
-- Bachche (children)
-- Scheduled Caste / Scheduled Tribe ke log
-- Kam aay wale nagrik (income limit rajya ke hisaab se alag ho sakti hai)
-- Hatya ke shikaar (victims of trafficking)
-- Custody me bande (jo sharten poori karte hon)
+- Women
+- Children
+- Scheduled Caste / Scheduled Tribe members
+- Low-income citizens (income limits vary by state)
+- Victims of trafficking
+- Persons in custody (who fulfil the conditions)
 
-## Kaise milega — 3 aasan raaste
+## How to get it — 3 easy routes
 
-1. **Helpline 15100** — NALSA ka toll-free national helpline number. Phone karke salah le sakte hain.
-2. **Website** — nalsa.gov.in par online application aur poori jaankari.
-3. **DLSA office** — apne zile ke collectorate/jila adalat ke paas District Legal Services Authority ka office. Seedha jaake apply kar sakte hain.
+1. **Helpline 15100** — NALSA's toll-free national helpline number. Call and get advice.
+2. **Website** — apply online and find full information at nalsa.gov.in.
+3. **DLSA office** — the District Legal Services Authority office near your district collectorate/district court. You can walk in and apply.
 
-## Kya-kya services milti hain?
+## What services do you get?
 
-- Muft kanooni salah (legal advice)
-- Court ke liye muft advocate
-- Court fees aur doosre kharchon me madad (jab applicable ho)
-- Lok Adalat ke through case ka samadhan
+- Free legal advice
+- A free advocate for court
+- Help with court fees and other costs (where applicable)
+- Case resolution through Lok Adalat
 
-## Zaroori baat
+## Important
 
-Yeh general information hai, kanooni salah nahi. Har case alag hota hai — apne case ke liye qualified Advocate/Lawyer ya NALSA/DLSA se milein. Har jawab ki tarah, yahan bhi ek yaad: **advice chahiye ho to expert se hi lein.**
+This is general information, not legal advice. Every case is different — for your case, consult a qualified Advocate/Lawyer or NALSA/DLSA. As with every answer, one reminder here too: **for advice, always go to an expert.**
 
 ---
 
-*Sources: nalsa.gov.in · Helpline 15100 · Legal Services Authorities Act, 1987 · Samvidhan ka Article 39A*
+*Sources: nalsa.gov.in · Helpline 15100 · Legal Services Authorities Act, 1987 · Article 39A of the Constitution*
