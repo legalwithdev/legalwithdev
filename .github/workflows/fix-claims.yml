@@ -1,0 +1,24 @@
+name: Claims cleanup
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 claims-html.py
+          python3 claims-trans.py
+          node --check translations.js || { echo "TRANS SYNTAX FAIL"; exit 1; }
+          if grep -q "3 Bhasha" about.html; then echo "3BHASHA STILL THERE"; exit 1; fi
+          if grep -q "native language + " index.html app.html about.html; then echo "3LANG CLAIM STILL THERE"; exit 1; fi
+          if grep -q "f1t:" translations.js; then echo "F1T STILL THERE"; exit 1; fi
+          if grep -q "Coming Soon" about.html; then echo "COMING SOON OK"; else echo "COMING SOON MISSING"; exit 1; fi
+          if grep -q "WhatsApp coming soon" index.html; then echo "META OK"; else echo "META MISSING"; exit 1; fi
+          rm -f claims-html.py claims-trans.py .github/workflows/fix-claims.yml
+          git config user.name "legalwithdev-bot"
+          git config user.email "action@github.com"
+          git add -A
+          git commit -m "Claims cleanup: 3-language claims removed (all pages + 12 languages); WhatsApp Coming Soon; unused f1t/f1d keys deleted"
+          git push
