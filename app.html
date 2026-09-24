@@ -8,12 +8,12 @@
 <meta name="color-scheme" content="light dark" />
 <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#f2f3f7" media="(prefers-color-scheme: light)" />
-<meta name="description" content="LegalWithDev — Bharat ka apna legal AI assistant. Free legal information in your own language — jo bhasha me poochho, usi me jawab. Website aur Telegram pe live — WhatsApp coming soon." />
+<meta name="description" content="LegalWithDev — India's own legal AI assistant. Free legal information in your own language — ask in any language, get the answer in that language. Live on Website and Telegram — WhatsApp coming soon." />
 <link rel="canonical" href="https://legalwithdev.onrender.com/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="LegalWithDev" />
 <meta property="og:title" content="LegalWithDev — Bharat ka Legal AI Assistant" />
-<meta property="og:description" content="Free legal information in your own language — answers in whatever language you ask. Consumer, rent, family, criminal, student ya business law — 24/7, bina login." />
+<meta property="og:description" content="Free legal information in your own language — answers in whatever language you ask. Consumer, rent, family, criminal, student or business law — 24/7, no login." />
 <meta property="og:url" content="https://legalwithdev.onrender.com/" />
 <meta property="og:image" content="https://legalwithdev.onrender.com/icon-192.png" />
 <meta property="og:locale" content="en_IN" />
@@ -221,7 +221,7 @@
   <div id="splash">
     <img src="/logo.png" alt="LegalWithDev" />
     <div class="sname">LegalWithDev</div>
-    <div class="ssub">Bharat ka Legal AI Assistant — apni bhasha me</div>
+    <div class="ssub">India's Legal AI Assistant — in your language</div>
     <div class="sbar"><i></i></div>
   </div>
 
@@ -255,8 +255,8 @@
         <div id="scroller">
           <div id="empty">
             <img src="/logo.png" alt="LegalWithDev" />
-            <h2 id="welcome-title">Namaste! Main LegalWithDev hoon 🙏</h2>
-            <p id="welcome-sub">Apna koi bhi legal sawal poochhiye — consumer rights, rent, family, criminal, student ya business law. Main usi bhasha me jawab deta hoon jisme aapne sawaal poocha.</p>
+            <h2 id="welcome-title">Namaste! I am LegalWithDev 🙏</h2>
+            <p id="welcome-sub">Ask any legal question — consumer rights, rent, family, criminal, student or business law. I answer in the same language you ask your question in.</p>
             <div class="chips" id="chips"></div>
           </div>
           <div class="cwrap" id="chat"></div>
@@ -264,7 +264,7 @@
         <div class="inputbar">
           <div class="ibwrap">
             <form id="f">
-              <div class="inputwrap"><input id="q" placeholder="Apna legal sawal poochhiye…" autocomplete="off" /></div>
+              <div class="inputwrap"><input id="q" placeholder="Ask your legal question…" autocomplete="off" /></div>
               <button id="send">Send ➤</button>
             </form>
             <div class="disclaimer">⚠️ AI legal-information assistant — advice nahi. Qualified Advocate/Lawyer se milein · Free aid: <a href="https://nalsa.gov.in">nalsa.gov.in</a> · 15100</div>
@@ -380,18 +380,18 @@ function renderChat() {
 
 /* ---------------- engaging "deep research" progress panel ---------------- */
 const RSTEPS = [
-  '🧠 Sawal samajh raha hoon…',
-  '📚 Legal knowledge base check kar raha hoon…',
-  '⚖️ Relevant kanoon aur sections dhundh raha hoon…',
-  '🏛️ Sarkari helplines verify kar raha hoon…',
-  '✍️ Aapki bhasha me jawab likh raha hoon…'
+  '🧠 Understanding your question…',
+  '📚 Checking the legal knowledge base…',
+  '⚖️ Finding relevant laws and sections…',
+  '🏛️ Verifying government helplines…',
+  '✍️ Writing your answer…'
 ];
 function addResearch() {
   const row = document.createElement('div');
   row.className = 'row bot';
   const av = document.createElement('div'); av.className = 'avatar'; av.textContent = '⚖️';
   const panel = document.createElement('div'); panel.className = 'research';
-  const rt = document.createElement('div'); rt.className = 'rtitle'; rt.textContent = 'LegalWithDev kaam kar raha hai';
+  const rt = document.createElement('div'); rt.className = 'rtitle'; rt.textContent = 'LegalWithDev is working';
   panel.appendChild(rt);
   RSTEPS.forEach((s, i) => {
     const st = document.createElement('div'); st.className = 'rstep'; st.dataset.i = i;
@@ -497,7 +497,7 @@ function buildMenu() {
       menu.classList.remove('open');
       if (curLang !== l.code) {
         applyLanguage(l.code);
-        addMsg((I18N[l.code] ? '✅ ' + (LANGS.find(x => x.code === l.code).label) : '✅ Auto') + ' — ab main isi bhasha me jawab dunga!', 'bot');
+        addMsg((I18N[l.code] ? '✅ ' + (LANGS.find(x => x.code === l.code).label) : '✅ Auto') + ' — I will now answer in this language!', 'bot');
       }
     };
     menu.appendChild(b);

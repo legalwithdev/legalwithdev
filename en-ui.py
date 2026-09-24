@@ -27,7 +27,7 @@ rep(A, "Apna koi bhi legal sawal poochhiye \u2014 consumer rights, rent, family,
 rep(A, "placeholder=\"Apna legal sawal poochhiye\u2026\"",
        "placeholder=\"Ask your legal question\u2026\"",
        "app placeholder")
-rep(A, "\U0001f9e0 Sawal samaj  raha hoon\u2026", "\U0001f9e0 Understanding your question\u2026", "app typing 1")
+rep(A, "\U0001f9e0 Sawal samajh raha hoon\u2026", "\U0001f9e0 Understanding your question\u2026", "app typing 1")
 rep(A, "\U0001f4da Legal knowledge base check kar raha hoon\u2026", "\U0001f4da Checking the legal knowledge base\u2026", "app typing 2")
 rep(A, "\u2696\ufe0f Relevant kanoon aur sections dhundh raha hoon\u2026", "\u2696\ufe0f Finding relevant laws and sections\u2026", "app typing 3")
 rep(A, "\U0001f3db\ufe0f Sarkari helplines verify kar raha hoon\u2026", "\U0001f3db\ufe0f Verifying government helplines\u2026", "app typing 4")
@@ -45,7 +45,7 @@ rep(I, OG_OLD, OG_NEW, "index og:description")
 rep(I, "// AI kaam kar raha hai - user ko dikhta rahe (engagement)",
        "// AI is working - keep it visible to the user (engagement)",
        "index comment")
-rep(I, "Sawal samaj  raha hoon...", "Understanding your question...", "index typing 1")
+rep(I, "Sawal samajh raha hoon...", "Understanding your question...", "index typing 1")
 rep(I, "Kanoon aur sections check kar raha hoon...", "Checking laws and sections...", "index typing 2")
 rep(I, "Aapke case ke hisaab se jawab bana raha hoon...", "Preparing an answer for your situation...", "index typing 3")
 rep(I, "Thodi gehraai me verify kar raha hoon...", "Verifying in a little more depth...", "index typing 4")
