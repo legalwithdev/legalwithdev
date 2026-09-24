@@ -1,0 +1,55 @@
+name: Telegram fix v2
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 << 'PYEOF'
+          import sys
+          def rep(path, old, new, what):
+              src = open(path, encoding="utf-8").read()
+              if src.count(old) != 1:
+                  print("FAIL:", what, "count =", src.count(old)); sys.exit(1)
+              open(path, "w", encoding="utf-8").write(src.replace(old, new))
+              print("OK:", what)
+          CLAIM_OLD = '"Answers in your native language + Hindi + English.\\n\\n" +'
+          CLAIM_NEW = '"I answer in whatever language you ask your question in.\\n\\n" +'
+          rep("functions/webhook/telegram.js", CLAIM_OLD, CLAIM_NEW, "telegram /start claim")
+          rep("functions/webhook/messenger.js", CLAIM_OLD, CLAIM_NEW, "messenger greeting claim")
+          FB_OLD = '''  return (
+              "I'm not sure about that one yet - my built-in knowledge covers these areas:\\n\\n" +
+              `${titles}\\n\\n` +
+              "To enable free-form answers on ANY legal question, connect an AI model " +
+              "(see the README, section 'Connecting an AI brain').\\n\\n" +
+              DISCLAIMER
+            );'''
+          FB_NEW = '''  return (
+              "I'm sorry, I couldn't answer that one just now - please try again in a moment.\\n\\n" +
+              "My built-in quick answers cover these common topics:\\n\\n" +
+              `${titles}\\n\\n` +
+              "You can also try rephrasing with keywords like 'deposit', 'cheque', 'FIR', 'RTI', 'scam' or 'salary'.\\n\\n" +
+              DISCLAIMER
+            );'''
+          rep("functions/_lib/brain.js", FB_OLD, FB_NEW, "brain.js fallback (dev text out)")
+          print("ALL 3 FILES PATCHED")
+          PYEOF
+          for f in functions/_lib/brain.js functions/webhook/telegram.js functions/webhook/messenger.js; do
+            node --check "$f" || { echo "SYNTAX FAIL: $f"; exit 1; }
+          done
+          if grep -q "README" functions/_lib/brain.js; then echo "README TEXT STILL THERE"; exit 1; fi
+          grep -q "couldn't answer that one just now" functions/_lib/brain.js || { echo "NEW FALLBACK MISSING"; exit 1; }
+          if grep -rq "native language + Hindi" functions/; then echo "3LANG CLAIM STILL THERE"; exit 1; fi
+          grep -q "whatever language you ask" functions/webhook/telegram.js || { echo "TG FIX MISSING"; exit 1; }
+          grep -q "whatever language you ask" functions/webhook/messenger.js || { echo "MSGR FIX MISSING"; exit 1; }
+          echo "ALL CHECKS PASSED"
+          git rm -f fix-tg.py >/dev/null 2>&1 || true
+          rm -f .github/workflows/fix-tg.yml .github/workflows/fix-tg2.yml
+          git config user.name "legalwithdev-bot"
+          git config user.email "action@github.com"
+          git add -A
+          git commit -m "Telegram/Messenger fix: user-friendly fallback (dev README text removed) + 3-language claim removed"
+          git push
