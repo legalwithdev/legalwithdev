@@ -242,12 +242,13 @@
         <div id="chatslabel">Purani Chats</div>
         <div id="chatList"></div>
         <div class="slinks">
-          <a href="/about">Kyunki LegalWithDev?</a>
+          <a href="/about">Why LegalWithDev?</a>
           <a href="/blog">Blog</a>
           <a href="/shop">🛍️ Shop — Legal Books & Merch</a>
           <a href="/privacy">Privacy Policy</a>
+          <a href="/disclaimer">Disclaimer</a>
         </div>
-        <div class="sfoot">100% free · Bina login<br />Chats sirf is device pe</div>
+        <div class="sfoot">100% free · No login<br />Chats stay only on this device</div>
       </aside>
       <div id="scrim"></div>
 
@@ -446,7 +447,7 @@ async function ask(text) {
     saveChats(); renderChatList();
   } catch (e) {
     research.finish();
-    addMsg('Connection error — server se connect nahi ho paya. Kuch der baad try karein.', 'bot');
+    addMsg('Connection error — could not reach the server. Please try again in a little while.', 'bot');
   }
   sending = false; sendBtn.disabled = false;
   input.focus();

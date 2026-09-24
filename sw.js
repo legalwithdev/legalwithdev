@@ -12,8 +12,9 @@
    v5: Gemini-style naya UI + multiple chats - naya homepage sabko mile.
    v6: /about, /shop, /privacy bhi network-first + naya cache naam - v5 cache me
        fase purane (Hinglish) pages delete ho jate hain, sabko fresh English mile.
+   v7: /disclaimer bhi network-first.
 */
-const CACHE = "lwd-static-v6";
+const CACHE = "lwd-static-v7";
 const PRECACHE = [
   "/logo.png",
   "/favicon.png",
@@ -45,7 +46,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
   if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/webhook/")) return;
 
-  const dynamic = url.pathname === "/" || url.pathname === "/app" || url.pathname === "/translations.js" || url.pathname.startsWith("/blog") || url.pathname.startsWith("/about") || url.pathname.startsWith("/shop") || url.pathname.startsWith("/privacy");
+  const dynamic = url.pathname === "/" || url.pathname === "/app" || url.pathname === "/translations.js" || url.pathname.startsWith("/blog") || url.pathname.startsWith("/about") || url.pathname.startsWith("/shop") || url.pathname.startsWith("/privacy") || url.pathname.startsWith("/disclaimer");
   if (dynamic) {
     // network-first: freshness matters more than speed here
     event.respondWith(
