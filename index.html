@@ -216,6 +216,25 @@
     .pill, .langmenu, #siteMenu, .bubble { background: var(--surface); }
     #toast { background: var(--surface2); }
   }
+
+  /* ---- WATCH VIDEOS (play button above chat box, right) ---- */
+  .dock .vidsrow { max-width: 740px; margin: 0 auto 8px; padding: 0 4px; display: flex; justify-content: flex-end; }
+  .vidbtn {
+    display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+    border: 1px solid var(--glass-line); background: var(--glass-bg); color: var(--ink);
+    border-radius: 999px; padding: 8px 14px; font-size: 13px; font-family: inherit;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.5); backdrop-filter: blur(var(--glass-blur)) saturate(1.5);
+    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+  }
+  .vidbtn svg { width: 15px; height: 15px; }
+  .vidbtn:active { background: var(--surface2); }
+  .vidover { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center; padding: 18px; background: rgba(6,12,22,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+  .vidover.on { display: flex; }
+  .vidpanel { width: 100%; max-width: 560px; max-height: 86vh; overflow: auto; background: var(--surface); color: var(--ink); border: 1px solid var(--glass-line); border-radius: 18px; padding: 16px; }
+  .vidhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .vidhead b { font-size: 16px; }
+  .vidclose { border: 1px solid var(--glass-line); background: transparent; color: var(--ink); width: 34px; height: 34px; border-radius: 10px; cursor: pointer; font-size: 15px; }
+  .vidempty { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -256,6 +275,11 @@
 
   <!-- GEMINI-STYLE INPUT PILL -->
   <div class="dock">
+        <div class="vidsrow">
+      <button id="vidBtn" class="vidbtn" type="button" title="Watch legal videos" aria-label="Watch legal videos">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Watch legal videos</span>
+      </button>
+    </div>
     <div class="pill">
       <button class="icon" id="plusBtn" title="Attach" aria-label="Attach">＋</button>
       <input id="q" placeholder="Ask anything…" autocomplete="off" />
@@ -263,6 +287,14 @@
       <button class="send" id="send" title="Send" aria-label="Send">➤</button>
     </div>
     <div class="hint">AI legal information — not advice. Consult a qualified Advocate for your case. Do not share sensitive personal info in chat.</div>
+  </div>
+
+  
+  <div id="vidOver" class="vidover" role="dialog" aria-modal="true" aria-label="Legal videos">
+    <div class="vidpanel">
+      <div class="vidhead"><b>Watch &middot; Legal videos</b><button id="vidClose" class="vidclose" type="button" aria-label="Close">&#10005;</button></div>
+      <p class="vidempty">Legal explainer videos will appear here &mdash; short, simple walkthroughs of common situations. This is general information, not legal advice.</p>
+    </div>
   </div>
 
   <div id="toast" aria-live="polite"></div>
@@ -660,5 +692,13 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
   });
 }
 </script>
+  <script>
+  (function(){
+    var b=document.getElementById('vidBtn'), o=document.getElementById('vidOver'), c=document.getElementById('vidClose');
+    if(b&&o) b.addEventListener('click',function(){ o.classList.add('on'); });
+    if(c&&o) c.addEventListener('click',function(){ o.classList.remove('on'); });
+    if(o) o.addEventListener('click',function(e){ if(e.target===o) o.classList.remove('on'); });
+  })();
+  </script>
 </body>
 </html>

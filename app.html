@@ -214,6 +214,19 @@
     .avatar, .row.user .avatar { background: linear-gradient(135deg, #4a6cf7, #7b5cff); }
     #sidebar { background: rgba(233,236,246,.95); }
   }
+
+  /* ---- WATCH VIDEOS (play button above chat box, right) ---- */
+  .vidsrow { max-width: 820px; margin: 0 auto 8px; padding: 0 2px; display: flex; justify-content: flex-end; }
+  .vidbtn { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 14px; font-size: 13px; font-family: inherit; }
+  .vidbtn svg { width: 15px; height: 15px; color: var(--brand2); }
+  .vidbtn:active { background: var(--chip-bg); }
+  .vidover { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center; padding: 18px; background: rgba(6,12,22,.72); }
+  .vidover.on { display: flex; }
+  .vidpanel { width: 100%; max-width: 560px; max-height: 86vh; overflow: auto; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  .vidhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .vidhead b { font-size: 16px; }
+  .vidclose { border: 1px solid var(--line); background: transparent; color: var(--ink); width: 34px; height: 34px; border-radius: 10px; cursor: pointer; font-size: 15px; }
+  .vidempty { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -263,6 +276,11 @@
           <div class="cwrap" id="chat"></div>
         </div>
         <div class="inputbar">
+                    <div class="vidsrow">
+            <button id="vidBtn" class="vidbtn" type="button" title="Watch legal videos" aria-label="Watch legal videos">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Watch legal videos</span>
+            </button>
+          </div>
           <div class="ibwrap">
             <form id="f">
               <div class="inputwrap"><input id="q" placeholder="Ask your legal question…" autocomplete="off" /></div>
@@ -594,5 +612,20 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
   });
 }
 </script>
+
+  <div id="vidOver" class="vidover" role="dialog" aria-modal="true" aria-label="Legal videos">
+    <div class="vidpanel">
+      <div class="vidhead"><b>Watch &middot; Legal videos</b><button id="vidClose" class="vidclose" type="button" aria-label="Close">&#10005;</button></div>
+      <p class="vidempty">Legal explainer videos will appear here &mdash; short, simple walkthroughs of common situations. This is general information, not legal advice.</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var b=document.getElementById('vidBtn'), o=document.getElementById('vidOver'), c=document.getElementById('vidClose');
+    if(b&&o) b.addEventListener('click',function(){ o.classList.add('on'); });
+    if(c&&o) c.addEventListener('click',function(){ o.classList.remove('on'); });
+    if(o) o.addEventListener('click',function(e){ if(e.target===o) o.classList.remove('on'); });
+  })();
+  </script>
 </body>
 </html>
