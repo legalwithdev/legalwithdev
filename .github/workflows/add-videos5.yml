@@ -1,0 +1,23 @@
+name: move-drawer-right
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Open drawer from the right
+        run: python3 _patch_videos5.py
+      - name: Commit and push
+        run: |
+          git config user.name "legalwithdev-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add index.html app.html
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "Open menu drawer/sidebar from the right side"
+            git push
+          fi
