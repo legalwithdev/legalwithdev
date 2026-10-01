@@ -100,10 +100,10 @@
 
   /* ---------- SIDEBAR ---------- */
   #sidebar {
-    width: 262px; flex-shrink: 0; background: rgba(13,19,38,.6); border-right: 1px solid var(--line);
-    display: flex; flex-direction: column; transition: margin-left .25s ease;
+    width: 262px; flex-shrink: 0; background: rgba(13,19,38,.6); border-left: 1px solid var(--line);
+    display: flex; flex-direction: column; transition: margin-right .25s ease; order: 2;
   }
-  #sidebar.closed { margin-left: -262px; }
+  #sidebar.closed { margin-right: -262px; }
   #newChat {
     margin: 12px 12px 8px; padding: 11px 14px; border-radius: 12px; border: 1px solid rgba(109,140,255,.3);
     background: var(--user-bg); color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
@@ -180,8 +180,8 @@
   .disclaimer a { color: var(--brand2); text-decoration: none; }
 
   @media (max-width: 760px) {
-    #sidebar { position: fixed; z-index: 200; top: 57px; bottom: 0; background: rgba(13,19,38,.97); }
-    #sidebar.closed { margin-left: -280px; }
+    #sidebar { position: fixed; z-index: 200; top: 57px; right: 0; bottom: 0; background: rgba(13,19,38,.97); }
+    #sidebar.closed { margin-right: -280px; }
     #scrim { position: fixed; inset: 57px 0 0 0; background: rgba(0,0,0,.45); z-index: 150; display: none; }
     #scrim.show { display: block; }
   }
