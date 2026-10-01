@@ -634,7 +634,7 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     var loaded=false;
     function open(){ o.classList.add('on'); if(!loaded){ loaded=true; load(); } }
     function close(){ o.classList.remove('on'); }
-    if(b) b.addEventListener('click', open);
+    if(b) b.addEventListener('click', function(){ location.href='/videos'; });
     if(c) c.addEventListener('click', close);
     o.addEventListener('click', function(e){ if(e.target===o) close(); });
     function esc(s){ return String(s||'').replace(/[&<>"]/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]; }); }
