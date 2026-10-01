@@ -1,0 +1,23 @@
+name: add-videos-api
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch pages + add function
+        run: python3 _patch_videos2.py
+      - name: Commit and push
+        run: |
+          git config user.name "legalwithdev-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add index.html app.html functions/api/videos.js
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "Add server-side YouTube videos proxy + wire video overlay"
+            git push
+          fi
