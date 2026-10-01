@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>Legal Videos · LegalWithDev</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:#000;color:#fff;overscroll-behavior-y:none;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",sans-serif}
+  .feed{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .feed::-webkit-scrollbar{display:none}
+  .slide{position:relative;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
+    background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .slide iframe{width:100%;height:100%;border:0;display:block}
+  .meta{position:absolute;left:0;right:0;bottom:0;pointer-events:none;
+    padding:26px 16px calc(30px + env(safe-area-inset-bottom,0px));
+    background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.85))}
+  .meta h3{font-size:15px;font-weight:600;line-height:1.35;max-height:4.05em;overflow:hidden;
+    text-shadow:0 1px 3px rgba(0,0,0,.65)}
+  .meta p{font-size:12px;color:#c2cddd;margin-top:5px}
+  .top{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;gap:10px;
+    padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px;
+    background:linear-gradient(180deg,rgba(0,0,0,.65),transparent)}
+  .top a.back{color:#fff;text-decoration:none;width:38px;height:38px;border-radius:50%;
+    background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:18px}
+  .top b{font-size:16px;font-weight:600}
+  .top .disc{margin-left:auto;font-size:10px;color:#c2cddd;max-width:46%;text-align:right;line-height:1.3}
+  .msg{height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;text-align:center;padding:26px;color:#c2cddd}
+  .msg b{color:#fff;font-size:17px}
+  .msg span{font-size:13.5px}
+  .msg a{color:#8aa2ff;text-decoration:none;font-size:14px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="back" href="/" aria-label="Back to LegalWithDev">&#8592;</a>
+  <b>Legal videos</b>
+  <span class="disc">General information, not legal advice</span>
+</div>
+<main class="feed" id="feed">
+  <div class="msg" id="msg"><b>Loading videos&hellip;</b></div>
+</main>
+<script>
+(function(){
+  var feed=document.getElementById('feed'), msg=document.getElementById('msg');
+  var origin=encodeURIComponent(location.origin);
+  function yt(ifr,func){
+    try{ ifr.contentWindow.postMessage(JSON.stringify({event:'command',func:func,args:[]}),'*'); }catch(e){}
+  }
+  function esc(s){ return String(s||''); }
+  function build(vids){
+    feed.innerHTML='';
+    vids.forEach(function(v){
+      var s=document.createElement('section'); s.className='slide';
+      var ifr=document.createElement('iframe');
+      ifr.setAttribute('allow','accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+      ifr.setAttribute('allowfullscreen','');
+      ifr.setAttribute('loading','lazy');
+      ifr.setAttribute('title', esc(v.title)||'Legal video');
+      ifr.src='https://www.youtube.com/embed/'+encodeURIComponent(v.id)+
+              '?enablejsapi=1&playsinline=1&rel=0&origin='+origin;
+      var meta=document.createElement('div'); meta.className='meta';
+      var h=document.createElement('h3'); h.textContent=esc(v.title); meta.appendChild(h);
+      if(v.channel){ var p=document.createElement('p'); p.textContent=esc(v.channel); meta.appendChild(p); }
+      s.appendChild(ifr); s.appendChild(meta); feed.appendChild(s);
+    });
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          var ifr=en.target.querySelector('iframe'); if(!ifr) return;
+          if(en.isIntersecting && en.intersectionRatio>0.6){ yt(ifr,'mute'); yt(ifr,'playVideo'); }
+          else { yt(ifr,'pauseVideo'); }
+        });
+      },{threshold:[0,0.6,0.9]});
+      Array.prototype.forEach.call(feed.querySelectorAll('.slide'),function(el){ io.observe(el); });
+    }
+  }
+  fetch('/api/videos').then(function(r){ return r.json(); }).then(function(d){
+    var v=(d&&d.videos)||[];
+    if(!v.length){
+      msg.innerHTML='<b>No videos yet</b><span>Legal videos will appear here soon.</span><a href="/">Back to LegalWithDev</a>';
+      return;
+    }
+    build(v);
+  }).catch(function(){
+    msg.innerHTML='<b>Could not load videos</b><span>Please check your internet connection.</span><a href="/">Back to LegalWithDev</a>';
+  });
+})();
+</script>
+</body>
+</html>
