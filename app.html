@@ -227,6 +227,14 @@
   .vidhead b { font-size: 16px; }
   .vidclose { border: 1px solid var(--line); background: transparent; color: var(--ink); width: 34px; height: 34px; border-radius: 10px; cursor: pointer; font-size: 15px; }
   .vidempty { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+  .vidbody{margin-top:2px}
+  .vidplayer iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
+  .vidlist{display:flex;flex-direction:column;gap:8px;margin-top:12px;max-height:36vh;overflow:auto}
+  .vitem{display:flex;flex-direction:column;gap:2px;text-align:left;cursor:pointer;border-radius:10px;padding:10px 12px;border:1px solid rgba(128,128,128,.3);background:transparent;color:inherit;font-family:inherit}
+  .vitem:hover{border-color:rgba(128,128,128,.6)}
+  .vitem .vt{font-size:13.5px;font-weight:600}
+  .vitem .vd{font-size:11.5px;opacity:.7}
 </style>
 </head>
 <body>
@@ -622,9 +630,42 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
   <script>
   (function(){
     var b=document.getElementById('vidBtn'), o=document.getElementById('vidOver'), c=document.getElementById('vidClose');
-    if(b&&o) b.addEventListener('click',function(){ o.classList.add('on'); });
-    if(c&&o) c.addEventListener('click',function(){ o.classList.remove('on'); });
-    if(o) o.addEventListener('click',function(e){ if(e.target===o) o.classList.remove('on'); });
+    if(!o) return;
+    var loaded=false;
+    function open(){ o.classList.add('on'); if(!loaded){ loaded=true; load(); } }
+    function close(){ o.classList.remove('on'); }
+    if(b) b.addEventListener('click', open);
+    if(c) c.addEventListener('click', close);
+    o.addEventListener('click', function(e){ if(e.target===o) close(); });
+    function esc(s){ return String(s||'').replace(/[&<>"]/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]; }); }
+    function load(){
+      var panel=o.querySelector('.vidpanel'); if(!panel) return;
+      var box=document.createElement('div'); box.className='vidbody';
+      box.innerHTML='<p class="vidempty">Loading videos...</p>';
+      panel.appendChild(box);
+      fetch('/api/videos').then(function(r){ return r.json(); }).then(function(d){
+        var vids=(d&&d.videos)||[];
+        if(!vids.length){
+          box.innerHTML='<p class="vidempty">Legal explainer videos will appear here soon. This is general information, not legal advice.</p>';
+          return;
+        }
+        var player=document.createElement('div'); player.className='vidplayer';
+        function play(v){
+          player.innerHTML='<iframe src="https://www.youtube.com/embed/'+encodeURIComponent(v.id)+'" title="'+esc(v.title)+'" loading="lazy" allowfullscreen allow="accelerometer; encrypted-media; picture-in-picture"></iframe>';
+        }
+        var list=document.createElement('div'); list.className='vidlist';
+        vids.forEach(function(v){
+          var it=document.createElement('button'); it.type='button'; it.className='vitem';
+          it.innerHTML='<span class="vt">'+esc(v.title)+'</span>'+(v.channel?'<span class="vd">'+esc(v.channel)+'</span>':'');
+          it.addEventListener('click', function(){ play(v); });
+          list.appendChild(it);
+        });
+        box.innerHTML=''; box.appendChild(player); box.appendChild(list);
+        play(vids[0]);
+      }).catch(function(){
+        box.innerHTML='<p class="vidempty">Videos could not be loaded. Please check your internet connection.</p>';
+      });
+    }
   })();
   </script>
 </body>
